@@ -27,7 +27,7 @@
             height: 100%;
         }
 
-        /* --- Icon Controls Styling (New) --- */
+        /* --- Icon Controls Styling --- */
         .icon-controls {
             position: fixed;
             bottom: 2rem;
@@ -38,23 +38,23 @@
             max-width: 800px;
             
             /* Glassmorphism background */
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 50px;
             padding: 1rem 1.5rem;
             
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 1rem;
-            box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.3);
+            gap: 0.75rem;
+            box-shadow: 0 4px 30px -1px rgba(0, 0, 0, 0.5);
         }
 
         .icon-controls button {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            padding: 0.7rem 1.25rem;
             color: white;
             border-radius: 30px;
             cursor: pointer;
@@ -63,54 +63,40 @@
             letter-spacing: 1px;
             font-size: 0.9rem;
             font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        /* Specific style for the Morph button */
+        .icon-controls button.morph-btn {
+            background: rgba(255, 50, 50, 0.2);
+            border: 1px solid #ff4d4d;
         }
 
         .icon-controls button:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        
+        .icon-controls button.morph-btn:hover {
+            background: rgba(255, 50, 50, 0.3);
+            transform: translateY(-2px);
         }
 
         .icon-controls button.active {
-            background: linear-gradient(45deg, #ff6e7f, #bfe9ff);
-            border: none;
+            background: linear-gradient(45deg, #38bdf8, #818cf8);
             color: #000;
+            border: none;
         }
-        /* --- End New Styling --- */
-
-        /* Existing styles (modified/removed unused parts) */
-        .header {
-            position: fixed;
-            top: 2rem;
-            left: 2rem;
-            text-align: left;
-            z-index: 1;
-            mix-blend-mode: difference;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            line-height: 1;
-            text-transform: uppercase;
-            background: linear-gradient(45deg, #ff6e7f, #bfe9ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            opacity: 0.9;
-            letter-spacing: -1px;
-            filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));
-        }
-
-        /* Color Controls and other unused elements have been removed for brevity */
 
         @media (max-width: 640px) {
             .icon-controls {
                 padding: 0.75rem;
+                bottom: 1rem;
             }
             .icon-controls button {
                 padding: 0.6rem 1rem;
-                font-size: 0.8rem;
+                font-size: 0.75rem;
             }
         }
     </style>
@@ -120,28 +106,29 @@
   <body>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
     
     <div id="container"></div>
     
     <div class="icon-controls">
-        <button data-icon="I">Instagram</button>
-        <button data-icon="T">Telegram</button>
-        <button data-icon="FB">Facebook</button>
-        <button data-icon="WA">WhatsApp</button>
-        <button data-icon="D">Discord</button>
-        <button data-icon="S">Snapchat</button>
-        <button data-icon="X">Twitter / X</button>
-        <button data-icon="YT">YouTube</button>
+        <button data-icon-char="I">Instagram</button>
+        <button data-icon-char="T">Telegram</button>
+        <button data-icon-char="F">Facebook</button>
+        <button data-icon-char="W">WhatsApp</button>
+        <button data-icon-char="D">Discord</button>
+        <button data-icon-char="S">Snapchat</button>
+        <button data-icon-char="X">X (Twitter)</button>
+        <button data-icon-char="Y">YouTube</button>
+        <button class="morph-btn" id="morphToSphereBtn">Morph to Sphere</button>
     </div>
     
     <script>
         let scene, camera, renderer, particles;
         const count = 12000;
         let currentState = 'sphere';
-        let currentIcon = null;
+        let currentIconChar = null;
 
         function init() {
             scene = new THREE.Scene();
@@ -215,8 +202,14 @@
             
             iconControls.addEventListener('click', (e) => {
                 const button = e.target.closest('button');
-                if (button && button.dataset.icon) {
-                    // Remove active class from all buttons
+                
+                if (button && button.id === 'morphToSphereBtn') {
+                    morphToCircle();
+                    return;
+                }
+                
+                if (button && button.dataset.iconChar) {
+                    // Remove active class from all non-morph buttons
                     iconControls.querySelectorAll('button').forEach(btn => {
                         btn.classList.remove('active');
                     });
@@ -224,7 +217,7 @@
                     // Add active class to the clicked button
                     button.classList.add('active');
                     
-                    morphToText(button.dataset.icon);
+                    morphToText(button.dataset.iconChar);
                 }
             });
         }
@@ -233,18 +226,11 @@
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             
-            // Icon specific sizes/fonts
-            let fontSize = 100;
-            let padding = 20;
-            let font = `bold ${fontSize}px Arial`;
+            // INCREASED FONT SIZE and density for a better 'Icon' look
+            let fontSize = 220; 
+            let padding = 50;
+            let font = `900 ${fontSize}px Inter, sans-serif`; // Use 900 weight for a thick, solid shape
             
-            // Adjust font size for single/double letter icons to make them larger
-            if (text.length <= 2) {
-                fontSize = 180;
-                font = `900 ${fontSize}px Inter, sans-serif`; // Use a heavier font weight for better shape recognition
-                padding = 50;
-            }
-
             ctx.font = font;
             const textMetrics = ctx.measureText(text);
             const textWidth = textMetrics.width;
@@ -263,7 +249,7 @@
             const pixels = imageData.data;
             const points = [];
             const threshold = 128;
-            const density = text.length <= 2 ? 0.35 : 0.2; // Increase density for small icons
+            const density = 0.5; // High density to capture more detail
 
             for (let i = 0; i < pixels.length; i += 4) {
                 if (pixels[i] > threshold) {
@@ -278,21 +264,27 @@
                     }
                 }
             }
+            
+            // To ensure the icon is centered relative to the whole scene (since it's a large letter)
+            let centerOffset = (textMetrics.actualBoundingBoxLeft + textMetrics.actualBoundingBoxRight) / 2;
+            if (points.length > 0) {
+                 points.forEach(p => p.x -= centerOffset / (fontSize / 10));
+            }
+
 
             return points;
         }
 
         function morphToText(text) {
-            if (currentState === 'text' && currentIcon === text) return; // Prevent re-morphing same icon
+            if (currentState === 'text' && currentIconChar === text) return;
             
             currentState = 'text';
-            currentIcon = text;
+            currentIconChar = text;
 
             const textPoints = createTextPoints(text);
             const positions = particles.geometry.attributes.position.array;
             const targetPositions = new Float32Array(count * 3);
             
-            // Randomize array order to avoid structured lines during morph
             const shuffledIndices = Array.from({length: count}, (_, i) => i);
             shuffledIndices.sort(() => Math.random() - 0.5);
 
@@ -304,7 +296,7 @@
             });
 
             for (let i = 0; i < count; i++) {
-                const j = shuffledIndices[i]; // Use a shuffled index for better distribution
+                const j = shuffledIndices[i];
                 
                 if (j < textPoints.length) {
                     // Icon points
@@ -312,7 +304,7 @@
                     targetPositions[j * 3 + 1] = textPoints[j].y;
                     targetPositions[j * 3 + 2] = 0;
                 } else {
-                    // Scattered points for particles that don't fit the icon
+                    // Scattered points
                     const angle = Math.random() * Math.PI * 2;
                     const radius = Math.random() * 20 + 10;
                     targetPositions[j * 3] = Math.cos(angle) * radius;
@@ -327,22 +319,18 @@
                     [i]: targetPositions[i],
                     [i + 1]: targetPositions[i + 1],
                     [i + 2]: targetPositions[i + 2],
-                    duration: 2.2, // Slightly longer duration for dramatic effect
+                    duration: 2.2,
                     ease: "power3.inOut",
                     onUpdate: () => {
                         particles.geometry.attributes.position.needsUpdate = true;
                     }
                 });
             }
-            
-            // No auto-revert to circle this time, stays on the icon until a new one is selected
-            // setTimeout(() => { morphToCircle(); }, 4000);
         }
 
         function morphToCircle() {
-            // Function remains the same, but it's not called automatically now
             currentState = 'sphere';
-            currentIcon = null;
+            currentIconChar = null;
             const positions = particles.geometry.attributes.position.array;
             const targetPositions = new Float32Array(count * 3);
             const colors = particles.geometry.attributes.color.array;
@@ -413,7 +401,6 @@
             if (currentState === 'sphere') {
                 particles.rotation.y += 0.002;
             } else {
-                 // Slightly rotate text icons for a dynamic 3D feel
                  particles.rotation.y += 0.0005;
             }
             
@@ -426,13 +413,6 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
         
-        // Add a way to manually morph back to the sphere
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && currentState === 'text') {
-                morphToCircle();
-            }
-        });
-
         init();
     </script>
 

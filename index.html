@@ -3,363 +3,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Premium Portfolio - Inspired by Acernity/Genix</title>
-    
+    <title>The Golden Crunch: Premium Aloo Bhujia Promotion</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons for professional look -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* CSS Variables (mimicking a configuration setup) */
+        /* Custom font and base styling */
         :root {
-            --background-color: #030712; /* Darker than black */
-            --text-color: #f3f4f6; /* Light gray */
-            --accent-color: #8b5cf6; /* Violet/Purple */
-            --secondary-color: #4b5563; /* Gray */
-            --grid-color: rgba(255, 255, 255, 0.05);
-            --card-bg: rgba(17, 24, 39, 0.7); /* Dark semi-transparent */
-            --font-family: 'Inter', sans-serif;
-            --spotlight-size: 600px;
+            --bhujia-gold: #f59e0b; /* Amber-500 */
+            --bhujia-spice: #ea580c; /* Orange-600 */
+            --text-dark: #1f2937; /* Gray-800 */
+            --bg-light: #fffbeb; /* Amber-50 (light background) */
         }
-
-        /* Basic Reset and Setup */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            font-family: var(--font-family);
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            overflow-x: hidden; /* Prevent horizontal scroll from effects */
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            scroll-behavior: smooth;
         }
 
-        /* Utility Classes */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
+        /* Aloo Bhujia Shaker Animation for the home page graphic */
+        @keyframes shake-and-slide {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(1deg); }
+            50% { transform: translateY(0) rotate(-1deg); }
+            75% { transform: translateY(-3px) rotate(1deg); }
+            100% { transform: translateY(0) rotate(0deg); }
         }
 
-        /* Grid Background Effect (Acernity UI style) */
-        .grid-bg {
-            position: relative;
-            z-index: 1;
-        }
-
-        .grid-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            
-            /* Grid Pattern */
-            background-image: linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
-                              linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
-            background-size: 40px 40px;
-            
-            /* Gradient Mask to fade the grid out towards edges */
-            -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 50%, transparent 100%);
-            mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 50%, transparent 100%);
-            opacity: 0.5;
-        }
-
-        /* Spotlight Effect Container (Hero Section) */
-        .spotlight-container {
-            position: relative;
-            padding: 8rem 0;
-            text-align: center;
-            overflow: hidden;
-        }
-
-        /* The actual Spotlight/Radial Gradient */
-        #spotlight {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: var(--spotlight-size);
-            height: var(--spotlight-size);
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--accent-color) 0%, rgba(255, 255, 255, 0) 60%);
-            opacity: 0.1; /* Subtle glow */
-            filter: blur(100px);
-            pointer-events: none;
-            transform: translate(-50%, -50%); /* Center based on cursor position */
-            transition: opacity 0.5s ease;
-            z-index: 0;
-        }
-
-        /* Navigation */
-        nav {
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--grid-color);
-            position: sticky;
-            top: 0;
-            background-color: var(--background-color);
-            z-index: 10;
-        }
-
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        .nav-links a {
-            color: var(--secondary-color);
-            text-decoration: none;
-            margin-left: 1.5rem;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--text-color);
-        }
-
-        /* Hero Content */
-        .hero-content h1 {
-            font-size: 3rem;
-            font-weight: 900;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--text-color) 0%, var(--accent-color) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .hero-content p {
-            font-size: 1.25rem;
-            color: var(--secondary-color);
-            max-width: 600px;
-            margin: 0 auto 2rem;
-        }
-
-        .cta-button {
+        .bhujia-graphic {
+            font-size: 8rem; /* Large size for mobile focus */
             display: inline-block;
-            padding: 0.75rem 2rem;
-            background-color: var(--accent-color);
-            color: var(--text-color);
-            text-decoration: none;
-            border-radius: 8px;
+            animation: shake-and-slide 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Button Styling */
+        .btn-primary {
+            background-color: var(--bhujia-spice);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
             font-weight: 600;
-            transition: background-color 0.3s, transform 0.1s;
-            border: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px var(--bhujia-gold);
+            transform: translateY(0);
+        }
+        .btn-primary:hover {
+            background-color: #c2410c; /* Darker orange */
+            box-shadow: 0 2px var(--bhujia-gold);
+            transform: translateY(2px);
         }
 
-        .cta-button:hover {
-            background-color: #7c3aed; /* Darker accent */
-            transform: translateY(-2px);
+        /* Scrollbar styling for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        
-        /* Section Styling */
-        section {
-            padding: 4rem 0;
-            position: relative;
-            z-index: 2;
-        }
-        
-        h2 {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            color: var(--text-color);
-            font-weight: 800;
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--bhujia-gold);
+            border-radius: 4px;
         }
 
-        /* Card Component (Bento Grid / Feature Card Style) */
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+        /* Utility classes for hidden pages */
+        .page-content {
+            min-height: calc(100vh - 8rem); /* Adjust height for content area */
+            padding-top: 5rem; /* Space for fixed header */
         }
-
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: left;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
+        .hidden-page {
+            display: none;
         }
-        
-        .card:hover {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
-            transform: translateY(-5px);
-        }
-        
-        .card h3 {
-            font-size: 1.5rem;
-            color: var(--accent-color);
-            margin-bottom: 0.5rem;
-        }
-        
-        .card p {
-            color: var(--secondary-color);
-        }
-
-        /* Contact Section */
-        .contact-content {
-            text-align: center;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .contact-content p {
-            margin-bottom: 2rem;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem 0;
-            border-top: 1px solid var(--grid-color);
-            color: var(--secondary-color);
-            font-size: 0.9rem;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-            .nav-content {
-                flex-direction: column;
-            }
-            .nav-links {
-                margin-top: 1rem;
-            }
-            .nav-links a {
-                margin: 0 0.5rem;
-            }
-        }
-
     </style>
 </head>
-<body class="grid-bg">
+<body class="antialiased">
 
-    <nav>
-        <div class="container nav-content">
-            <a href="#" class="logo">PORTFOLIO</a>
-            <div class="nav-links">
-                <a href="#about">About</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
-            </div>
-        </div>
-    </nav>
+    <!-- Firebase SDK Imports (Mandatory Setup) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    <header class="spotlight-container">
-        <div id="spotlight"></div>
-        <div class="container hero-content">
-            <h1>Hi, I'm Vanya, a Creative Makeup Artist</h1>
-            <p>Crafting looks that tell a story. Explore my world of premium artistry and innovative techniques.</p>
-            <a href="#projects" class="cta-button">View My Portfolio</a>
+        // Global Firebase variables
+        let app, db, auth;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        if (firebaseConfig) {
+            setLogLevel('debug'); // Enable Firestore logs
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+
+            // Handle Authentication
+            async function authenticate() {
+                try {
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                        console.log("Firebase signed in with custom token.");
+                    } else {
+                        await signInAnonymously(auth);
+                        console.log("Firebase signed in anonymously.");
+                    }
+                } catch (error) {
+                    console.error("Firebase authentication failed:", error);
+                }
+            }
+            authenticate();
+        } else {
+            console.warn("Firebase config not found. Running without persistence.");
+        }
+    </script>
+    <!-- End Firebase Setup -->
+
+
+    <!-- Navigation Bar (Fixed Top) -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-lg py-4 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-extrabold text-orange-600 tracking-wider">
+                <span class="text-amber-500">BHUJIA</span><span class="text-orange-600">PRO</span>
+            </h1>
+            <!-- Nav Links -->
+            <nav class="space-x-4 flex">
+                <button onclick="navigate('home')" class="text-gray-800 hover:text-amber-500 font-medium transition duration-150">Home</button>
+                <button onclick="navigate('recipe')" class="text-gray-800 hover:text-amber-500 font-medium transition duration-150">The Recipe</button>
+                <button onclick="navigate('dishes')" class="text-gray-800 hover:text-amber-500 font-medium transition duration-150">Culinary Ideas</button>
+                <button onclick="navigate('people')" class="text-gray-800 hover:text-amber-500 font-medium transition duration-150">Our Fans</button>
+            </nav>
         </div>
     </header>
 
-    <section id="about" class="container">
-        <h2>My Skills & Expertise</h2>
-        <div class="card-grid">
-            
-            <div class="card">
-                <h3>High-End Editorial</h3>
-                <p>Specializing in complex, avant-garde looks for magazine covers and high-fashion spreads.</p>
-            </div>
-            
-            <div class="card">
-                <h3>Bridal & Event Makeup</h3>
-                <p>Creating timeless, flawless, and long-lasting makeup for special occasions, focusing on client comfort.</p>
-            </div>
-            
-            <div class="card">
-                <h3>SFX & Prosthetics</h3>
-                <p>Expertise in film and theater makeup, including realistic injury simulation and prosthetic application.</p>
-            </div>
-            
-            <div class="card">
-                <h3>Clean Beauty Focus</h3>
-                <p>Deep knowledge of organic, sustainable, and hypoallergenic products for conscious clients.</p>
-            </div>
+    <!-- Main Content Area -->
+    <main class="page-content max-w-7xl mx-auto p-4 md:p-8">
 
+        <!-- 1. Home Page (Default View) -->
+        <section id="home" class="page active-page flex flex-col items-center text-center py-16 md:py-24 space-y-8 bg-amber-50 rounded-2xl shadow-xl border-4 border-amber-500">
+            <div class="bhujia-graphic">
+                <!-- Aloo Bhujia graphic using a combination of emojis for effect -->
+                🌶️
+            </div>
+            <h2 class="text-5xl md:text-7xl font-black text-orange-600 leading-tight">
+                Experience The Golden Crunch!
+            </h2>
+            <p class="text-xl md:text-2xl max-w-3xl text-gray-700 font-medium">
+                The finest blend of potato, chickpea flour, and secret spices, crafted for the ultimate snack experience. Taste the passion, feel the crunch, live the moment.
+            </p>
+            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
+                <button onclick="navigate('recipe')" class="btn-primary flex items-center justify-center">
+                    <i data-lucide="book-open-text" class="w-5 h-5 mr-2"></i> Unravel Our Secret Recipe
+                </button>
+                <button onclick="showCustomAlert('Thank you for your interest! Our nearest retailer locator is coming soon!')" class="bg-gray-200 text-gray-700 hover:bg-gray-300 transition duration-150 py-3 px-6 rounded-lg font-semibold">
+                    Find a Store Near You
+                </button>
+            </div>
+        </section>
+
+        <!-- 2. The Recipe Page -->
+        <section id="recipe" class="page hidden-page py-12">
+            <h2 class="text-4xl font-bold text-orange-600 mb-6 border-b-2 border-amber-500 pb-2">The Authentic Aloo Bhujia Recipe</h2>
+            <p class="text-lg mb-8 text-gray-700">We believe in transparency. While our exact ratios are guarded, here is the traditional method to craft this crispy, flavourful sensation at home. It’s all about the perfect potato mash and the right blend of heat!</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Ingredients -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-amber-200">
+                    <h3 class="text-2xl font-semibold text-amber-600 mb-4 flex items-center"><i data-lucide="list-checks" class="w-6 h-6 mr-3"></i> Ingredients You'll Need</h3>
+                    <ul class="list-none space-y-2 text-gray-800">
+                        <li><span class="font-bold text-orange-600">3-4 Medium Potatoes:</span> Boiled, peeled, and mashed finely (no lumps!).</li>
+                        <li><span class="font-bold text-orange-600">1 Cup Besan (Chickpea Flour):</span> For that classic binding and texture.</li>
+                        <li><span class="font-bold text-orange-600">1 tsp Turmeric Powder:</span> For the rich golden color.</li>
+                        <li><span class="font-bold text-orange-600">2 tsp Red Chili Powder:</span> Adjust for your desired spice level.</li>
+                        <li><span class="font-bold text-orange-600">1 tsp Chaat Masala:</span> Our secret flavour enhancer.</li>
+                        <li><span class="font-bold text-orange-600">Salt:</span> To taste.</li>
+                        <li><span class="font-bold text-orange-600">Oil:</span> For deep frying.</li>
+                    </ul>
+                </div>
+                <!-- Method -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-amber-200">
+                    <h3 class="text-2xl font-semibold text-amber-600 mb-4 flex items-center"><i data-lucide="cooking-pot" class="w-6 h-6 mr-3"></i> The Method: Step-by-Step</h3>
+                    <ol class="list-decimal ml-5 space-y-3 text-gray-800">
+                        <li><span class="font-bold">Dough Preparation:</span> Mix the mashed potatoes, besan, and all dry spices thoroughly to form a smooth, soft dough. Add a few drops of water only if absolutely necessary.</li>
+                        <li><span class="font-bold">Load the Sev Maker:</span> Grease the sev-maker (bhujia press) and load the dough inside. Use the fine noodle disc.</li>
+                        <li><span class="font-bold">Frying Setup:</span> Heat oil in a deep pan over medium heat. Test a small piece—it should sizzle instantly.</li>
+                        <li><span class="font-bold">Press and Fry:</span> Press the dough directly into the hot oil in a circular motion, creating long strands. Fry until golden brown and the bubbles subside.</li>
+                        <li><span class="font-bold">Cooling and Storage:</span> Drain on paper towels. Once completely cool, gently break the strands into the desired bhujia length. Store in an airtight container for lasting crunch!</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="mt-8 text-center">
+                <button onclick="navigate('dishes')" class="btn-primary">
+                    <i data-lucide="utensils" class="w-5 h-5 mr-2"></i> See What You Can Create With It!
+                </button>
+            </div>
+        </section>
+
+        <!-- 3. Culinary Ideas Page (Dishes) -->
+        <section id="dishes" class="page hidden-page py-12">
+            <h2 class="text-4xl font-bold text-orange-600 mb-6 border-b-2 border-amber-500 pb-2">Culinary Ideas: Beyond The Packet</h2>
+            <p class="text-lg mb-8 text-gray-700">Aloo Bhujia isn't just a snack; it's a versatile garnish that elevates everyday dishes. Here are three quick ways to use The Golden Crunch in your meals:</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1: Bhujia Bhel -->
+                <div class="bg-white p-5 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
+                    <i data-lucide="clapperboard" class="w-8 h-8 text-orange-600 mb-3"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Bhujia Bhel Quickie</h3>
+                    <p class="text-gray-600">Mix puffed rice, finely chopped onion, tomato, coriander, a dash of lemon juice, and a handful of Aloo Bhujia. The potato strings add an irresistible depth of flavour and a signature texture. It’s an instant street food upgrade!</p>
+                </div>
+                <!-- Card 2: Bhujia Sandwich Topping -->
+                <div class="bg-white p-5 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
+                    <i data-lucide="sandwich" class="w-8 h-8 text-orange-600 mb-3"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">The Crunch Sandwich</h3>
+                    <p class="text-gray-600">Spread mint chutney and a thin layer of butter on your sandwich. Before closing, sprinkle a generous layer of Aloo Bhujia. It provides a phenomenal crunch that complements soft fillings like cucumber or mashed paneer.</p>
+                </div>
+                <!-- Card 3: Bhujia Raita Garnish -->
+                <div class="bg-white p-5 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
+                    <i data-lucide="chef-hat" class="w-8 h-8 text-orange-600 mb-3"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Raita's Best Friend</h3>
+                    <p class="text-gray-600">Crush a bit of Aloo Bhujia and sprinkle it over your cooling yogurt raita just before serving. It introduces a salty, savoury counterpoint to the coolness, making it perfect for pairing with biryanis and pulaos.</p>
+                </div>
+            </div>
+            <div class="mt-8 text-center">
+                <button onclick="showCustomAlert('We are working on releasing a full e-book of 50+ Bhujia recipes!')" class="btn-primary">
+                    <i data-lucide="download" class="w-5 h-5 mr-2"></i> Download Full Recipe Book (Coming Soon!)
+                </button>
+            </div>
+        </section>
+
+        <!-- 4. Our Fans Page (Testimonials) -->
+        <section id="people" class="page hidden-page py-12">
+            <h2 class="text-4xl font-bold text-orange-600 mb-6 border-b-2 border-amber-500 pb-2">Our Fans: The Golden Crunch Community</h2>
+            <p class="text-lg mb-8 text-gray-700">Don't just take our word for it. From college students to grandmothers, everyone agrees: The Golden Crunch Aloo Bhujia is the best part of their day. Here's what our community looks like!</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Testimonial Card 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-xl border-t-4 border-amber-500">
+                    <img src="https://placehold.co/100x100/f59e0b/ffffff?text=A.S." class="w-20 h-20 rounded-full mx-auto mb-4 object-cover ring-4 ring-orange-600" alt="Happy Customer">
+                    <blockquote class="italic text-gray-700 mb-4">"The spice level is perfect, and the potato flavour really shines through. My evening tea is incomplete without a bowl of The Golden Crunch. It’s simply addictive!"</blockquote>
+                    <p class="font-bold text-orange-600">- Aarti Sharma, Delhi</p>
+                    <button onclick="showCustomAlert('Thank you for sharing, Aarti! We love hearing this!')" class="text-sm text-gray-500 hover:text-orange-600 mt-2">
+                        View Full Story
+                    </button>
+                </div>
+
+                <!-- Testimonial Card 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-xl border-t-4 border-amber-500">
+                    <img src="https://placehold.co/100x100/ea580c/ffffff?text=V.K." class="w-20 h-20 rounded-full mx-auto mb-4 object-cover ring-4 ring-amber-500" alt="Happy Customer">
+                    <blockquote class="italic text-gray-700 mb-4">"I used it as a topping for my dahi puri, and wow! It took the chaat to a new level of crunch and taste. Every string is packed with authentic flavour."</blockquote>
+                    <p class="font-bold text-orange-600">- Vivek Kumar, Mumbai</p>
+                    <button onclick="showCustomAlert('That sounds delicious, Vivek! A true culinary adventurer.')" class="text-sm text-gray-500 hover:text-orange-600 mt-2">
+                        Share Your Photo
+                    </button>
+                </div>
+
+                <!-- Testimonial Card 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-xl border-t-4 border-amber-500">
+                    <img src="https://placehold.co/100x100/f59e0b/ffffff?text=S.M." class="w-20 h-20 rounded-full mx-auto mb-4 object-cover ring-4 ring-orange-600" alt="Happy Customer">
+                    <blockquote class="italic text-gray-700 mb-4">"It’s the closest thing to my grandmother's homemade bhujia. The quality is consistent, and the freshness is unbeatable. Highly recommended for snack lovers!"</blockquote>
+                    <p class="font-bold text-orange-600">- Sonia Mehta, Bangalore</p>
+                    <button onclick="showCustomAlert('Sonia, we are honoured by the comparison! Quality is our promise.')" class="text-sm text-gray-500 hover:text-orange-600 mt-2">
+                        Join Our Newsletter
+                    </button>
+                </div>
+
+            </div>
+            <div class="mt-12 text-center">
+                <button onclick="navigate('home')" class="bg-gray-700 text-white hover:bg-gray-800 transition duration-150 py-3 px-6 rounded-lg font-semibold">
+                    <i data-lucide="chevron-left" class="w-5 h-5 mr-2 inline"></i> Back to the Crunch!
+                </button>
+            </div>
+        </section>
+        
+        <!-- Custom Alert Modal UI -->
+        <div id="custom-alert" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-[9999]">
+            <div class="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full text-center border-t-4 border-orange-600">
+                <p id="alert-message" class="text-lg font-medium text-gray-800 mb-6"></p>
+                <button onclick="hideCustomAlert()" class="bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition duration-150 font-semibold">
+                    Got it!
+                </button>
+            </div>
         </div>
-    </section>
 
-    <section id="projects" class="container">
-        <h2>Selected Projects</h2>
-        <div class="card-grid">
-            
-            <div class="card">
-                <h3>Cosmic Glow Series</h3>
-                <p>A collection of abstract, ethereal looks utilizing neon pigments and holographic finishes.</p>
-            </div>
-            
-            <div class="card">
-                <h3>"The Architect" Campaign</h3>
-                <p>Minimalist, sharp lines and precision contouring for a luxury watch advertisement.</p>
-            </div>
-            
-            <div class="card">
-                <h3>Vintage Hollywood Revival</h3>
-                <p>Recreating iconic 1940s and 50s glamour using modern, cruelty-free products.</p>
-            </div>
-            
-        </div>
-    </section>
+    </main>
 
-    <section id="contact" class="container">
-        <h2>Let's Collaborate</h2>
-        <div class="contact-content">
-            <p>I am currently open for new editorial, commercial, and private commissions. Get in touch to discuss your vision.</p>
-            <a href="mailto:vanya@example.com" class="cta-button">Email Me Directly</a>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2024 Vanya's Premium Portfolio. Inspired by Acernity UI & Genix Media.</p>
-    </footer>
-    
     <script>
-        const spotlight = document.getElementById('spotlight');
-        const spotlightContainer = document.querySelector('.spotlight-container');
+        // JavaScript for SPA-like navigation and custom alerts
 
-        // Function to move the spotlight based on mouse position
-        function moveSpotlight(e) {
-            // Get the container's position and size
-            const containerRect = spotlightContainer.getBoundingClientRect();
-            
-            // Calculate mouse position relative to the container
-            const mouseX = e.clientX - containerRect.left;
-            const mouseY = e.clientY - containerRect.top;
+        // 1. Navigation Logic
+        function navigate(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden-page');
+                page.classList.remove('active-page');
+            });
 
-            // Update the spotlight position
-            spotlight.style.left = `${mouseX}px`;
-            spotlight.style.top = `${mouseY}px`;
+            // Show the requested page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.remove('hidden-page');
+                targetPage.classList.add('active-page');
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top on navigation
+            }
         }
 
-        // Add the listener to the spotlight container
-        spotlightContainer.addEventListener('mousemove', moveSpotlight);
-        
-        // Optional: Hide spotlight when mouse leaves the container
-        spotlightContainer.addEventListener('mouseleave', () => {
-            spotlight.style.opacity = '0';
-        });
+        // 2. Custom Alert Logic (Replaces alert() and confirm())
+        const customAlert = document.getElementById('custom-alert');
+        const alertMessage = document.getElementById('alert-message');
 
-        // Optional: Show spotlight when mouse enters the container
-        spotlightContainer.addEventListener('mouseenter', () => {
-            spotlight.style.opacity = '0.1'; // Restore initial opacity
+        function showCustomAlert(message) {
+            alertMessage.textContent = message;
+            customAlert.classList.remove('hidden');
+        }
+
+        function hideCustomAlert() {
+            customAlert.classList.add('hidden');
+        }
+
+        // Initialize icons after content load
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons(); // Initialize Lucide Icons
+            navigate('home'); // Ensure home page is active on load
         });
     </script>
 </body>
 </html>
+

@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genix Media Clone | Fade-in Effect</title>
+    <title>Genix Media Clone | स्लाइडिंग टेस्टिमोनियल्स</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
         /* ====================
-           CSS Styles (कोई बदलाव नहीं, केवल AOS की तैयारी)
+           CSS Styles
            ==================== */
         :root {
             --dark-bg: #111;
@@ -30,6 +30,7 @@
             background-color: var(--dark-bg);
             color: var(--light-text);
             line-height: 1.6;
+            overflow-x: hidden; /* हॉरिजॉन्टल स्क्रोलबार छुपाने के लिए */
         }
 
         a {
@@ -49,279 +50,129 @@
         }
 
         /* Top Bar */
-        .top-bar {
-            background-color: var(--accent-color);
-            color: #111;
-            text-align: center;
-            padding: 8px 0;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        /* Header & Navigation */
-        header {
-            background-color: var(--dark-bg);
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky; /* Sticky Header */
-            top: 0;
-            z-index: 100;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--light-text);
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-        }
-
-        .nav-links li {
-            margin-left: 25px;
-        }
-
-        .nav-links a {
-            color: var(--light-text);
-            font-weight: 500;
-            padding: 5px 0;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-color);
-        }
-
-        .menu-toggle {
-            display: none;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        /* Buttons */
-        .btn {
-            background-color: var(--accent-color);
-            color: #111;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: background-color 0.3s, transform 0.2s;
-            display: inline-block;
-        }
-
-        .btn:hover {
-            background-color: #00e6b3;
-            transform: translateY(-2px);
-        }
-
-        /* Hero Section */
-        #hero {
-            padding: 100px 0;
-            text-align: center;
-        }
-
-        #hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            font-weight: 800;
-        }
-
-        #hero p {
-            font-size: 20px;
-            margin-bottom: 30px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            color: #aaa;
-        }
-
-        /* Sections */
-        section {
-            padding: 80px 0;
-        }
-
-        h2 {
-            font-size: 36px;
-            text-align: center;
-            margin-bottom: 50px;
-            font-weight: 700;
-        }
-
-        /* Services/Features Grid */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 255, 196, 0.1);
-        }
-
-        .card i {
-            font-size: 30px;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-        }
-
-        .card h3 {
-            margin-bottom: 10px;
-            font-size: 20px;
-        }
+        .top-bar { background-color: var(--accent-color); color: #111; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 600; }
         
-        /* Testimonials Section */
+        /* Header & Navigation */
+        header { 
+            background-color: var(--dark-bg); padding: 15px 0; border-bottom: 1px solid var(--border-color); 
+            position: sticky; top: 0; z-index: 100; 
+        }
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: 700; color: var(--light-text); }
+        .nav-links { list-style: none; display: flex; }
+        .nav-links li { margin-left: 25px; }
+        .nav-links a { color: var(--light-text); font-weight: 500; padding: 5px 0; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent-color); }
+        .menu-toggle { display: none; font-size: 24px; cursor: pointer; }
+        
+        /* Buttons */
+        .btn { 
+            background-color: var(--accent-color); color: #111; padding: 10px 20px; border: none; border-radius: 5px; 
+            cursor: pointer; font-weight: 700; transition: background-color 0.3s, transform 0.2s; display: inline-block; 
+        }
+        .btn:hover { background-color: #00e6b3; transform: translateY(-2px); }
+        
+        /* Hero Section */
+        #hero { padding: 100px 0; text-align: center; }
+        #hero h1 { font-size: 48px; margin-bottom: 20px; font-weight: 800; }
+        #hero p { font-size: 20px; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; color: #aaa; }
+        
+        /* Sections */
+        section { padding: 80px 0; }
+        h2 { font-size: 36px; text-align: center; margin-bottom: 50px; font-weight: 700; }
+        
+        /* Services/Features Grid */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { 
+            background-color: var(--card-bg); padding: 30px; border-radius: 10px; border: 1px solid var(--border-color); 
+            transition: transform 0.3s, box-shadow 0.3s; 
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 255, 196, 0.1); }
+        .card i { font-size: 30px; color: var(--accent-color); margin-bottom: 15px; }
+        .card h3 { margin-bottom: 10px; font-size: 20px; }
+
+        /* ====================
+           टेस्टिमोनियल स्लाइडर CSS
+           ==================== */
         #testimonials {
             background-color: #0c0c0c;
-            text-align: center;
+            padding: 80px 0;
+            white-space: nowrap; 
+        }
+
+        .slider-container {
+            overflow: hidden; 
+            padding: 20px 0;
+        }
+
+        .testimonials-wrapper {
+            display: flex;
+            width: max-content; 
+            /* ऑटो-स्लाइडिंग एनीमेशन */
+            animation: autoScroll 30s linear infinite; 
+            animation-play-state: running; 
         }
         
+        .testimonials-wrapper:hover {
+            animation-play-state: paused; /* माउस होवर पर एनीमेशन रुक जाएगा */
+        }
+
         .testimonial-box {
+            /* प्रत्येक कार्ड की चौड़ाई तय करें */
+            min-width: 350px; 
+            width: 350px;
+            margin-right: 30px; 
             font-style: italic;
             padding: 40px;
             border-left: 5px solid var(--accent-color);
-            margin-top: 20px;
             background-color: var(--card-bg);
             border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0; 
+            white-space: normal; 
         }
-        
+
         .testimonial-box p:first-child {
             margin-bottom: 15px;
             font-size: 18px;
         }
 
-        /* CTA Section */
-        #contact {
-            text-align: center;
-            padding: 60px 0;
-        }
-        
-        #contact h2 {
-             margin-bottom: 30px;
+        /* कंटीन्यूअस स्क्रोल के लिए CSS Keyframes */
+        @keyframes autoScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } 
         }
 
-        /* Footer */
-        footer {
-            background-color: #0c0c0c;
-            padding: 40px 0;
-            border-top: 1px solid var(--border-color);
-            font-size: 14px;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-
-        .footer-col {
-            width: 200px;
-            margin-bottom: 20px;
-        }
-
-        .footer-col h4 {
-            font-size: 16px;
-            margin-bottom: 15px;
-            color: var(--accent-color);
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 8px;
-        }
-
-        .footer-col a {
-            color: #aaa;
-        }
-
-        .footer-col a:hover {
-            color: var(--light-text);
-        }
-
-        .social-icons a {
-            font-size: 20px;
-            margin-right: 15px;
-            color: #aaa;
-        }
-        
-        .copyright {
-            text-align: center;
-            width: 100%;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid var(--border-color);
-            color: #777;
-        }
+        /* CTA और Footer */
+        #contact { text-align: center; padding: 60px 0; }
+        footer { background-color: #0c0c0c; padding: 40px 0; border-top: 1px solid var(--border-color); font-size: 14px; }
+        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; }
+        .footer-col { width: 200px; margin-bottom: 20px; }
+        .footer-col h4 { font-size: 16px; margin-bottom: 15px; color: var(--accent-color); }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 8px; }
+        .footer-col a { color: #aaa; }
+        .footer-col a:hover { color: var(--light-text); }
+        .social-icons a { font-size: 20px; margin-right: 15px; color: #aaa; }
+        .copyright { text-align: center; width: 100%; margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border-color); color: #777; }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                text-align: center;
-                background-color: var(--dark-bg);
-                position: absolute;
-                top: 60px; /* Adjust based on header height */
-                left: 0;
-                padding: 10px 0;
-                border-top: 1px solid var(--border-color);
-                z-index: 10;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links li {
-                margin: 10px 0;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            #hero h1 {
-                font-size: 36px;
-            }
-            
-            .footer-col {
-                width: 45%;
-            }
+            .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background-color: var(--dark-bg); position: absolute; top: 60px; left: 0; padding: 10px 0; border-top: 1px solid var(--border-color); z-index: 10; }
+            .nav-links.active { display: flex; }
+            .menu-toggle { display: block; }
+            #hero h1 { font-size: 36px; }
+            .footer-col { width: 45%; }
+            .testimonial-box { min-width: 80vw; } 
         }
     </style>
 </head>
 <body>
 
-    <div class="top-bar">
-        Limited Spots Left! Elevate Your Brand's Voice
-    </div>
-
+    <div class="top-bar">Limited Spots Left! Elevate Your Brand's Voice</div>
     <header>
         <div class="container navbar">
             <div class="logo" data-aos="fade-down" data-aos-duration="1000">GENIX.MEDIA</div>
-            
             <nav>
                 <ul class="nav-links" id="navMenu">
                     <li data-aos="fade-down" data-aos-delay="100"><a href="#services">Services</a></li>
@@ -332,10 +183,7 @@
                     <li data-aos="fade-down" data-aos-delay="600"><a href="#contact" class="btn">Get Started</a></li>
                 </ul>
             </nav>
-            
-            <div class="menu-toggle" id="menuToggle">
-                <i class="fas fa-bars"></i>
-            </div>
+            <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
         </div>
     </header>
 
@@ -348,56 +196,51 @@
     <section id="services" class="container">
         <h2 data-aos="fade-in">Take Your Social Media to New Heights</h2>
         <div class="grid-3">
-            <div class="card" data-aos="fade-right" data-aos-delay="100">
-                <i class="fas fa-chart-line"></i>
-                <h3>Organic Growth & Engagement</h3>
-                <p>Strategies to naturally attract and retain an audience, boosting followers and reach through non-paid methods.</p>
-            </div>
-            <div class="card" data-aos="fade-up" data-aos-delay="300">
-                <i class="fas fa-bullhorn"></i>
-                <h3>Paid Advertising & Promotions</h3>
-                <p>Planning, managing, and optimizing paid ad campaigns to drive traffic, conversions, and brand visibility efficiently.</p>
-            </div>
-            <div class="card" data-aos="fade-left" data-aos-delay="500">
-                <i class="fas fa-users"></i>
-                <h3>Influencer Collaboration</h3>
-                <p>Tools to connect with influencers, manage partnerships, and streamline communication for authentic reach.</p>
-            </div>
-            <div class="card" data-aos="fade-right" data-aos-delay="100">
-                <i class="fas fa-shield-alt"></i>
-                <h3>Account Services & Support</h3>
-                <p>Technical support for account protection, handling bans or verifications, and securing specific usernames.</p>
-            </div>
+            <div class="card" data-aos="fade-right" data-aos-delay="100"> <i class="fas fa-chart-line"></i> <h3>Organic Growth & Engagement</h3> <p>Strategies to naturally attract and retain an audience, boosting followers and reach through non-paid methods.</p> </div>
+            <div class="card" data-aos="fade-up" data-aos-delay="300"> <i class="fas fa-bullhorn"></i> <h3>Paid Advertising & Promotions</h3> <p>Planning, managing, and optimizing paid ad campaigns to drive traffic, conversions, and brand visibility efficiently.</p> </div>
+            <div class="card" data-aos="fade-left" data-aos-delay="500"> <i class="fas fa-users"></i> <h3>Influencer Collaboration</h3> <p>Tools to connect with influencers, manage partnerships, and streamline communication for authentic reach.</p> </div>
+            <div class="card" data-aos="fade-right" data-aos-delay="100"> <i class="fas fa-shield-alt"></i> <h3>Account Services & Support</h3> <p>Technical support for account protection, handling bans or verifications, and securing specific usernames.</p> </div>
         </div>
     </section>
 
-    <section id="features" class="container">
-        <h2 data-aos="fade-in">Why Choose Us for Success?</h2>
-        <div class="grid-3">
-            <div class="card" data-aos="zoom-in" data-aos-delay="100">
-                <i class="fas fa-pencil-alt"></i>
-                <h3>Creation</h3>
-                <p>Tailored posts that resonate with your audience, boosting engagement and brand loyalty.</p>
-            </div>
-            <div class="card" data-aos="zoom-in" data-aos-delay="300">
-                <i class="fas fa-tasks"></i>
-                <h3>Management</h3>
-                <p>Seamless management of all your social media accounts for consistent and effective communication.</p>
-            </div>
-            <div class="card" data-aos="zoom-in" data-aos-delay="500">
-                <i class="fas fa-chart-bar"></i>
-                <h3>Analytics</h3>
-                <p>Detailed reports that offer insights into your performance, helping you refine your strategy.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="testimonials" data-aos="fade-in">
-        <div class="container">
-            <h2>Trusted by Brands That Matter</h2>
-            <div class="testimonial-box" data-aos="fade-up" data-aos-delay="300">
-                <p>"Genix transformed our brand's online presence! Engagement has doubled, and we're connecting with our audience."</p>
-                <p><strong>— Exam Edge</strong>, EdTech Initiative</p>
+    <section id="testimonials">
+        <h2 data-aos="fade-in">Trusted by Brands That Matter</h2>
+        <div class="slider-container" data-aos="fade-up" data-aos-delay="300">
+            <div class="testimonials-wrapper">
+                
+                <div class="testimonial-box">
+                    <p>"Genix transformed our brand's online presence! Engagement has doubled, and we're connecting with our audience."</p>
+                    <p><strong>— Exam Edge</strong>, EdTech Initiative</p>
+                </div>
+                <div class="testimonial-box">
+                    <p>"Amazing service! Genix Media's influencer collaboration tools helped us reach new customers through authentic partnerships."</p>
+                    <p><strong>— Ravi Photo</strong>, Zolo Startup</p>
+                </div>
+                <div class="testimonial-box">
+                    <p>"Genix Media completely revolutionized our social media! Managing posts has never been easier."</p>
+                    <p><strong>— Melissa C.</strong>, Brand Manager</p>
+                </div>
+                <div class="testimonial-box">
+                    <p>"The insights we get from Genix Media's analytics are invaluable. They've helped us fine-tune our strategy."</p>
+                    <p><strong>— Tom Photo</strong>, CorePulseFit</p>
+                </div>
+                
+                <div class="testimonial-box">
+                    <p>"Genix transformed our brand's online presence! Engagement has doubled, and we're connecting with our audience."</p>
+                    <p><strong>— Exam Edge</strong>, EdTech Initiative</p>
+                </div>
+                <div class="testimonial-box">
+                    <p>"Amazing service! Genix Media's influencer collaboration tools helped us reach new customers through authentic partnerships."</p>
+                    <p><strong>— Ravi Photo</strong>, Zolo Startup</p>
+                </div>
+                <div class="testimonial-box">
+                    <p>"Genix Media completely revolutionized our social media! Managing posts has never been easier."</p>
+                    <p><strong>— Melissa C.</strong>, Brand Manager</p>
+                </div>
+                <div class="testimonial-box">
+                    <p>"The insights we get from Genix Media's analytics are invaluable. They've helped us fine-tune our strategy."</p>
+                    <p><strong>— Tom Photo</strong>, CorePulseFit</p>
+                </div>
             </div>
         </div>
     </section>
@@ -411,43 +254,10 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                
-                <div class="footer-col" data-aos="fade-right">
-                    <h4>GENIX.MEDIA</h4>
-                    <p>Elevating brands in the digital world.</p>
-                    <div class="social-icons" style="margin-top: 15px;">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#testimonials">Testimonials</a></li>
-                        <li><a href="#">Pricing</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#faqs">FAQs</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col" data-aos="fade-left" data-aos-delay="300">
-                    <h4>Contact</h4>
-                    <ul>
-                        <li><a href="mailto:contact@genix.media">contact@genix.media</a></li>
-                    </ul>
-                </div>
-
+                <div class="footer-col" data-aos="fade-right"><h4>GENIX.MEDIA</h4> <p>Elevating brands in the digital world.</p> <div class="social-icons" style="margin-top: 15px;"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a></div></div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="100"><h4>Quick Links</h4> <ul><li><a href="#services">Services</a></li><li><a href="#features">Features</a></li><li><a href="#testimonials">Testimonials</a></li><li><a href="#">Pricing</a></li></ul></div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="200"><h4>Support</h4> <ul><li><a href="#">Contact Us</a></li><li><a href="#faqs">FAQs</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+                <div class="footer-col" data-aos="fade-left" data-aos-delay="300"><h4>Contact</h4> <ul><li><a href="mailto:contact@genix.media">contact@genix.media</a></li></ul></div>
             </div>
             <div class="copyright">
                 © 2024 Genix Media Clone. All rights reserved.
@@ -460,9 +270,8 @@
     <script>
         // AOS को शुरू (Initialize) करें
         AOS.init({
-            // यहाँ आप ग्लोबल सेटिंग्स बदल सकते हैं:
-            duration: 800, // एनीमेशन की अवधि (मिलीसेकंड में)
-            once: true,    // एनीमेशन केवल एक बार होगा (स्क्रॉल अप/डाउन पर रिपीट नहीं)
+            duration: 800, 
+            once: true,    // एनीमेशन केवल एक बार होगा
         });
 
         // Mobile Menu Toggle Script

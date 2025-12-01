@@ -3,269 +3,472 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Z-Monitor Web App</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>Genix Media Clone | सिंगल पेज</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
-        /* Telegram Mini App Theme Integration */
-        body {
-            font-family: Arial, sans-serif;
+        /* ====================
+           CSS Styles (एक ही फ़ाइल में)
+           ==================== */
+        :root {
+            --dark-bg: #111;
+            --light-text: #f0f0f0;
+            --accent-color: #00ffc4; /* Neon Green/Cyan */
+            --card-bg: #1c1c1c;
+            --border-color: #333;
+        }
+
+        * {
             margin: 0;
-            padding: 15px;
-            background-color: var(--tg-theme-bg-color, #f4f4f5); /* Telegram BG Color */
-            color: var(--tg-theme-text-color, #000000); /* Telegram Text Color */
-        }
-        .card {
-            background-color: var(--tg-theme-secondary-bg-color, #ffffff);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-        input[type="text"], button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 8px;
+            padding: 0;
             box-sizing: border-box;
-            border: 1px solid var(--tg-theme-hint-color, #ccc);
-            background-color: var(--tg-theme-secondary-bg-color);
-            color: var(--tg-theme-text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
-        .monitor-type-toggle {
-            display: flex;
-            background-color: var(--tg-theme-secondary-bg-color);
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 20px;
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            line-height: 1.6;
         }
-        .monitor-type-toggle button {
-            flex-grow: 1;
-            background-color: transparent;
-            color: var(--tg-theme-text-color);
-            border: none;
-            padding: 10px 0;
-            cursor: pointer;
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s;
         }
-        .monitor-type-toggle button.active {
-            background-color: var(--tg-theme-button-color, #007bff);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            font-weight: bold;
+
+        a:hover {
+            color: #00e6b3;
         }
-        .list-item {
-            padding: 10px 0;
-            border-bottom: 1px solid var(--tg-theme-hint-color);
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: #00ffc4;
+            color: #111;
+            text-align: center;
+            padding: 8px 0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--dark-bg);
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .list-item:last-child {
-            border-bottom: none;
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--light-text);
         }
-        .list-item .status {
-            font-weight: bold;
-            color: var(--tg-theme-link-color, #007bff);
+
+        .nav-links {
+            list-style: none;
+            display: flex;
         }
-        .stop-btn {
-            background-color: #dc3545;
-            color: white;
-            padding: 5px 10px;
-            font-size: 0.8rem;
-            width: auto;
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            color: var(--light-text);
+            font-weight: 500;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: var(--accent-color);
+            color: #111;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.3s, transform 0.2s;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #00e6b3;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        #hero {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        #hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        #hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #aaa;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+
+        h2 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 700;
+        }
+
+        /* Services/Features Grid */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 196, 0.1);
+        }
+
+        .card i {
+            font-size: 30px;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        
+        /* Testimonials Section */
+        #testimonials {
+            background-color: #0c0c0c;
+            text-align: center;
+        }
+        
+        .testimonial-box {
+            font-style: italic;
+            padding: 40px;
+            border-left: 5px solid var(--accent-color);
+            margin-top: 20px;
+            background-color: var(--card-bg);
+            border-radius: 5px;
+        }
+        
+        .testimonial-box p:first-child {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        /* CTA Section */
+        #contact {
+            text-align: center;
+            padding: 60px 0;
+        }
+        
+        #contact h2 {
+             margin-bottom: 30px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0c0c0c;
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer-col {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .footer-col h4 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-col a {
+            color: #aaa;
+        }
+
+        .footer-col a:hover {
+            color: var(--light-text);
+        }
+
+        .social-icons a {
+            font-size: 20px;
+            margin-right: 15px;
+            color: #aaa;
+        }
+        
+        .copyright {
+            text-align: center;
+            width: 100%;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            color: #777;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+                background-color: var(--dark-bg);
+                position: absolute;
+                top: 60px; /* Adjust based on header height */
+                left: 0;
+                padding: 10px 0;
+                border-top: 1px solid var(--border-color);
+                z-index: 10;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            #hero h1 {
+                font-size: 36px;
+            }
+            
+            .footer-col {
+                width: 45%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h2>Monitor Setup</h2>
-        <input type="text" id="usernameInput" placeholder="Enter Instagram Username (@user)">
-        
-        <div class="monitor-type-toggle">
-            <button id="banToggle" class="active" onclick="setMonitorType('BAN')">BAN Watch 🚫</button>
-            <button id="unbanToggle" onclick="setMonitorType('UNBAN')">UNBAN Watch ✅</button>
-        </div>
-        
-        <p style="color: var(--tg-theme-hint-color);">Your Telegram User ID: <code id="userIdDisplay">Loading...</code></p>
+    <div class="top-bar">
+        Limited Spots Left! Elevate Your Brand's Voice
     </div>
 
-    <div class="card">
-        <h2>Active Monitoring List</h2>
-        <div id="monitoringList">Loading list...</div>
-    </div>
+    <header>
+        <div class="container navbar">
+            <div class="logo">GENIX.MEDIA</div>
+            
+            <nav>
+                <ul class="nav-links" id="navMenu">
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#faqs">FAQs</a></li>
+                    <li><a href="#contact" class="btn">Get Started</a></li>
+                </ul>
+            </nav>
+            
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section id="hero" class="container">
+        <h1>Elevate Your Brand's Voice</h1>
+        <p>Expert social media management that drives engagement, builds your brand, and boosts your bottom line.</p>
+        <a href="#contact" class="btn">Get Started Today</a>
+    </section>
+
+    <section id="services" class="container">
+        <h2>Take Your Social Media to New Heights</h2>
+        <div class="grid-3">
+            <div class="card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Organic Growth & Engagement</h3>
+                <p>Strategies to naturally attract and retain an audience, boosting followers and reach through non-paid methods.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-bullhorn"></i>
+                <h3>Paid Advertising & Promotions</h3>
+                <p>Planning, managing, and optimizing paid ad campaigns to drive traffic, conversions, and brand visibility efficiently.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-users"></i>
+                <h3>Influencer Collaboration</h3>
+                <p>Tools to connect with influencers, manage partnerships, and streamline communication for authentic reach.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Account Services & Support</h3>
+                <p>Technical support for account protection, handling bans or verifications, and securing specific usernames.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="container">
+        <h2>Why Choose Us for Success?</h2>
+        <div class="grid-3">
+            <div class="card">
+                <i class="fas fa-pencil-alt"></i>
+                <h3>Creation</h3>
+                <p>Tailored posts that resonate with your audience, boosting engagement and brand loyalty.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-tasks"></i>
+                <h3>Management</h3>
+                <p>Seamless management of all your social media accounts for consistent and effective communication.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-chart-bar"></i>
+                <h3>Analytics</h3>
+                <p>Detailed reports that offer insights into your performance, helping you refine your strategy.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials">
+        <div class="container">
+            <h2>Trusted by Brands That Matter</h2>
+            <div class="testimonial-box">
+                <p>"Genix transformed our brand's online presence! Engagement has doubled, and we're connecting with our audience."</p>
+                <p><strong>— Exam Edge</strong>, EdTech Initiative</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="container">
+        <h2>Ready to Elevate Your Social Media Game?</h2>
+        <p>Limited Spots Left! Get in touch today to reserve your slot.</p>
+        <a href="#" class="btn" style="margin-top: 20px;">Send Us a Message</a>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                
+                <div class="footer-col">
+                    <h4>GENIX.MEDIA</h4>
+                    <p>Elevating brands in the digital world.</p>
+                    <div class="social-icons" style="margin-top: 15px;">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="#">Pricing</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#faqs">FAQs</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:contact@genix.media">contact@genix.media</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="copyright">
+                © 2024 Genix Media Clone. All rights reserved.
+            </div>
+        </div>
+    </footer>
 
     <script>
-        let currentMonitorType = 'BAN';
-        let telegramUserId = null;
-        const PYTHON_API_URL = 'YOUR_PYTHON_SERVER_URL/api'; // Replace with your actual server URL (e.g., http://yourserver.com:8080/api)
+        // Mobile Menu Toggle Script
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
 
-        // 1. Initial Telegram Web App Setup
-        if (window.Telegram && window.Telegram.WebApp) {
-            const WebApp = window.Telegram.WebApp;
-            WebApp.ready();
-            WebApp.expand();
-            
-            // Apply Telegram Theme
-            document.documentElement.style.setProperty('--tg-theme-bg-color', WebApp.themeParams.bg_color);
-            document.documentElement.style.setProperty('--tg-theme-secondary-bg-color', WebApp.themeParams.secondary_bg_color);
-            document.documentElement.style.setProperty('--tg-theme-text-color', WebApp.themeParams.text_color);
-            document.documentElement.style.setProperty('--tg-theme-hint-color', WebApp.themeParams.hint_color);
-            document.documentElement.style.setProperty('--tg-theme-button-color', WebApp.themeParams.button_color);
-            document.documentElement.style.setProperty('--tg-theme-button-text-color', WebApp.themeParams.button_text_color);
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
 
-            // Get User ID (Crucial for linking to your Python Script)
-            if (WebApp.initDataUnsafe && WebApp.initDataUnsafe.user) {
-                telegramUserId = WebApp.initDataUnsafe.user.id;
-                document.getElementById('userIdDisplay').textContent = telegramUserId;
-                loadMonitoringList();
-            } else {
-                document.getElementById('userIdDisplay').textContent = 'ERROR: User ID not found.';
-            }
-
-
-            // 2. Main Button Control
-            WebApp.MainButton.setText('START MONITORING');
-            WebApp.MainButton.setParams({
-                color: WebApp.themeParams.button_color,
-                text_color: WebApp.themeParams.button_text_color
+        // Hide menu after clicking a link (for single-page navigation)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    navMenu.classList.remove('active');
+                }
             });
-            WebApp.MainButton.show();
-            WebApp.MainButton.onClick(handleStartMonitoring);
-
-        }
-
-        function setMonitorType(type) {
-            currentMonitorType = type;
-            document.getElementById('banToggle').classList.remove('active');
-            document.getElementById('unbanToggle').classList.remove('active');
-            document.getElementById(type.toLowerCase() + 'Toggle').classList.add('active');
-            WebApp.MainButton.setText(type === 'BAN' ? 'START BAN MONITORING 🚫' : 'START UNBAN MONITORING ✅');
-        }
-
-        async function handleStartMonitoring() {
-            const username = document.getElementById('usernameInput').value.trim().replace('@', '');
-            if (!username) {
-                WebApp.showAlert('Please enter an Instagram username.');
-                return;
-            }
-            if (!telegramUserId) {
-                WebApp.showAlert('Error: Could not retrieve Telegram User ID.');
-                return;
-            }
-            
-            WebApp.MainButton.showProgress(true);
-
-            // 3. API Call to your Python Backend
-            try {
-                const response = await fetch(`${PYTHON_API_URL}/add_monitor`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        user_id: telegramUserId,
-                        username: username,
-                        monitor_type: currentMonitorType,
-                        // Note: WebApp.initData (mini app authorization data) should be sent securely in a real app
-                        init_data: window.Telegram.WebApp.initData 
-                    })
-                });
-
-                const data = await response.json();
-
-                if (data.status === 'success') {
-                    WebApp.showAlert(`Monitoring for @${username} started as ${currentMonitorType}!`);
-                    document.getElementById('usernameInput').value = '';
-                    loadMonitoringList(); // Reload list after adding
-                } else {
-                    WebApp.showAlert(`Error: ${data.message || 'Failed to start monitoring.'}`);
-                }
-
-            } catch (error) {
-                console.error('API Error:', error);
-                WebApp.showAlert('Network Error: Could not reach the monitoring server.');
-            } finally {
-                WebApp.MainButton.hideProgress();
-            }
-        }
-        
-        async function loadMonitoringList() {
-             if (!telegramUserId) return;
-
-             const listContainer = document.getElementById('monitoringList');
-             listContainer.innerHTML = 'Fetching list...';
-
-             try {
-                const response = await fetch(`${PYTHON_API_URL}/get_list/${telegramUserId}`);
-                const data = await response.json();
-                
-                if (data.status === 'success') {
-                    let html = '';
-                    
-                    const all_users = [
-                        ...data.ban_list.map(u => ({ username: u, type: 'BAN' })),
-                        ...data.unban_list.map(u => ({ username: u, type: 'UNBAN' }))
-                    ];
-                    
-                    if (all_users.length === 0) {
-                        listContainer.innerHTML = '<p style="text-align: center;">Your list is empty.</p>';
-                        return;
-                    }
-
-                    all_users.forEach(user => {
-                        const statusColor = user.type === 'BAN' ? 'var(--tg-theme-destructive-text-color, #dc3545)' : 'var(--tg-theme-button-color, #28a745)';
-                        const statusText = user.type === 'BAN' ? '🚫 BAN' : '✅ UNBAN';
-                        
-                        html += `
-                            <div class="list-item">
-                                <div>
-                                    @${user.username} 
-                                    <span class="status" style="color: ${statusColor};">${statusText}</span>
-                                </div>
-                                <button class="stop-btn" onclick="handleStopMonitoring('${user.username}')">Stop</button>
-                            </div>
-                        `;
-                    });
-                    listContainer.innerHTML = html;
-                    
-                } else {
-                    listContainer.innerHTML = `<p style="color: red;">Error loading list: ${data.message}</p>`;
-                }
-
-            } catch (error) {
-                listContainer.innerHTML = '<p style="color: red;">Failed to connect to monitoring API.</p>';
-            }
-        }
-        
-        // Note: handleStopMonitoring function requires a separate API endpoint in Python backend
-        async function handleStopMonitoring(username) {
-            if (!confirm(`Are you sure you want to stop monitoring @${username}?`)) return;
-
-            // **TODO:** Create a /api/stop_monitor endpoint in your Python script 
-            // and call it here. After the call, call loadMonitoringList().
-            
-            WebApp.showAlert(`Stopping monitoring for @${username}... (Requires Python API setup)`);
-            
-            // Example Placeholder Logic:
-            try {
-                // Assuming you create a DELETE endpoint
-                const response = await fetch(`${PYTHON_API_URL}/stop_monitor`, {
-                    method: 'POST', // Use POST or DELETE based on your Flask/FastAPI setup
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user_id: telegramUserId, username: username })
-                });
-
-                if (response.ok) {
-                    WebApp.showPopup({message: `Monitoring for @${username} stopped.`});
-                    loadMonitoringList();
-                } else {
-                     WebApp.showAlert(`Failed to stop monitoring for @${username}.`);
-                }
-            } catch (e) {
-                WebApp.showAlert('Error stopping monitor on server.');
-            }
-        }
-
-
+        });
     </script>
+
 </body>
 </html>

@@ -93,7 +93,7 @@
             gap: 10px;
         }
         
-        .btn i { font-size: 1.3rem; }
+        .btn i { font-size: 1.4rem; } /* Icon size thoda badhaya */
         
         /* Button Colors */
         .btn-telegram { background-color: #229ED9; color: white; }
@@ -189,7 +189,7 @@
         footer {
             text-align: center;
             padding: 40px 20px;
-            padding-bottom: 100px; /* Thoda extra space shield ke liye */
+            padding-bottom: 100px; /* Space for shield */
             margin-top: 80px;
             background-color: #1e293b;
             border-top: 1px solid #334155;
@@ -222,7 +222,7 @@
         }
 
         .shield-btn i {
-            color: #0f172a; /* Dark Icon inside Blue Button */
+            color: #0f172a;
             font-size: 30px;
         }
 
@@ -248,12 +248,18 @@
             pointer-events: auto;
         }
 
-        /* The Popup Box (Bigger Size) */
+        /* The Popup Box (MOBILE FIXED) */
         .modal-content {
             background: #1e293b;
-            width: 90%;
-            max-width: 600px; /* Increased Size */
-            padding: 40px;
+            width: 90%; /* Mobile width */
+            max-width: 500px; /* Desktop max width */
+            
+            /* Important: Height control for mobile */
+            max-height: 85vh; /* 85% of screen height */
+            display: flex;
+            flex-direction: column; /* Stack items */
+            
+            padding: 25px;
             border-radius: 15px;
             text-align: center;
             border: 2px solid #38bdf8; /* Blue Border */
@@ -267,21 +273,27 @@
         }
 
         .modal-content h2 {
-            color: #38bdf8; /* Blue Text */
-            margin-bottom: 20px;
-            font-size: 2rem;
+            color: #38bdf8;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
             text-transform: uppercase;
+            flex-shrink: 0; /* Header shrink nahi karega */
         }
 
-        /* Internal Text Area (Bigger & Cleaner) */
+        /* Internal Scrollable Area */
         .tos-text {
             color: #cbd5e1;
-            font-size: 1.1rem; /* Bada text */
+            font-size: 1rem;
             text-align: left;
-            margin-bottom: 25px;
-            background: transparent; /* No box effect, clean text */
-            padding: 10px;
-            line-height: 1.8;
+            margin-bottom: 15px;
+            background: #0f172a; /* Darker bg for text area */
+            padding: 15px;
+            border-radius: 8px;
+            
+            /* SCROLL LOGIC */
+            overflow-y: auto; /* Enable scroll inside */
+            flex-grow: 1; /* Occupy remaining space */
+            border: 1px solid #334155;
         }
 
         .tos-text ul {
@@ -289,35 +301,34 @@
         }
 
         .tos-text li {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             padding-left: 10px;
-            border-left: 3px solid #38bdf8; /* Style list items */
+            border-left: 3px solid #38bdf8;
         }
 
-        /* Okay Button (Blue Theme) */
+        /* Okay Button (Visible at bottom) */
         .btn-okay {
             background-color: #38bdf8;
             color: #0f172a;
             border: none;
-            padding: 14px 50px;
-            font-size: 1.2rem;
+            padding: 12px 0;
+            width: 100%; /* Full width button */
+            font-size: 1.1rem;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
+            transition: background 0.3s;
+            flex-shrink: 0; /* Button shrink nahi karega */
         }
 
         .btn-okay:hover {
             background-color: #0ea5e9;
-            transform: translateY(-2px);
         }
 
         @media (max-width: 600px) {
             header h1 { font-size: 2rem; }
             .btn { width: 100%; justify-content: center; }
             .shield-btn { width: 55px; height: 55px; bottom: 20px; right: 20px; }
-            .modal-content { padding: 25px; }
-            .tos-text { font-size: 1rem; }
         }
     </style>
 </head>
@@ -329,8 +340,13 @@
             <p>Trusted • Private • Efficient — Services across Instagram, Twitter, WhatsApp, TikTok, Facebook, YouTube and more.</p>
             
             <div class="cta-buttons">
-                <a href="#" class="btn btn-telegram"><i class="fa-brands fa-telegram"></i> Telegram</a>
-                <a href="#" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                <a href="https://t.me/resays" class="btn btn-telegram" target="_blank">
+                    <i class="fa-brands fa-telegram"></i> Telegram
+                </a>
+                
+                <a href="#" class="btn btn-whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </a>
             </div>
         </div>
     </header>
@@ -461,17 +477,22 @@
     <div id="tosPopup" class="modal-overlay">
         <div class="modal-content">
             <h2>Terms of Service</h2>
+            
             <div class="tos-text">
                 <p>Welcome to SMFixer. By using our services, you agree to the following terms:</p>
                 <br>
                 <ul>
-                    <li>1. <strong>Confidentiality:</strong> All services are strictly confidential and private.</li>
+                    <li>1. <strong>Confidentiality:</strong> All services are strictly confidential and private. We never share client data.</li>
                     <li>2. <strong>Payments:</strong> Payments must be made in advance or via escrow as agreed.</li>
-                    <li>3. <strong>Refund Policy:</strong> We guarantee a full refund if the service is not delivered.</li>
+                    <li>3. <strong>Refund Policy:</strong> We guarantee a full refund if the service is not delivered within the agreed timeframe.</li>
                     <li>4. <strong>Legal Use:</strong> We do not support illegal activities or hacking. Services are for recovery and policy-based takedowns only.</li>
                     <li>5. <strong>Turnaround Time:</strong> Turnaround times are estimates and may vary based on platform updates.</li>
+                    <li>6. <strong>Verification:</strong> Verification services require legitimate press and notability.</li>
+                    <li>7. <strong>Liability:</strong> We are not liable for platform policy changes that occur after service delivery.</li>
                 </ul>
+                <p>Please contact support for more details.</p>
             </div>
+            
             <button class="btn-okay" onclick="closePopup()">Okay</button>
         </div>
     </div>

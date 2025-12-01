@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* General Reset aur Fonts */
+        /* --- CSS STYLES --- */
         * {
             margin: 0;
             padding: 0;
@@ -17,35 +17,29 @@
         }
 
         body {
-            background-color: #0f172a; /* Dark Blue/Black Background */
+            background-color: #0f172a; /* Dark Background */
             color: #e2e8f0; /* Light Text */
             line-height: 1.6;
-            overflow-x: hidden; /* Side scroll rokne ke liye */
+            overflow-x: hidden;
         }
 
-        /* Container */
         .container {
             max-width: 1100px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        /* --- Animation Effects Start --- */
-        
-        /* Ye class un elements par lagegi jo abhi chupe hue hain */
+        /* --- Animations --- */
         .reveal {
             opacity: 0;
-            transform: translateY(50px); /* Thoda neeche se aayega */
-            transition: all 0.8s ease-out; /* Smooth effect 0.8 second ka */
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
         }
-
-        /* Jab element screen par dikhega, JS ye class add karega */
         .reveal.active {
             opacity: 1;
-            transform: translateY(0); /* Apni asli jagah par aayega */
+            transform: translateY(0);
         }
 
-        /* Header Animation alag se (Left se aayega) */
         .slide-left {
             opacity: 0;
             transform: translateX(-50px);
@@ -56,9 +50,7 @@
             transform: translateX(0);
         }
 
-        /* --- Animation Effects End --- */
-
-        /* Header Section */
+        /* Header */
         header {
             text-align: center;
             padding: 80px 20px;
@@ -81,7 +73,7 @@
             margin: 0 auto 30px auto;
         }
 
-        /* Contact Buttons */
+        /* Buttons with Icons */
         .cta-buttons {
             display: flex;
             justify-content: center;
@@ -96,9 +88,13 @@
             text-decoration: none;
             border-radius: 50px;
             transition: transform 0.3s, box-shadow 0.3s;
-            display: inline-flex;
+            display: inline-flex; /* Icon aur text ko line me laane ke liye */
             align-items: center;
             gap: 10px;
+        }
+
+        .btn i {
+            font-size: 1.3rem; /* Icon ka size */
         }
 
         .btn-telegram { background-color: #229ED9; color: white; }
@@ -109,7 +105,7 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.4);
         }
 
-        /* Services Grid */
+        /* Services */
         .section-title {
             text-align: center;
             font-size: 2.2rem;
@@ -145,7 +141,7 @@
 
         .service-card:hover {
             border-color: #38bdf8;
-            transform: translateY(-5px); /* Hover karne par thoda upar uthega */
+            transform: translateY(-5px);
         }
 
         .service-card h3 {
@@ -159,38 +155,19 @@
             gap: 12px;
         }
 
-        /* Icons Colors */
+        /* Service Icons Colors */
         .fa-instagram { color: #E1306C; }
-        .fa-twitter, .fa-x-twitter { color: #1DA1F2; }
+        .fa-twitter { color: #1DA1F2; }
         .fa-whatsapp { color: #25D366; }
         .fa-tiktok { color: #ff0050; }
         .fa-facebook { color: #1877F2; }
         .fa-youtube { color: #FF0000; }
 
-        .service-item {
-            margin-bottom: 18px;
-        }
+        .service-item { margin-bottom: 18px; }
+        .service-name { font-weight: 600; color: #cbd5e1; font-size: 1.05rem; display: block; }
+        .service-price { color: #4ade80; font-weight: bold; font-size: 1rem; }
+        .service-time { color: #64748b; font-size: 0.9rem; font-style: italic; }
 
-        .service-name {
-            font-weight: 600;
-            color: #cbd5e1;
-            font-size: 1.05rem;
-            display: block;
-        }
-
-        .service-price {
-            color: #4ade80; 
-            font-weight: bold;
-            font-size: 1rem;
-        }
-
-        .service-time {
-            color: #64748b;
-            font-size: 0.9rem;
-            font-style: italic;
-        }
-
-        /* Info Boxes */
         .info-box {
             background-color: #1e293b;
             padding: 35px;
@@ -214,35 +191,23 @@
             border-radius: 10px;
             border-left: 3px solid #38bdf8;
         }
-
-        .testimonial-card p {
-            font-style: italic;
-            color: #e2e8f0;
-        }
-
-        .client-name {
-            display: block;
-            margin-top: 15px;
-            font-weight: bold;
-            color: #38bdf8;
-            text-align: right;
-        }
+        .testimonial-card p { font-style: italic; color: #e2e8f0; }
+        .client-name { display: block; margin-top: 15px; font-weight: bold; color: #38bdf8; text-align: right; }
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 50px 20px;
+            padding: 40px 20px;
             margin-top: 80px;
+            background-color: #1e293b;
             border-top: 1px solid #334155;
-            color: #64748b;
+            color: #94a3b8;
             font-size: 0.95rem;
         }
 
-        /* Responsive Fixes */
         @media (max-width: 600px) {
             header h1 { font-size: 2rem; }
             .btn { width: 100%; justify-content: center; }
-            .container { padding: 15px; }
         }
     </style>
 </head>
@@ -254,8 +219,8 @@
             <p>Trusted • Private • Efficient — Services across Instagram, Twitter, WhatsApp, TikTok, Facebook, YouTube and more.</p>
             
             <div class="cta-buttons">
-                <a href="#" class="btn btn-telegram"><i class="fa-brands fa-telegram"></i> Telegram</a>
-                <a href="#" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                <a href="#" class="btn btn-telegram"><i class="fab fa-telegram"></i> Telegram</a>
+                <a href="#" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
             </div>
         </div>
     </header>
@@ -266,7 +231,7 @@
         <div class="services-grid">
             
             <div class="service-card reveal">
-                <h3><i class="fa-brands fa-instagram"></i> Instagram</h3>
+                <h3><i class="fab fa-instagram"></i> Instagram</h3>
                 <div class="service-item">
                     <span class="service-name">Removal</span>
                     <span class="service-price">Starting Price - $250</span><br>
@@ -285,7 +250,7 @@
             </div>
 
             <div class="service-card reveal">
-                <h3><i class="fa-brands fa-twitter"></i> Twitter / X</h3>
+                <h3><i class="fab fa-twitter"></i> Twitter</h3>
                 <div class="service-item">
                     <span class="service-name">Removal</span>
                     <span class="service-price">Starting Price - $5000</span><br>
@@ -299,7 +264,7 @@
             </div>
 
             <div class="service-card reveal">
-                <h3><i class="fa-brands fa-whatsapp"></i> WhatsApp</h3>
+                <h3><i class="fab fa-whatsapp"></i> WhatsApp</h3>
                 <div class="service-item">
                     <span class="service-name">Removal (Ban)</span>
                     <span class="service-price">Price - $300</span><br>
@@ -313,7 +278,7 @@
             </div>
 
             <div class="service-card reveal">
-                <h3><i class="fa-brands fa-tiktok"></i> TikTok</h3>
+                <h3><i class="fab fa-tiktok"></i> TikTok</h3>
                 <div class="service-item">
                     <span class="service-name">Removal</span>
                     <span class="service-price">Starting Price - $299</span><br>
@@ -327,7 +292,7 @@
             </div>
 
             <div class="service-card reveal">
-                <h3><i class="fa-brands fa-facebook"></i> Facebook</h3>
+                <h3><i class="fab fa-facebook"></i> Facebook</h3>
                 <div class="service-item">
                     <span class="service-name">Removal</span>
                     <span class="service-price">Starting Price - $500</span><br>
@@ -341,7 +306,7 @@
             </div>
 
              <div class="service-card reveal">
-                <h3><i class="fa-brands fa-youtube"></i> YouTube</h3>
+                <h3><i class="fab fa-youtube"></i> YouTube</h3>
                 <div class="service-item">
                     <span class="service-name">Channel Removal</span>
                     <span class="service-price">Price - $3000</span><br>
@@ -396,29 +361,22 @@
     </footer>
 
     <script>
-        // Ye script check karega ki user screen par kahan hai
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
 
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100; // Element kitna upar aane par dikhe
+                var elementVisible = 100;
 
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
-                } else {
-                    // Agar wapas chupana ho upar jaane par toh ye line uncomment karein:
-                    // reveals[i].classList.remove("active");
                 }
             }
         }
 
-        // Jab user scroll karega, tab function chalega
         window.addEventListener("scroll", reveal);
-
-        // Page load hote hi ek baar check karo
-        reveal();
+        reveal(); // Trigger on load
     </script>
 
 </body>

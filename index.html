@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genix Media Clone | सिंगल पेज</title>
+    <title>Genix Media Clone | Fade-in Effect</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
         /* ====================
-           CSS Styles (एक ही फ़ाइल में)
+           CSS Styles (कोई बदलाव नहीं, केवल AOS की तैयारी)
            ==================== */
         :root {
             --dark-bg: #111;
@@ -49,7 +50,7 @@
 
         /* Top Bar */
         .top-bar {
-            background-color: #00ffc4;
+            background-color: var(--accent-color);
             color: #111;
             text-align: center;
             padding: 8px 0;
@@ -62,6 +63,9 @@
             background-color: var(--dark-bg);
             padding: 15px 0;
             border-bottom: 1px solid var(--border-color);
+            position: sticky; /* Sticky Header */
+            top: 0;
+            z-index: 100;
         }
 
         .navbar {
@@ -316,16 +320,16 @@
 
     <header>
         <div class="container navbar">
-            <div class="logo">GENIX.MEDIA</div>
+            <div class="logo" data-aos="fade-down" data-aos-duration="1000">GENIX.MEDIA</div>
             
             <nav>
                 <ul class="nav-links" id="navMenu">
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                    <li><a href="#portfolio">Portfolio</a></li>
-                    <li><a href="#faqs">FAQs</a></li>
-                    <li><a href="#contact" class="btn">Get Started</a></li>
+                    <li data-aos="fade-down" data-aos-delay="100"><a href="#services">Services</a></li>
+                    <li data-aos="fade-down" data-aos-delay="200"><a href="#features">Features</a></li>
+                    <li data-aos="fade-down" data-aos-delay="300"><a href="#testimonials">Testimonials</a></li>
+                    <li data-aos="fade-down" data-aos-delay="400"><a href="#portfolio">Portfolio</a></li>
+                    <li data-aos="fade-down" data-aos-delay="500"><a href="#faqs">FAQs</a></li>
+                    <li data-aos="fade-down" data-aos-delay="600"><a href="#contact" class="btn">Get Started</a></li>
                 </ul>
             </nav>
             
@@ -336,30 +340,30 @@
     </header>
 
     <section id="hero" class="container">
-        <h1>Elevate Your Brand's Voice</h1>
-        <p>Expert social media management that drives engagement, builds your brand, and boosts your bottom line.</p>
-        <a href="#contact" class="btn">Get Started Today</a>
+        <h1 data-aos="fade-up" data-aos-duration="1000">Elevate Your Brand's Voice</h1>
+        <p data-aos="fade-up" data-aos-delay="300">Expert social media management that drives engagement, builds your brand, and boosts your bottom line.</p>
+        <a href="#contact" class="btn" data-aos="fade-up" data-aos-delay="600">Get Started Today</a>
     </section>
 
     <section id="services" class="container">
-        <h2>Take Your Social Media to New Heights</h2>
+        <h2 data-aos="fade-in">Take Your Social Media to New Heights</h2>
         <div class="grid-3">
-            <div class="card">
+            <div class="card" data-aos="fade-right" data-aos-delay="100">
                 <i class="fas fa-chart-line"></i>
                 <h3>Organic Growth & Engagement</h3>
                 <p>Strategies to naturally attract and retain an audience, boosting followers and reach through non-paid methods.</p>
             </div>
-            <div class="card">
+            <div class="card" data-aos="fade-up" data-aos-delay="300">
                 <i class="fas fa-bullhorn"></i>
                 <h3>Paid Advertising & Promotions</h3>
                 <p>Planning, managing, and optimizing paid ad campaigns to drive traffic, conversions, and brand visibility efficiently.</p>
             </div>
-            <div class="card">
+            <div class="card" data-aos="fade-left" data-aos-delay="500">
                 <i class="fas fa-users"></i>
                 <h3>Influencer Collaboration</h3>
                 <p>Tools to connect with influencers, manage partnerships, and streamline communication for authentic reach.</p>
             </div>
-            <div class="card">
+            <div class="card" data-aos="fade-right" data-aos-delay="100">
                 <i class="fas fa-shield-alt"></i>
                 <h3>Account Services & Support</h3>
                 <p>Technical support for account protection, handling bans or verifications, and securing specific usernames.</p>
@@ -368,19 +372,19 @@
     </section>
 
     <section id="features" class="container">
-        <h2>Why Choose Us for Success?</h2>
+        <h2 data-aos="fade-in">Why Choose Us for Success?</h2>
         <div class="grid-3">
-            <div class="card">
+            <div class="card" data-aos="zoom-in" data-aos-delay="100">
                 <i class="fas fa-pencil-alt"></i>
                 <h3>Creation</h3>
                 <p>Tailored posts that resonate with your audience, boosting engagement and brand loyalty.</p>
             </div>
-            <div class="card">
+            <div class="card" data-aos="zoom-in" data-aos-delay="300">
                 <i class="fas fa-tasks"></i>
                 <h3>Management</h3>
                 <p>Seamless management of all your social media accounts for consistent and effective communication.</p>
             </div>
-            <div class="card">
+            <div class="card" data-aos="zoom-in" data-aos-delay="500">
                 <i class="fas fa-chart-bar"></i>
                 <h3>Analytics</h3>
                 <p>Detailed reports that offer insights into your performance, helping you refine your strategy.</p>
@@ -388,10 +392,10 @@
         </div>
     </section>
 
-    <section id="testimonials">
+    <section id="testimonials" data-aos="fade-in">
         <div class="container">
             <h2>Trusted by Brands That Matter</h2>
-            <div class="testimonial-box">
+            <div class="testimonial-box" data-aos="fade-up" data-aos-delay="300">
                 <p>"Genix transformed our brand's online presence! Engagement has doubled, and we're connecting with our audience."</p>
                 <p><strong>— Exam Edge</strong>, EdTech Initiative</p>
             </div>
@@ -399,16 +403,16 @@
     </section>
 
     <section id="contact" class="container">
-        <h2>Ready to Elevate Your Social Media Game?</h2>
-        <p>Limited Spots Left! Get in touch today to reserve your slot.</p>
-        <a href="#" class="btn" style="margin-top: 20px;">Send Us a Message</a>
+        <h2 data-aos="fade-in">Ready to Elevate Your Social Media Game?</h2>
+        <p data-aos="fade-in" data-aos-delay="200">Limited Spots Left! Get in touch today to reserve your slot.</p>
+        <a href="#" class="btn" style="margin-top: 20px;" data-aos="zoom-in" data-aos-delay="400">Send Us a Message</a>
     </section>
 
     <footer>
         <div class="container">
             <div class="footer-content">
                 
-                <div class="footer-col">
+                <div class="footer-col" data-aos="fade-right">
                     <h4>GENIX.MEDIA</h4>
                     <p>Elevating brands in the digital world.</p>
                     <div class="social-icons" style="margin-top: 15px;">
@@ -418,7 +422,7 @@
                     </div>
                 </div>
 
-                <div class="footer-col">
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="#services">Services</a></li>
@@ -428,7 +432,7 @@
                     </ul>
                 </div>
                 
-                <div class="footer-col">
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
                     <h4>Support</h4>
                     <ul>
                         <li><a href="#">Contact Us</a></li>
@@ -437,7 +441,7 @@
                     </ul>
                 </div>
                 
-                <div class="footer-col">
+                <div class="footer-col" data-aos="fade-left" data-aos-delay="300">
                     <h4>Contact</h4>
                     <ul>
                         <li><a href="mailto:contact@genix.media">contact@genix.media</a></li>
@@ -451,7 +455,16 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <script>
+        // AOS को शुरू (Initialize) करें
+        AOS.init({
+            // यहाँ आप ग्लोबल सेटिंग्स बदल सकते हैं:
+            duration: 800, // एनीमेशन की अवधि (मिलीसेकंड में)
+            once: true,    // एनीमेशन केवल एक बार होगा (स्क्रॉल अप/डाउन पर रिपीट नहीं)
+        });
+
         // Mobile Menu Toggle Script
         const menuToggle = document.getElementById('menuToggle');
         const navMenu = document.getElementById('navMenu');

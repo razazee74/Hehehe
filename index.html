@@ -92,9 +92,13 @@
             align-items: center;
             gap: 10px;
         }
+        
         .btn i { font-size: 1.3rem; }
+        
+        /* Button Colors */
         .btn-telegram { background-color: #229ED9; color: white; }
         .btn-whatsapp { background-color: #25D366; color: white; }
+        
         .btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
 
         /* Services Grid */
@@ -146,7 +150,7 @@
 
         /* Icons Colors */
         .fa-instagram { color: #E1306C; }
-        .fa-twitter { color: #1DA1F2; }
+        .fa-twitter, .fa-x-twitter { color: #1DA1F2; }
         .fa-whatsapp { color: #25D366; }
         .fa-tiktok { color: #ff0050; }
         .fa-facebook { color: #1877F2; }
@@ -181,9 +185,11 @@
         .testimonial-card p { font-style: italic; color: #e2e8f0; }
         .client-name { display: block; margin-top: 15px; font-weight: bold; color: #38bdf8; text-align: right; }
 
+        /* Footer */
         footer {
             text-align: center;
             padding: 40px 20px;
+            padding-bottom: 100px; /* Thoda extra space shield ke liye */
             margin-top: 80px;
             background-color: #1e293b;
             border-top: 1px solid #334155;
@@ -193,30 +199,30 @@
 
         /* --- FLOATING SHIELD & POPUP STYLES --- */
 
-        /* The Round Shield Button */
+        /* The Round Shield Button (Blue Theme) */
         .shield-btn {
             position: fixed;
             bottom: 25px;
             right: 25px;
             width: 65px;
             height: 65px;
-            background-color: #FFD700; /* Gold/Yellow Color */
+            background-color: #38bdf8; /* Blue Theme Color */
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
             z-index: 999;
             transition: transform 0.3s ease;
         }
 
         .shield-btn:hover {
-            transform: scale(1.1); /* Hover karne par bada hoga */
+            transform: scale(1.1);
         }
 
         .shield-btn i {
-            color: #0f172a; /* Shield Icon Dark Blue */
+            color: #0f172a; /* Dark Icon inside Blue Button */
             font-size: 30px;
         }
 
@@ -227,36 +233,33 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85); /* Dark background behind popup */
+            background: rgba(0, 0, 0, 0.85);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            
-            /* Hidden by default */
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
         }
 
-        /* Active class to show modal */
         .modal-overlay.active {
             opacity: 1;
             pointer-events: auto;
         }
 
-        /* The Popup Box */
+        /* The Popup Box (Bigger Size) */
         .modal-content {
             background: #1e293b;
             width: 90%;
-            max-width: 450px;
-            padding: 30px;
+            max-width: 600px; /* Increased Size */
+            padding: 40px;
             border-radius: 15px;
             text-align: center;
-            border: 2px solid #FFD700; /* Yellow Border matching button */
+            border: 2px solid #38bdf8; /* Blue Border */
             transform: scale(0.8);
             transition: transform 0.3s ease;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.2);
         }
 
         .modal-overlay.active .modal-content {
@@ -264,49 +267,57 @@
         }
 
         .modal-content h2 {
-            color: #FFD700;
+            color: #38bdf8; /* Blue Text */
             margin-bottom: 20px;
-            font-size: 1.8rem;
+            font-size: 2rem;
+            text-transform: uppercase;
         }
 
+        /* Internal Text Area (Bigger & Cleaner) */
         .tos-text {
             color: #cbd5e1;
-            font-size: 1rem;
+            font-size: 1.1rem; /* Bada text */
             text-align: left;
-            max-height: 300px;
-            overflow-y: auto; /* Scroll if text is too long */
             margin-bottom: 25px;
-            background: #0f172a;
-            padding: 15px;
-            border-radius: 8px;
+            background: transparent; /* No box effect, clean text */
+            padding: 10px;
+            line-height: 1.8;
+        }
+
+        .tos-text ul {
+            list-style-type: none;
         }
 
         .tos-text li {
-            margin-bottom: 8px;
-            margin-left: 20px;
+            margin-bottom: 12px;
+            padding-left: 10px;
+            border-left: 3px solid #38bdf8; /* Style list items */
         }
 
-        /* Okay Button */
+        /* Okay Button (Blue Theme) */
         .btn-okay {
-            background-color: #FFD700;
+            background-color: #38bdf8;
             color: #0f172a;
             border: none;
-            padding: 12px 40px;
-            font-size: 1.1rem;
+            padding: 14px 50px;
+            font-size: 1.2rem;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: background 0.3s, transform 0.2s;
         }
 
         .btn-okay:hover {
-            background-color: #eab308;
+            background-color: #0ea5e9;
+            transform: translateY(-2px);
         }
 
         @media (max-width: 600px) {
             header h1 { font-size: 2rem; }
             .btn { width: 100%; justify-content: center; }
             .shield-btn { width: 55px; height: 55px; bottom: 20px; right: 20px; }
+            .modal-content { padding: 25px; }
+            .tos-text { font-size: 1rem; }
         }
     </style>
 </head>
@@ -318,8 +329,8 @@
             <p>Trusted • Private • Efficient — Services across Instagram, Twitter, WhatsApp, TikTok, Facebook, YouTube and more.</p>
             
             <div class="cta-buttons">
-                <a href="#" class="btn btn-telegram"><i class="fab fa-telegram"></i> Telegram</a>
-                <a href="#" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <a href="#" class="btn btn-telegram"><i class="fa-brands fa-telegram"></i> Telegram</a>
+                <a href="#" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
             </div>
         </div>
     </header>
@@ -330,7 +341,7 @@
         <div class="services-grid">
             
             <div class="service-card reveal">
-                <h3><i class="fab fa-instagram"></i> Instagram</h3>
+                <h3><i class="fa-brands fa-instagram"></i> Instagram</h3>
                 <div class="service-item">
                     <span class="service-name">Removal</span>
                     <span class="service-price">Starting Price - $250</span><br>
@@ -349,7 +360,7 @@
             </div>
 
             <div class="service-card reveal">
-                <h3><i class="fab fa-twitter"></i> Twitter</h3>
+                <h3><i class="fa-brands fa-twitter"></i> Twitter / X</h3>
                 <div class="service-item">
                     <span class="service-name">Removal</span>
                     <span class="service-price">Starting Price - $5000</span><br>
@@ -363,7 +374,7 @@
             </div>
 
             <div class="service-card reveal">
-                <h3><i class="fab fa-whatsapp"></i> WhatsApp</h3>
+                <h3><i class="fa-brands fa-whatsapp"></i> WhatsApp</h3>
                 <div class="service-item">
                     <span class="service-name">Removal (Ban)</span>
                     <span class="service-price">Price - $300</span><br>
@@ -377,7 +388,7 @@
             </div>
 
             <div class="service-card reveal">
-                <h3><i class="fab fa-tiktok"></i> TikTok</h3>
+                <h3><i class="fa-brands fa-tiktok"></i> TikTok</h3>
                 <div class="service-item">
                     <span class="service-name">Removal</span>
                     <span class="service-price">Starting Price - $299</span><br>
@@ -391,7 +402,7 @@
             </div>
 
             <div class="service-card reveal">
-                <h3><i class="fab fa-facebook"></i> Facebook</h3>
+                <h3><i class="fa-brands fa-facebook"></i> Facebook</h3>
                 <div class="service-item">
                     <span class="service-name">Removal</span>
                     <span class="service-price">Starting Price - $500</span><br>
@@ -405,7 +416,7 @@
             </div>
 
              <div class="service-card reveal">
-                <h3><i class="fab fa-youtube"></i> YouTube</h3>
+                <h3><i class="fa-brands fa-youtube"></i> YouTube</h3>
                 <div class="service-item">
                     <span class="service-name">Channel Removal</span>
                     <span class="service-price">Price - $3000</span><br>
@@ -452,14 +463,14 @@
             <h2>Terms of Service</h2>
             <div class="tos-text">
                 <p>Welcome to SMFixer. By using our services, you agree to the following terms:</p>
+                <br>
                 <ul>
-                    <li>1. All services are confidential and private.</li>
-                    <li>2. Payments must be made in advance or via escrow as agreed.</li>
-                    <li>3. We guarantee a full refund if the service is not delivered.</li>
-                    <li>4. We do not support illegal activities or hacking.</li>
-                    <li>5. Turnaround times are estimates and may vary.</li>
+                    <li>1. <strong>Confidentiality:</strong> All services are strictly confidential and private.</li>
+                    <li>2. <strong>Payments:</strong> Payments must be made in advance or via escrow as agreed.</li>
+                    <li>3. <strong>Refund Policy:</strong> We guarantee a full refund if the service is not delivered.</li>
+                    <li>4. <strong>Legal Use:</strong> We do not support illegal activities or hacking. Services are for recovery and policy-based takedowns only.</li>
+                    <li>5. <strong>Turnaround Time:</strong> Turnaround times are estimates and may vary based on platform updates.</li>
                 </ul>
-                <p>Please contact support for more details.</p>
             </div>
             <button class="btn-okay" onclick="closePopup()">Okay</button>
         </div>
@@ -481,15 +492,15 @@
         window.addEventListener("scroll", reveal);
         reveal();
 
-        // Popup Logic (Open & Close)
+        // Popup Logic
         function openPopup() {
             document.getElementById('tosPopup').classList.add('active');
-            document.body.style.overflow = 'hidden'; // Rok deta hai background scroll
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closePopup() {
             document.getElementById('tosPopup').classList.remove('active');
-            document.body.style.overflow = 'auto'; // Wapas scroll chalu
+            document.body.style.overflow = 'auto'; 
         }
     </script>
 

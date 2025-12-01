@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Social Media Services - SMFixer Clone</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         /* General Reset aur Fonts */
         * {
@@ -17,6 +20,7 @@
             background-color: #0f172a; /* Dark Blue/Black Background */
             color: #e2e8f0; /* Light Text */
             line-height: 1.6;
+            overflow-x: hidden; /* Side scroll rokne ke liye */
         }
 
         /* Container */
@@ -26,26 +30,54 @@
             padding: 20px;
         }
 
+        /* --- Animation Effects Start --- */
+        
+        /* Ye class un elements par lagegi jo abhi chupe hue hain */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px); /* Thoda neeche se aayega */
+            transition: all 0.8s ease-out; /* Smooth effect 0.8 second ka */
+        }
+
+        /* Jab element screen par dikhega, JS ye class add karega */
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0); /* Apni asli jagah par aayega */
+        }
+
+        /* Header Animation alag se (Left se aayega) */
+        .slide-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 1s ease-out;
+        }
+        .slide-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* --- Animation Effects End --- */
+
         /* Header Section */
         header {
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
             background: linear-gradient(to bottom, #1e293b, #0f172a);
             border-bottom: 1px solid #334155;
         }
 
         header h1 {
-            font-size: 2.5rem;
-            color: #38bdf8; /* Light Blue Accent */
+            font-size: 2.8rem;
+            color: #38bdf8;
             margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
         header p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #94a3b8;
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto 30px auto;
         }
 
@@ -58,35 +90,30 @@
         }
 
         .btn {
-            padding: 12px 30px;
-            font-size: 1rem;
+            padding: 14px 35px;
+            font-size: 1.1rem;
             font-weight: bold;
             text-decoration: none;
             border-radius: 50px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: inline-block;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .btn-telegram {
-            background-color: #229ED9;
-            color: white;
-        }
-
-        .btn-whatsapp {
-            background-color: #25D366;
-            color: white;
-        }
+        .btn-telegram { background-color: #229ED9; color: white; }
+        .btn-whatsapp { background-color: #25D366; color: white; }
 
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
         }
 
         /* Services Grid */
         .section-title {
             text-align: center;
-            font-size: 2rem;
-            margin: 60px 0 40px;
+            font-size: 2.2rem;
+            margin: 80px 0 50px;
             color: #f8fafc;
             position: relative;
         }
@@ -94,148 +121,152 @@
         .section-title::after {
             content: '';
             display: block;
-            width: 60px;
-            height: 3px;
+            width: 80px;
+            height: 4px;
             background: #38bdf8;
-            margin: 10px auto;
+            margin: 15px auto;
+            border-radius: 2px;
         }
 
         .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background-color: #1e293b;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #334155;
+            transition: transform 0.3s, border-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .service-card:hover {
+            border-color: #38bdf8;
+            transform: translateY(-5px); /* Hover karne par thoda upar uthega */
+        }
+
+        .service-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #fff;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Icons Colors */
+        .fa-instagram { color: #E1306C; }
+        .fa-twitter, .fa-x-twitter { color: #1DA1F2; }
+        .fa-whatsapp { color: #25D366; }
+        .fa-tiktok { color: #ff0050; }
+        .fa-facebook { color: #1877F2; }
+        .fa-youtube { color: #FF0000; }
+
+        .service-item {
+            margin-bottom: 18px;
+        }
+
+        .service-name {
+            font-weight: 600;
+            color: #cbd5e1;
+            font-size: 1.05rem;
+            display: block;
+        }
+
+        .service-price {
+            color: #4ade80; 
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .service-time {
+            color: #64748b;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background-color: #1e293b;
+            padding: 35px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            border-left: 5px solid #38bdf8;
+            font-size: 1.1rem;
+        }
+
+        /* Testimonials */
+        .testimonials {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
         }
 
-        .service-card {
-            background-color: #1e293b;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #334155;
-            transition: border-color 0.3s;
-        }
-
-        .service-card:hover {
-            border-color: #38bdf8;
-        }
-
-        .service-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #38bdf8;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 10px;
-        }
-
-        .service-item {
-            margin-bottom: 15px;
-        }
-
-        .service-name {
-            font-weight: bold;
-            color: #fff;
-            display: block;
-        }
-
-        .service-price {
-            color: #4ade80; /* Green for money */
-            font-size: 0.95rem;
-        }
-
-        .service-time {
-            color: #94a3b8;
-            font-size: 0.85rem;
-            font-style: italic;
-        }
-
-        /* Other Sections */
-        .info-box {
-            background-color: #1e293b;
-            padding: 30px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            text-align: center;
-            border-left: 5px solid #38bdf8;
-        }
-
-        .testimonials {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
         .testimonial-card {
             background: #172033;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 3px solid #38bdf8;
+        }
+
+        .testimonial-card p {
             font-style: italic;
+            color: #e2e8f0;
         }
 
         .client-name {
             display: block;
-            margin-top: 10px;
+            margin-top: 15px;
             font-weight: bold;
             color: #38bdf8;
-            font-style: normal;
             text-align: right;
-        }
-
-        /* FAQ Section */
-        .faq-item {
-            background: #1e293b;
-            margin-bottom: 15px;
-            padding: 20px;
-            border-radius: 8px;
-        }
-
-        .faq-question {
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 5px;
-            font-size: 1.1rem;
-        }
-
-        .faq-answer {
-            color: #cbd5e1;
         }
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 40px 20px;
-            margin-top: 60px;
+            padding: 50px 20px;
+            margin-top: 80px;
             border-top: 1px solid #334155;
             color: #64748b;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
 
-        /* Mobile Responsive adjustments */
+        /* Responsive Fixes */
         @media (max-width: 600px) {
-            header h1 { font-size: 1.8rem; }
-            .btn { width: 100%; text-align: center; margin-bottom: 10px; }
+            header h1 { font-size: 2rem; }
+            .btn { width: 100%; justify-content: center; }
+            .container { padding: 15px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
+        <div class="container slide-left reveal">
             <h1>Premium Social Media Services</h1>
             <p>Trusted • Private • Efficient — Services across Instagram, Twitter, WhatsApp, TikTok, Facebook, YouTube and more.</p>
             
             <div class="cta-buttons">
-                <a href="#" class="btn btn-telegram">Telegram</a>
-                <a href="#" class="btn btn-whatsapp">WhatsApp</a>
+                <a href="#" class="btn btn-telegram"><i class="fa-brands fa-telegram"></i> Telegram</a>
+                <a href="#" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
             </div>
         </div>
     </header>
 
     <div class="container">
 
-        <h2 class="section-title">Our Services</h2>
+        <h2 class="section-title reveal">Our Services</h2>
         <div class="services-grid">
             
-            <div class="service-card">
-                <h3>Instagram</h3>
+            <div class="service-card reveal">
+                <h3><i class="fa-brands fa-instagram"></i> Instagram</h3>
                 <div class="service-item">
                     <span class="service-name">Removal</span>
                     <span class="service-price">Starting Price - $250</span><br>
@@ -253,8 +284,8 @@
                 </div>
             </div>
 
-            <div class="service-card">
-                <h3>Twitter</h3>
+            <div class="service-card reveal">
+                <h3><i class="fa-brands fa-twitter"></i> Twitter / X</h3>
                 <div class="service-item">
                     <span class="service-name">Removal</span>
                     <span class="service-price">Starting Price - $5000</span><br>
@@ -267,8 +298,8 @@
                 </div>
             </div>
 
-            <div class="service-card">
-                <h3>WhatsApp</h3>
+            <div class="service-card reveal">
+                <h3><i class="fa-brands fa-whatsapp"></i> WhatsApp</h3>
                 <div class="service-item">
                     <span class="service-name">Removal (Ban)</span>
                     <span class="service-price">Price - $300</span><br>
@@ -281,8 +312,8 @@
                 </div>
             </div>
 
-            <div class="service-card">
-                <h3>TikTok</h3>
+            <div class="service-card reveal">
+                <h3><i class="fa-brands fa-tiktok"></i> TikTok</h3>
                 <div class="service-item">
                     <span class="service-name">Removal</span>
                     <span class="service-price">Starting Price - $299</span><br>
@@ -295,8 +326,8 @@
                 </div>
             </div>
 
-            <div class="service-card">
-                <h3>Facebook</h3>
+            <div class="service-card reveal">
+                <h3><i class="fa-brands fa-facebook"></i> Facebook</h3>
                 <div class="service-item">
                     <span class="service-name">Removal</span>
                     <span class="service-price">Starting Price - $500</span><br>
@@ -309,8 +340,8 @@
                 </div>
             </div>
 
-             <div class="service-card">
-                <h3>YouTube</h3>
+             <div class="service-card reveal">
+                <h3><i class="fa-brands fa-youtube"></i> YouTube</h3>
                 <div class="service-item">
                     <span class="service-name">Channel Removal</span>
                     <span class="service-price">Price - $3000</span><br>
@@ -325,53 +356,70 @@
 
         </div>
 
-        <h2 class="section-title">Other Services</h2>
-        <div class="info-box">
-            <p>We also provide services for other platforms like Reddit, OnlyFans, Airbnb, and more. For assistance, contact us on the WhatsApp number or Telegram link provided above.</p>
+        <h2 class="section-title reveal">Other Services</h2>
+        <div class="info-box reveal">
+            <p>We also provide services for other platforms like Reddit, OnlyFans, Airbnb, and more. Contact us via Telegram or WhatsApp.</p>
         </div>
 
-        <h2 class="section-title">Important Notice</h2>
-        <div class="info-box" style="border-left-color: #ef4444;">
+        <h2 class="section-title reveal">Important Notice</h2>
+        <div class="info-box reveal" style="border-left-color: #ef4444;">
             <p>We only perform account removals or takedowns for platforms if the account is violating the platform's community guidelines or copying your legally owned content.</p>
         </div>
 
-        <h2 class="section-title">Client Testimonials</h2>
+        <h2 class="section-title reveal">Client Testimonials</h2>
         <div class="testimonials">
-            <div class="testimonial-card">
+            <div class="testimonial-card reveal" style="transition-delay: 100ms;">
                 <p>“Amazing service, recovered my Instagram within 24 hours!”</p>
                 <span class="client-name">— Client A</span>
             </div>
-            <div class="testimonial-card">
+            <div class="testimonial-card reveal" style="transition-delay: 200ms;">
                 <p>“Professional and trustworthy, highly recommend.”</p>
                 <span class="client-name">— Client B</span>
             </div>
-            <div class="testimonial-card">
+            <div class="testimonial-card reveal" style="transition-delay: 300ms;">
                 <p>“Excellent support for YouTube channel recovery, saved my content!”</p>
                 <span class="client-name">— Client C</span>
             </div>
         </div>
 
-        <h2 class="section-title">FAQs</h2>
-        <div class="faq-section">
-            <div class="faq-item">
-                <div class="faq-question">How do I request a service?</div>
-                <div class="faq-answer">Click the Telegram or WhatsApp button and send us your case details.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">How do I pay?</div>
-                <div class="faq-answer">Payment instructions will be shared after your initial inquiry. We accept secure and verified payment methods only.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">Do I get a refund if a service fails?</div>
-                <div class="faq-answer">Yes, you will receive the exact amount you sent us if the requested service fails to deliver as promised.</div>
-            </div>
+        <h2 class="section-title reveal">FAQs</h2>
+        <div class="info-box reveal">
+            <p style="text-align: left; margin-bottom: 10px;"><strong>Q: How do I request a service?</strong><br>A: Click the Telegram or WhatsApp button above.</p>
+            <p style="text-align: left; margin-bottom: 10px;"><strong>Q: How do I pay?</strong><br>A: Payment details are shared after inquiry. Secure methods only.</p>
+            <p style="text-align: left;"><strong>Q: Do I get a refund if it fails?</strong><br>A: Yes, 100% refund if we fail to deliver.</p>
         </div>
 
     </div>
 
     <footer>
-        <p>&copy; 2025 SMFixer.site — All Rights Reserved.</p>
+        <p class="reveal">&copy; 2025 SMFixer.site — All Rights Reserved.</p>
     </footer>
+
+    <script>
+        // Ye script check karega ki user screen par kahan hai
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // Element kitna upar aane par dikhe
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                } else {
+                    // Agar wapas chupana ho upar jaane par toh ye line uncomment karein:
+                    // reveals[i].classList.remove("active");
+                }
+            }
+        }
+
+        // Jab user scroll karega, tab function chalega
+        window.addEventListener("scroll", reveal);
+
+        // Page load hote hi ek baar check karo
+        reveal();
+    </script>
 
 </body>
 </html>

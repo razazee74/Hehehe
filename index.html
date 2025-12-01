@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genix Media Clone | अंतिम ऑप्टिमाइज़ेशन</title>
+    <title>Genix Media Clone | हॉरिजॉन्टल फिक्स</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
@@ -14,7 +14,7 @@
         :root {
             --dark-bg: #111;
             --light-text: #f0f0f0;
-            --accent-color: #00ffc4; /* Neon Green/Cyan */
+            --accent-color: #00ffc4;
             --card-bg: #1c1c1c;
             --border-color: #333;
             --section-padding: 80px 0;
@@ -32,22 +32,14 @@
             background-color: var(--dark-bg);
             color: var(--light-text);
             line-height: 1.6;
-            overflow-x: hidden; /* **मुख्य फिक्स:** अनावश्यक हॉरिजॉन्टल स्क्रॉलिंग को पूरी तरह से रोकता है */
+            overflow-x: hidden; /* **फाइनल फिक्स 1:** मुख्य ओवरफ्लो कंट्रोल */
         }
 
         a { color: var(--accent-color); text-decoration: none; transition: color 0.3s; }
         a:hover { color: #00e6b3; }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: var(--container-padding);
-        }
-
-        /* Top Bar */
+        .container { max-width: 1200px; margin: 0 auto; padding: var(--container-padding); }
         .top-bar { background-color: var(--accent-color); color: #111; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 600; }
-        
-        /* Header & Navigation */
         header { background-color: var(--dark-bg); padding: 15px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
         .navbar { display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 24px; font-weight: 700; color: var(--light-text); }
@@ -56,8 +48,6 @@
         .nav-links a { color: var(--light-text); font-weight: 500; padding: 5px 0; transition: color 0.3s; }
         .nav-links a:hover { color: var(--accent-color); }
         .menu-toggle { display: none; font-size: 24px; cursor: pointer; }
-        
-        /* Buttons */
         .btn { background-color: var(--accent-color); color: #111; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: 700; transition: background-color 0.3s, transform 0.2s; display: inline-block; }
         .btn:hover { background-color: #00e6b3; transform: translateY(-2px); }
         
@@ -67,17 +57,13 @@
         #hero p { font-size: 20px; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; color: #aaa; }
         
         /* Sections */
-        section { padding: var(--section-padding); }
+        section { padding: var(--section-padding); overflow: hidden; /* **फाइनल फिक्स 2:** सुनिश्चित करता है कि कोई भी सेक्शन बाहर न जाए */ }
         h2 { font-size: 36px; text-align: center; margin-bottom: 50px; font-weight: 700; }
         
         /* Services/Features Grid */
         .grid-3 { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 30px; 
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: var(--container-padding);
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; 
+            max-width: 1200px; margin: 0 auto; padding: var(--container-padding);
         }
         
         .card { background-color: var(--card-bg); padding: 30px; border-radius: 10px; border: 1px solid var(--border-color); transition: transform 0.3s, box-shadow 0.3s; }
@@ -92,13 +78,10 @@
             background-color: #0c0c0c; 
             padding: 80px 0; 
             white-space: nowrap; 
-            overflow-x: hidden; /* **मुख्य फिक्स:** स्लाइडर कंटेनर के लिए भी ओवरफ्लो को हिडन करें */
-            position: relative; /* एनीमेशन को सही से काम करने के लिए */
+            overflow-x: hidden; 
+            position: relative; 
         }
-        .slider-container { 
-            overflow: hidden; 
-            padding: 20px 0; 
-        }
+        .slider-container { overflow: hidden; padding: 20px 0; }
         .testimonials-wrapper { 
             display: flex; 
             width: max-content; 
@@ -143,25 +126,20 @@
            ==================== */
         @media (max-width: 768px) {
             
-            /* मुख्य हेडिंग्स को थोड़ा छोटा करें */
             #hero h1 { font-size: 32px; }
             h2 { font-size: 28px; }
-
-            /* मोबाइल मेनू */
             .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background-color: var(--dark-bg); position: absolute; top: 60px; left: 0; padding: 10px 0; border-top: 1px solid var(--border-color); z-index: 10; }
             .nav-links.active { display: flex; }
             .menu-toggle { display: block; }
-            
-            /* फुटर कॉलम */
             .footer-col { width: 45%; }
             
-            /* **मुख्य फिक्स:** टेस्टिमोनियल साइज़ ऑप्टिमाइज़ेशन (और छोटा और पतला) */
+            /* **फाइनल फिक्स 3:** टेस्टिमोनियल साइज़ ऑप्टिमाइज़ेशन (और छोटा और पतला) */
             .testimonial-box { 
-                /* अब, कार्ड्स स्क्रीन की चौड़ाई का लगभग 70% होंगे */
-                min-width: calc(70vw - 20px); 
-                width: calc(70vw - 20px);
-                padding: 25px 15px; /* अंदर की पैडिंग भी कम करें */
-                margin-right: 15px; /* कार्ड्स के बीच की जगह */
+                /* कार्ड अब व्यू पोर्ट चौड़ाई का लगभग 65% होगा, जिससे अगला कार्ड ज़्यादा दिखेगा */
+                min-width: 65vw; 
+                width: 65vw;
+                padding: 25px 15px; 
+                margin-right: 15px; 
             }
         }
     </style>

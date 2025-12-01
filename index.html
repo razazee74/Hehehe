@@ -3,256 +3,375 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genix Media Clone | हॉरिजॉन्टल फिक्स</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+    <title>Premium Social Media Services - SMFixer Clone</title>
     <style>
-        /* ====================
-           CSS Styles
-           ==================== */
-        :root {
-            --dark-bg: #111;
-            --light-text: #f0f0f0;
-            --accent-color: #00ffc4;
-            --card-bg: #1c1c1c;
-            --border-color: #333;
-            --section-padding: 80px 0;
-            --container-padding: 0 20px;
-        }
-
+        /* General Reset aur Fonts */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--dark-bg);
-            color: var(--light-text);
+            background-color: #0f172a; /* Dark Blue/Black Background */
+            color: #e2e8f0; /* Light Text */
             line-height: 1.6;
-            overflow-x: hidden; /* **फाइनल फिक्स 1:** मुख्य ओवरफ्लो कंट्रोल */
         }
 
-        a { color: var(--accent-color); text-decoration: none; transition: color 0.3s; }
-        a:hover { color: #00e6b3; }
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: var(--container-padding); }
-        .top-bar { background-color: var(--accent-color); color: #111; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 600; }
-        header { background-color: var(--dark-bg); padding: 15px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: 700; color: var(--light-text); }
-        .nav-links { list-style: none; display: flex; }
-        .nav-links li { margin-left: 25px; }
-        .nav-links a { color: var(--light-text); font-weight: 500; padding: 5px 0; transition: color 0.3s; }
-        .nav-links a:hover { color: var(--accent-color); }
-        .menu-toggle { display: none; font-size: 24px; cursor: pointer; }
-        .btn { background-color: var(--accent-color); color: #111; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: 700; transition: background-color 0.3s, transform 0.2s; display: inline-block; }
-        .btn:hover { background-color: #00e6b3; transform: translateY(-2px); }
-        
-        /* Hero Section */
-        #hero { padding: 100px 20px; text-align: center; }
-        #hero h1 { font-size: 48px; margin-bottom: 20px; font-weight: 800; }
-        #hero p { font-size: 20px; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; color: #aaa; }
-        
-        /* Sections */
-        section { padding: var(--section-padding); overflow: hidden; /* **फाइनल फिक्स 2:** सुनिश्चित करता है कि कोई भी सेक्शन बाहर न जाए */ }
-        h2 { font-size: 36px; text-align: center; margin-bottom: 50px; font-weight: 700; }
-        
-        /* Services/Features Grid */
-        .grid-3 { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; 
-            max-width: 1200px; margin: 0 auto; padding: var(--container-padding);
+        /* Header Section */
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(to bottom, #1e293b, #0f172a);
+            border-bottom: 1px solid #334155;
         }
-        
-        .card { background-color: var(--card-bg); padding: 30px; border-radius: 10px; border: 1px solid var(--border-color); transition: transform 0.3s, box-shadow 0.3s; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 255, 196, 0.1); }
-        .card i { font-size: 30px; color: var(--accent-color); margin-bottom: 15px; }
-        .card h3 { margin-bottom: 10px; font-size: 20px; }
 
-        /* ====================
-           टेस्टिमोनियल स्लाइडर CSS
-           ==================== */
-        #testimonials { 
-            background-color: #0c0c0c; 
-            padding: 80px 0; 
-            white-space: nowrap; 
-            overflow-x: hidden; 
-            position: relative; 
+        header h1 {
+            font-size: 2.5rem;
+            color: #38bdf8; /* Light Blue Accent */
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
-        .slider-container { overflow: hidden; padding: 20px 0; }
-        .testimonials-wrapper { 
-            display: flex; 
-            width: max-content; 
-            animation: autoScroll 30s linear infinite; 
-            animation-play-state: running; 
+
+        header p {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
         }
-        .testimonials-wrapper:hover { animation-play-state: paused; }
+
+        /* Contact Buttons */
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-block;
+        }
+
+        .btn-telegram {
+            background-color: #229ED9;
+            color: white;
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Services Grid */
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin: 60px 0 40px;
+            color: #f8fafc;
+            position: relative;
+        }
         
-        /* डेस्कटॉप के लिए टेस्टिमोनियल कार्ड की चौड़ाई */
-        .testimonial-box { 
-            min-width: 350px; 
-            width: 350px;
-            margin-right: 30px; 
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #38bdf8;
+            margin: 10px auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .service-card {
+            background-color: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            transition: border-color 0.3s;
+        }
+
+        .service-card:hover {
+            border-color: #38bdf8;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #38bdf8;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
+        }
+
+        .service-item {
+            margin-bottom: 15px;
+        }
+
+        .service-name {
+            font-weight: bold;
+            color: #fff;
+            display: block;
+        }
+
+        .service-price {
+            color: #4ade80; /* Green for money */
+            font-size: 0.95rem;
+        }
+
+        .service-time {
+            color: #94a3b8;
+            font-size: 0.85rem;
             font-style: italic;
-            padding: 40px;
-            border-left: 5px solid var(--accent-color);
-            background-color: var(--card-bg);
-            border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            flex-shrink: 0; 
-            white-space: normal; 
         }
 
-        .testimonial-box p:first-child { margin-bottom: 15px; font-size: 18px; }
-        @keyframes autoScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } } 
+        /* Other Sections */
+        .info-box {
+            background-color: #1e293b;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            border-left: 5px solid #38bdf8;
+        }
 
-        /* CTA और Footer */
-        #contact { text-align: center; padding: 60px 0; }
-        footer { background-color: #0c0c0c; padding: 40px 0; border-top: 1px solid var(--border-color); font-size: 14px; }
-        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: var(--container-padding);}
-        .footer-col { width: 200px; margin-bottom: 20px; }
-        .footer-col h4 { font-size: 16px; margin-bottom: 15px; color: var(--accent-color); }
-        .footer-col ul { list-style: none; }
-        .footer-col ul li { margin-bottom: 8px; }
-        .footer-col a { color: #aaa; }
-        .footer-col a:hover { color: var(--light-text); }
-        .social-icons a { font-size: 20px; margin-right: 15px; color: #aaa; }
-        .copyright { text-align: center; width: 100%; margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border-color); color: #777; }
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
 
-        /* ====================
-           Responsive Design (मोबाइल ऑप्टिमाइज़ेशन)
-           ==================== */
-        @media (max-width: 768px) {
-            
-            #hero h1 { font-size: 32px; }
-            h2 { font-size: 28px; }
-            .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background-color: var(--dark-bg); position: absolute; top: 60px; left: 0; padding: 10px 0; border-top: 1px solid var(--border-color); z-index: 10; }
-            .nav-links.active { display: flex; }
-            .menu-toggle { display: block; }
-            .footer-col { width: 45%; }
-            
-            /* **फाइनल फिक्स 3:** टेस्टिमोनियल साइज़ ऑप्टिमाइज़ेशन (और छोटा और पतला) */
-            .testimonial-box { 
-                /* कार्ड अब व्यू पोर्ट चौड़ाई का लगभग 65% होगा, जिससे अगला कार्ड ज़्यादा दिखेगा */
-                min-width: 65vw; 
-                width: 65vw;
-                padding: 25px 15px; 
-                margin-right: 15px; 
-            }
+        .testimonial-card {
+            background: #172033;
+            padding: 20px;
+            border-radius: 8px;
+            font-style: italic;
+        }
+
+        .client-name {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #38bdf8;
+            font-style: normal;
+            text-align: right;
+        }
+
+        /* FAQ Section */
+        .faq-item {
+            background: #1e293b;
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .faq-question {
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .faq-answer {
+            color: #cbd5e1;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            border-top: 1px solid #334155;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsive adjustments */
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.8rem; }
+            .btn { width: 100%; text-align: center; margin-bottom: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="top-bar">Limited Spots Left! Elevate Your Brand's Voice</div>
     <header>
-        <div class="container navbar">
-            <div class="logo" data-aos="fade-down" data-aos-duration="1000">GENIX.MEDIA</div>
-            <nav>
-                <ul class="nav-links" id="navMenu">
-                    <li data-aos="fade-down" data-aos-delay="100"><a href="#services">Services</a></li>
-                    <li data-aos="fade-down" data-aos-delay="200"><a href="#features">Features</a></li>
-                    <li data-aos="fade-down" data-aos-delay="300"><a href="#testimonials">Testimonials</a></li>
-                    <li data-aos="fade-down" data-aos-delay="400"><a href="#portfolio">Portfolio</a></li>
-                    <li data-aos="fade-down" data-aos-delay="500"><a href="#faqs">FAQs</a></li>
-                    <li data-aos="fade-down" data-aos-delay="600"><a href="#contact" class="btn">Get Started</a></li>
-                </ul>
-            </nav>
-            <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
+        <div class="container">
+            <h1>Premium Social Media Services</h1>
+            <p>Trusted • Private • Efficient — Services across Instagram, Twitter, WhatsApp, TikTok, Facebook, YouTube and more.</p>
+            
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-telegram">Telegram</a>
+                <a href="#" class="btn btn-whatsapp">WhatsApp</a>
+            </div>
         </div>
     </header>
 
-    <section id="hero">
-        <h1 data-aos="fade-up" data-aos-duration="1000">Elevate Your Brand's Voice</h1>
-        <p data-aos="fade-up" data-aos-delay="300">Expert social media management that drives engagement, builds your brand, and boosts your bottom line.</p>
-        <a href="#contact" class="btn" data-aos="fade-up" data-aos-delay="600">Get Started Today</a>
-    </section>
+    <div class="container">
 
-    <section id="services">
-        <h2 data-aos="fade-in">Take Your Social Media to New Heights</h2>
-        <div class="grid-3">
-            <div class="card" data-aos="fade-right" data-aos-delay="100"> <i class="fas fa-chart-line"></i> <h3>Organic Growth & Engagement</h3> <p>Strategies to naturally attract and retain an audience, boosting followers and reach through non-paid methods.</p> </div>
-            <div class="card" data-aos="fade-up" data-aos-delay="300"> <i class="fas fa-bullhorn"></i> <h3>Paid Advertising & Promotions</h3> <p>Planning, managing, and optimizing paid ad campaigns to drive traffic, conversions, and brand visibility efficiently.</p> </div>
-            <div class="card" data-aos="fade-left" data-aos-delay="500"> <i class="fas fa-users"></i> <h3>Influencer Collaboration</h3> <p>Tools to connect with influencers, manage partnerships, and streamline communication for authentic reach.</p> </div>
-            <div class="card" data-aos="fade-right" data-aos-delay="100"> <i class="fas fa-shield-alt"></i> <h3>Account Services & Support</h3> <p>Technical support for account protection, handling bans or verifications, and securing specific usernames.</p> </div>
+        <h2 class="section-title">Our Services</h2>
+        <div class="services-grid">
+            
+            <div class="service-card">
+                <h3>Instagram</h3>
+                <div class="service-item">
+                    <span class="service-name">Removal</span>
+                    <span class="service-price">Starting Price - $250</span><br>
+                    <span class="service-time">Turnaround: 0-72 hours</span>
+                </div>
+                <div class="service-item">
+                    <span class="service-name">Recovery</span>
+                    <span class="service-price">Normal - $2500 | Copyright - $3500</span><br>
+                    <span class="service-time">Turnaround: 0-24 hours</span>
+                </div>
+                <div class="service-item">
+                    <span class="service-name">Verification</span>
+                    <span class="service-price">Price - $7000+</span><br>
+                    <span class="service-time">Turnaround: 0-1 week</span>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <h3>Twitter</h3>
+                <div class="service-item">
+                    <span class="service-name">Removal</span>
+                    <span class="service-price">Starting Price - $5000</span><br>
+                    <span class="service-time">Turnaround: 0-1 week</span>
+                </div>
+                <div class="service-item">
+                    <span class="service-name">Recovery</span>
+                    <span class="service-price">Starting Price - $10000</span><br>
+                    <span class="service-time">Turnaround: 0-1 week</span>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <h3>WhatsApp</h3>
+                <div class="service-item">
+                    <span class="service-name">Removal (Ban)</span>
+                    <span class="service-price">Price - $300</span><br>
+                    <span class="service-time">Turnaround: 0-72 hours</span>
+                </div>
+                <div class="service-item">
+                    <span class="service-name">Recovery (Unban)</span>
+                    <span class="service-price">Price - $999</span><br>
+                    <span class="service-time">Turnaround: 0-1 week</span>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <h3>TikTok</h3>
+                <div class="service-item">
+                    <span class="service-name">Removal</span>
+                    <span class="service-price">Starting Price - $299</span><br>
+                    <span class="service-time">Turnaround: 0-48 hours</span>
+                </div>
+                <div class="service-item">
+                    <span class="service-name">Verification</span>
+                    <span class="service-price">Price - $5000</span><br>
+                    <span class="service-time">Turnaround: 0-2 weeks</span>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <h3>Facebook</h3>
+                <div class="service-item">
+                    <span class="service-name">Removal</span>
+                    <span class="service-price">Starting Price - $500</span><br>
+                    <span class="service-time">Turnaround: 0-1 week</span>
+                </div>
+                <div class="service-item">
+                    <span class="service-name">Recovery</span>
+                    <span class="service-price">Starting Price - $3000</span><br>
+                    <span class="service-time">Turnaround: 0-48 hours</span>
+                </div>
+            </div>
+
+             <div class="service-card">
+                <h3>YouTube</h3>
+                <div class="service-item">
+                    <span class="service-name">Channel Removal</span>
+                    <span class="service-price">Price - $3000</span><br>
+                    <span class="service-time">Turnaround: 0-1 week</span>
+                </div>
+                <div class="service-item">
+                    <span class="service-name">Video Removal</span>
+                    <span class="service-price">Price - $500 per video</span><br>
+                    <span class="service-time">Turnaround: 0-72 hours</span>
+                </div>
+            </div>
+
         </div>
-    </section>
 
-    <section id="features">
-        <h2 data-aos="fade-in">Why Choose Us for Success?</h2>
-        <div class="grid-3">
-            <div class="card" data-aos="zoom-in" data-aos-delay="100"> <i class="fas fa-pencil-alt"></i> <h3>Creation</h3> <p>Tailored posts that resonate with your audience, boosting engagement and brand loyalty.</p> </div>
-            <div class="card" data-aos="zoom-in" data-aos-delay="300"> <i class="fas fa-tasks"></i> <h3>Management</h3> <p>Seamless management of all your social media accounts for consistent and effective communication.</p> </div>
-            <div class="card" data-aos="zoom-in" data-aos-delay="500"> <i class="fas fa-chart-bar"></i> <h3>Analytics</h3> <p>Detailed reports that offer insights into your performance, helping you refine your strategy.</p> </div>
+        <h2 class="section-title">Other Services</h2>
+        <div class="info-box">
+            <p>We also provide services for other platforms like Reddit, OnlyFans, Airbnb, and more. For assistance, contact us on the WhatsApp number or Telegram link provided above.</p>
         </div>
-    </section>
 
-    <section id="testimonials">
-        <h2 data-aos="fade-in">Trusted by Brands That Matter</h2>
-        <div class="slider-container" data-aos="fade-up" data-aos-delay="300">
-            <div class="testimonials-wrapper">
-                
-                <div class="testimonial-box"><p>"Genix transformed our brand's online presence! Engagement has doubled, and we're connecting with our audience."</p><p><strong>— Exam Edge</strong>, EdTech Initiative</p></div>
-                <div class="testimonial-box"><p>"Amazing service! Genix Media's influencer collaboration tools helped us reach new customers through authentic partnerships."</p><p><strong>— Ravi Photo</strong>, Zolo Startup</p></div>
-                <div class="testimonial-box"><p>"Genix Media completely revolutionized our social media! Managing posts has never been easier."</p><p><strong>— Melissa C.</strong>, Brand Manager</p></div>
-                <div class="testimonial-box"><p>"The insights we get from Genix Media's analytics are invaluable. They've helped us fine-tune our strategy."</p><p><strong>— Tom Photo</strong>, CorePulseFit</p></div>
-                
-                <div class="testimonial-box"><p>"Genix transformed our brand's online presence! Engagement has doubled, and we're connecting with our audience."</p><p><strong>— Exam Edge</strong>, EdTech Initiative</p></div>
-                <div class="testimonial-box"><p>"Amazing service! Genix Media's influencer collaboration tools helped us reach new customers through authentic partnerships."</p><p><strong>— Ravi Photo</strong>, Zolo Startup</p></div>
-                <div class="testimonial-box"><p>"Genix Media completely revolutionized our social media! Managing posts has never been easier."</p><p><strong>— Melissa C.</strong>, Brand Manager</p></div>
-                <div class="testimonial-box"><p>"The insights we get from Genix Media's analytics are invaluable. They've helped us fine-tune our strategy."</p><p><strong>— Tom Photo</strong>, CorePulseFit</p></div>
+        <h2 class="section-title">Important Notice</h2>
+        <div class="info-box" style="border-left-color: #ef4444;">
+            <p>We only perform account removals or takedowns for platforms if the account is violating the platform's community guidelines or copying your legally owned content.</p>
+        </div>
+
+        <h2 class="section-title">Client Testimonials</h2>
+        <div class="testimonials">
+            <div class="testimonial-card">
+                <p>“Amazing service, recovered my Instagram within 24 hours!”</p>
+                <span class="client-name">— Client A</span>
+            </div>
+            <div class="testimonial-card">
+                <p>“Professional and trustworthy, highly recommend.”</p>
+                <span class="client-name">— Client B</span>
+            </div>
+            <div class="testimonial-card">
+                <p>“Excellent support for YouTube channel recovery, saved my content!”</p>
+                <span class="client-name">— Client C</span>
             </div>
         </div>
-    </section>
 
-    <section id="contact" class="container">
-        <h2 data-aos="fade-in">Ready to Elevate Your Social Media Game?</h2>
-        <p data-aos="fade-in" data-aos-delay="200">Limited Spots Left! Get in touch today to reserve your slot.</p>
-        <a href="#" class="btn" style="margin-top: 20px;" data-aos="zoom-in" data-aos-delay="400">Send Us a Message</a>
-    </section>
+        <h2 class="section-title">FAQs</h2>
+        <div class="faq-section">
+            <div class="faq-item">
+                <div class="faq-question">How do I request a service?</div>
+                <div class="faq-answer">Click the Telegram or WhatsApp button and send us your case details.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How do I pay?</div>
+                <div class="faq-answer">Payment instructions will be shared after your initial inquiry. We accept secure and verified payment methods only.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Do I get a refund if a service fails?</div>
+                <div class="faq-answer">Yes, you will receive the exact amount you sent us if the requested service fails to deliver as promised.</div>
+            </div>
+        </div>
+
+    </div>
 
     <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-col" data-aos="fade-right"><h4>GENIX.MEDIA</h4> <p>Elevating brands in the digital world.</p> <div class="social-icons" style="margin-top: 15px;"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a></div></div>
-                <div class="footer-col" data-aos="fade-up" data-aos-delay="100"><h4>Quick Links</h4> <ul><li><a href="#services">Services</a></li><li><a href="#features">Features</a></li><li><a href="#testimonials">Testimonials</a></li><li><a href="#">Pricing</a></li></ul></div>
-                <div class="footer-col" data-aos="fade-up" data-aos-delay="200"><h4>Support</h4> <ul><li><a href="#">Contact Us</a></li><li><a href="#faqs">FAQs</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
-                <div class="footer-col" data-aos="fade-left" data-aos-delay="300"><h4>Contact</h4> <ul><li><a href="mailto:contact@genix.media">contact@genix.media</a></li></ul></div>
-            </div>
-            <div class="copyright">
-                © 2024 Genix Media Clone. All rights reserved.
-            </div>
-        </div>
+        <p>&copy; 2025 SMFixer.site — All Rights Reserved.</p>
     </footer>
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <script>
-        // AOS को शुरू (Initialize) करें
-        AOS.init({
-            duration: 800, 
-            once: true,    
-        });
-
-        // Mobile Menu Toggle Script
-        const menuToggle = document.getElementById('menuToggle');
-        const navMenu = document.getElementById('navMenu');
-
-        menuToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
-
-        // Hide menu after clicking a link (for single-page navigation)
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    navMenu.classList.remove('active');
-                }
-            });
-        });
-    </script>
 
 </body>
 </html>

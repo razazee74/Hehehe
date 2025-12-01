@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genix Media Clone | मोबाइल ऑप्टिमाइज़्ड</title>
+    <title>Genix Media Clone | अंतिम ऑप्टिमाइज़ेशन</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
@@ -32,7 +32,7 @@
             background-color: var(--dark-bg);
             color: var(--light-text);
             line-height: 1.6;
-            overflow-x: hidden; /* **मुख्य फिक्स:** अनावश्यक हॉरिजॉन्टल स्क्रॉलिंग को रोकता है */
+            overflow-x: hidden; /* **मुख्य फिक्स:** अनावश्यक हॉरिजॉन्टल स्क्रॉलिंग को पूरी तरह से रोकता है */
         }
 
         a { color: var(--accent-color); text-decoration: none; transition: color 0.3s; }
@@ -92,7 +92,8 @@
             background-color: #0c0c0c; 
             padding: 80px 0; 
             white-space: nowrap; 
-            overflow: hidden; /* **मुख्य फिक्स:** स्लाइडर कंटेनर के लिए भी ओवरफ्लो को हिडन करें */
+            overflow-x: hidden; /* **मुख्य फिक्स:** स्लाइडर कंटेनर के लिए भी ओवरफ्लो को हिडन करें */
+            position: relative; /* एनीमेशन को सही से काम करने के लिए */
         }
         .slider-container { 
             overflow: hidden; 
@@ -154,12 +155,13 @@
             /* फुटर कॉलम */
             .footer-col { width: 45%; }
             
-            /* **मुख्य फिक्स:** टेस्टिमोनियल साइज़ ऑप्टिमाइज़ेशन */
+            /* **मुख्य फिक्स:** टेस्टिमोनियल साइज़ ऑप्टिमाइज़ेशन (और छोटा और पतला) */
             .testimonial-box { 
-                min-width: calc(80vw - 30px); /* 80% व्यूपोर्ट चौड़ाई, मार्जिन को एडजस्ट करते हुए */
-                width: calc(80vw - 30px); /* 80% व्यूपोर्ट चौड़ाई */
-                padding: 30px 20px; 
-                margin-right: 20px; /* कार्ड्स के बीच की जगह */
+                /* अब, कार्ड्स स्क्रीन की चौड़ाई का लगभग 70% होंगे */
+                min-width: calc(70vw - 20px); 
+                width: calc(70vw - 20px);
+                padding: 25px 15px; /* अंदर की पैडिंग भी कम करें */
+                margin-right: 15px; /* कार्ड्स के बीच की जगह */
             }
         }
     </style>
@@ -276,4 +278,3 @@
 
 </body>
 </html>
-

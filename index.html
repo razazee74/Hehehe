@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preemium Socihshsal Media Services - SMFixer Clone</title>
+    <title>Premium Social Media Services - SMFixer Clone</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -29,7 +29,7 @@
             padding: 20px;
         }
 
-        /* --- Animations --- */
+        /* --- Scroll Animations --- */
         .reveal {
             opacity: 0;
             transform: translateY(50px);
@@ -73,7 +73,7 @@
             margin: 0 auto 30px auto;
         }
 
-        /* Buttons with Icons */
+        /* Header Buttons */
         .cta-buttons {
             display: flex;
             justify-content: center;
@@ -88,24 +88,16 @@
             text-decoration: none;
             border-radius: 50px;
             transition: transform 0.3s, box-shadow 0.3s;
-            display: inline-flex; /* Icon aur text ko line me laane ke liye */
+            display: inline-flex;
             align-items: center;
             gap: 10px;
         }
-
-        .btn i {
-            font-size: 1.3rem; /* Icon ka size */
-        }
-
+        .btn i { font-size: 1.3rem; }
         .btn-telegram { background-color: #229ED9; color: white; }
         .btn-whatsapp { background-color: #25D366; color: white; }
+        .btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
 
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-        }
-
-        /* Services */
+        /* Services Grid */
         .section-title {
             text-align: center;
             font-size: 2.2rem;
@@ -113,7 +105,6 @@
             color: #f8fafc;
             position: relative;
         }
-        
         .section-title::after {
             content: '';
             display: block;
@@ -138,12 +129,10 @@
             transition: transform 0.3s, border-color 0.3s;
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
         }
-
         .service-card:hover {
             border-color: #38bdf8;
             transform: translateY(-5px);
         }
-
         .service-card h3 {
             font-size: 1.6rem;
             margin-bottom: 20px;
@@ -155,7 +144,7 @@
             gap: 12px;
         }
 
-        /* Service Icons Colors */
+        /* Icons Colors */
         .fa-instagram { color: #E1306C; }
         .fa-twitter { color: #1DA1F2; }
         .fa-whatsapp { color: #25D366; }
@@ -178,13 +167,11 @@
             font-size: 1.1rem;
         }
 
-        /* Testimonials */
         .testimonials {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
         }
-
         .testimonial-card {
             background: #172033;
             padding: 25px;
@@ -194,7 +181,6 @@
         .testimonial-card p { font-style: italic; color: #e2e8f0; }
         .client-name { display: block; margin-top: 15px; font-weight: bold; color: #38bdf8; text-align: right; }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 40px 20px;
@@ -205,9 +191,122 @@
             font-size: 0.95rem;
         }
 
+        /* --- FLOATING SHIELD & POPUP STYLES --- */
+
+        /* The Round Shield Button */
+        .shield-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 65px;
+            height: 65px;
+            background-color: #FFD700; /* Gold/Yellow Color */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            z-index: 999;
+            transition: transform 0.3s ease;
+        }
+
+        .shield-btn:hover {
+            transform: scale(1.1); /* Hover karne par bada hoga */
+        }
+
+        .shield-btn i {
+            color: #0f172a; /* Shield Icon Dark Blue */
+            font-size: 30px;
+        }
+
+        /* The Modal Background Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85); /* Dark background behind popup */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            
+            /* Hidden by default */
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Active class to show modal */
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* The Popup Box */
+        .modal-content {
+            background: #1e293b;
+            width: 90%;
+            max-width: 450px;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #FFD700; /* Yellow Border matching button */
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-content h2 {
+            color: #FFD700;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .tos-text {
+            color: #cbd5e1;
+            font-size: 1rem;
+            text-align: left;
+            max-height: 300px;
+            overflow-y: auto; /* Scroll if text is too long */
+            margin-bottom: 25px;
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .tos-text li {
+            margin-bottom: 8px;
+            margin-left: 20px;
+        }
+
+        /* Okay Button */
+        .btn-okay {
+            background-color: #FFD700;
+            color: #0f172a;
+            border: none;
+            padding: 12px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-okay:hover {
+            background-color: #eab308;
+        }
+
         @media (max-width: 600px) {
             header h1 { font-size: 2rem; }
             .btn { width: 100%; justify-content: center; }
+            .shield-btn { width: 55px; height: 55px; bottom: 20px; right: 20px; }
         }
     </style>
 </head>
@@ -331,22 +430,6 @@
             <p>We only perform account removals or takedowns for platforms if the account is violating the platform's community guidelines or copying your legally owned content.</p>
         </div>
 
-        <h2 class="section-title reveal">Client Testimonials</h2>
-        <div class="testimonials">
-            <div class="testimonial-card reveal" style="transition-delay: 100ms;">
-                <p>“Amazing service, recovered my Instagram within 24 hours!”</p>
-                <span class="client-name">— Client A</span>
-            </div>
-            <div class="testimonial-card reveal" style="transition-delay: 200ms;">
-                <p>“Professional and trustworthy, highly recommend.”</p>
-                <span class="client-name">— Client B</span>
-            </div>
-            <div class="testimonial-card reveal" style="transition-delay: 300ms;">
-                <p>“Excellent support for YouTube channel recovery, saved my content!”</p>
-                <span class="client-name">— Client C</span>
-            </div>
-        </div>
-
         <h2 class="section-title reveal">FAQs</h2>
         <div class="info-box reveal">
             <p style="text-align: left; margin-bottom: 10px;"><strong>Q: How do I request a service?</strong><br>A: Click the Telegram or WhatsApp button above.</p>
@@ -360,23 +443,54 @@
         <p class="reveal">&copy; 2025 SMFixer.site — All Rights Reserved.</p>
     </footer>
 
+    <div class="shield-btn" onclick="openPopup()">
+        <i class="fas fa-shield-alt"></i>
+    </div>
+
+    <div id="tosPopup" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Terms of Service</h2>
+            <div class="tos-text">
+                <p>Welcome to SMFixer. By using our services, you agree to the following terms:</p>
+                <ul>
+                    <li>1. All services are confidential and private.</li>
+                    <li>2. Payments must be made in advance or via escrow as agreed.</li>
+                    <li>3. We guarantee a full refund if the service is not delivered.</li>
+                    <li>4. We do not support illegal activities or hacking.</li>
+                    <li>5. Turnaround times are estimates and may vary.</li>
+                </ul>
+                <p>Please contact support for more details.</p>
+            </div>
+            <button class="btn-okay" onclick="closePopup()">Okay</button>
+        </div>
+    </div>
+
     <script>
+        // Scroll Animation Logic
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
-
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
                 var elementVisible = 100;
-
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
                 }
             }
         }
-
         window.addEventListener("scroll", reveal);
-        reveal(); // Trigger on load
+        reveal();
+
+        // Popup Logic (Open & Close)
+        function openPopup() {
+            document.getElementById('tosPopup').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Rok deta hai background scroll
+        }
+
+        function closePopup() {
+            document.getElementById('tosPopup').classList.remove('active');
+            document.body.style.overflow = 'auto'; // Wapas scroll chalu
+        }
     </script>
 
 </body>

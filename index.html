@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genix Media Clone | ऑप्टिमाइज़्ड मोबाइल</title>
+    <title>Genix Media Clone | मोबाइल ऑप्टिमाइज़्ड</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
@@ -32,7 +32,7 @@
             background-color: var(--dark-bg);
             color: var(--light-text);
             line-height: 1.6;
-            overflow-x: hidden; /* अनावश्यक हॉरिजॉन्टल स्क्रॉलिंग को रोकता है */
+            overflow-x: hidden; /* **मुख्य फिक्स:** अनावश्यक हॉरिजॉन्टल स्क्रॉलिंग को रोकता है */
         }
 
         a { color: var(--accent-color); text-decoration: none; transition: color 0.3s; }
@@ -61,7 +61,7 @@
         .btn { background-color: var(--accent-color); color: #111; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: 700; transition: background-color 0.3s, transform 0.2s; display: inline-block; }
         .btn:hover { background-color: #00e6b3; transform: translateY(-2px); }
         
-        /* Hero Section - फुल-विड्थ के लिए CSS */
+        /* Hero Section */
         #hero { padding: 100px 20px; text-align: center; }
         #hero h1 { font-size: 48px; margin-bottom: 20px; font-weight: 800; }
         #hero p { font-size: 20px; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; color: #aaa; }
@@ -70,7 +70,7 @@
         section { padding: var(--section-padding); }
         h2 { font-size: 36px; text-align: center; margin-bottom: 50px; font-weight: 700; }
         
-        /* Services/Features Grid - अब पूरी चौड़ाई लेता है */
+        /* Services/Features Grid */
         .grid-3 { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
@@ -88,12 +88,25 @@
         /* ====================
            टेस्टिमोनियल स्लाइडर CSS
            ==================== */
-        #testimonials { background-color: #0c0c0c; padding: 80px 0; white-space: nowrap; }
-        .slider-container { overflow: hidden; padding: 20px 0; }
-        .testimonials-wrapper { display: flex; width: max-content; animation: autoScroll 30s linear infinite; animation-play-state: running; }
+        #testimonials { 
+            background-color: #0c0c0c; 
+            padding: 80px 0; 
+            white-space: nowrap; 
+            overflow: hidden; /* **मुख्य फिक्स:** स्लाइडर कंटेनर के लिए भी ओवरफ्लो को हिडन करें */
+        }
+        .slider-container { 
+            overflow: hidden; 
+            padding: 20px 0; 
+        }
+        .testimonials-wrapper { 
+            display: flex; 
+            width: max-content; 
+            animation: autoScroll 30s linear infinite; 
+            animation-play-state: running; 
+        }
         .testimonials-wrapper:hover { animation-play-state: paused; }
         
-        /* टेस्टिमोनियल कार्ड की चौड़ाई: डेस्कटॉप के लिए 350px */
+        /* डेस्कटॉप के लिए टेस्टिमोनियल कार्ड की चौड़ाई */
         .testimonial-box { 
             min-width: 350px; 
             width: 350px;
@@ -141,12 +154,12 @@
             /* फुटर कॉलम */
             .footer-col { width: 45%; }
             
-            /* टेस्टिमोनियल साइज़ फिक्स: छोटे स्क्रीन पर कार्ड की चौड़ाई 90% कर दी गई है */
+            /* **मुख्य फिक्स:** टेस्टिमोनियल साइज़ ऑप्टिमाइज़ेशन */
             .testimonial-box { 
-                min-width: 90vw; 
-                width: 90vw;
-                padding: 30px 20px; /* अंदर की पैडिंग भी कम करें */
-                margin-right: 15px; /* कार्ड्स के बीच की जगह कम करें */
+                min-width: calc(80vw - 30px); /* 80% व्यूपोर्ट चौड़ाई, मार्जिन को एडजस्ट करते हुए */
+                width: calc(80vw - 30px); /* 80% व्यूपोर्ट चौड़ाई */
+                padding: 30px 20px; 
+                margin-right: 20px; /* कार्ड्स के बीच की जगह */
             }
         }
     </style>
@@ -263,3 +276,4 @@
 
 </body>
 </html>
+

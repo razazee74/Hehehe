@@ -3,201 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Awesome Single Page Site</title>
+    <title>Telegram User Site</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
     <style>
         /* --- CSS STYLES --- */
-        
-        /* Font Import */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
         :root {
             --color-bg1: rgb(8, 10, 15);
-            --color-blob1: 18, 113, 255;
-            --color-blob2: 221, 74, 255;
-            --color-blob3: 100, 220, 255;
-            --color-blob4: 200, 50, 50;
+            --color-blob1: 18, 113, 255;  /* Blue */
+            --color-blob2: 221, 74, 255;  /* Purple */
+            --color-blob3: 100, 220, 255; /* Cyan */
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--color-bg1);
             height: 100vh;
             width: 100vw;
-            overflow: hidden; /* Scrollbar hatane ke liye */
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
         }
 
+        /* --- TOP RIGHT TELEGRAM PROFILE BUTTON --- */
+        .tg-profile-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            cursor: pointer;
+            /* Hidden initially until loaded */
+            opacity: 0; 
+            animation: fadeIn 1s forwards;
+        }
+
+        .profile-pill {
+            display: flex;
+            align-items: center;
+            background: rgba(30, 30, 30, 0.8); /* Dark background like screenshot */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 5px 15px 5px 5px; /* Right padding zyada text ke liye */
+            border-radius: 50px; /* Pill shape */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s ease, background 0.2s;
+        }
+
+        .profile-pill:active {
+            transform: scale(0.95);
+            background: rgba(50, 50, 50, 0.9);
+        }
+
+        .profile-img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            background-color: #555; /* Fallback color */
+        }
+
+        .profile-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
         /* --- BACKGROUND ANIMATION --- */
         .background-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
             background: var(--color-bg1);
-            filter: blur(80px); /* Smooth blobs create karne ke liye */
+            filter: blur(80px);
         }
 
         .blob {
             position: absolute;
             border-radius: 50%;
             animation: move 20s infinite alternate;
-            opacity: 0.7;
+            opacity: 0.6;
         }
 
-        .blob-1 {
-            top: 10%;
-            left: 10%;
-            width: 50vw;
-            height: 50vw;
-            background: radial-gradient(circle, rgba(var(--color-blob1), 0.8) 0%, rgba(0,0,0,0) 70%);
-            animation-duration: 25s;
-        }
-
-        .blob-2 {
-            bottom: 10%;
-            right: 10%;
-            width: 40vw;
-            height: 40vw;
-            background: radial-gradient(circle, rgba(var(--color-blob2), 0.8) 0%, rgba(0,0,0,0) 70%);
-            animation-duration: 30s;
-        }
-
-        .blob-3 {
-            bottom: 30%;
-            left: 20%;
-            width: 30vw;
-            height: 30vw;
-            background: radial-gradient(circle, rgba(var(--color-blob3), 0.8) 0%, rgba(0,0,0,0) 70%);
-            animation-duration: 22s;
-        }
-
+        .blob-1 { top: 10%; left: 10%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(var(--color-blob1), 0.8) 0%, rgba(0,0,0,0) 70%); }
+        .blob-2 { bottom: 10%; right: 10%; width: 40vw; height: 40vw; background: radial-gradient(circle, rgba(var(--color-blob2), 0.8) 0%, rgba(0,0,0,0) 70%); animation-duration: 30s; }
+        
         @keyframes move {
             0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(20px, -50px) scale(1.1); }
             100% { transform: translate(-20px, 20px) scale(0.9); }
         }
 
-        /* --- GLASS CARD DESIGN --- */
-        .card-container {
-            perspective: 1000px; /* 3D effect ke liye */
-        }
-
+        /* --- EMPTY GLASS CARD (PLACEHOLDER) --- */
+        .card-container { perspective: 1000px; }
         .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            padding: 3rem;
-            width: 90%;
-            max-width: 500px;
-            text-align: center;
+            /* Size fix kiya hai taaki content na hone par bhi dikhe */
+            width: 300px; 
+            height: 400px; 
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            transform-style: preserve-3d;
-            transition: transform 0.1s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(255,255,255,0.2);
+            font-size: 0.8rem;
         }
 
-        .card h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(to right, #fff, #b3b3b3);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transform: translateZ(20px); /* Text ko thoda uthane ke liye */
-        }
-
-        .card p {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 2rem;
-            line-height: 1.6;
-            transform: translateZ(15px);
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 35px;
-            background: white;
-            color: black;
-            text-decoration: none;
-            font-weight: 600;
-            border-radius: 30px;
-            transition: all 0.3s ease;
-            transform: translateZ(25px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .btn:hover {
-            transform: translateZ(30px) scale(1.05);
-            box-shadow: 0 0 20px rgba(255,255,255,0.4);
-            background: #fff;
-        }
-
-        /* Mobile Responsiveness */
-        @media (max-width: 600px) {
-            .card h1 { font-size: 2rem; }
-            .card { padding: 2rem; }
-        }
     </style>
 </head>
 <body>
 
+    <div class="tg-profile-container" id="profile-btn">
+        <div class="profile-pill">
+            <img src="" alt="User" id="user-avatar" class="profile-img">
+            <span id="user-name" class="profile-name">Loading...</span>
+        </div>
+    </div>
+
     <div class="background-container">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
     </div>
 
     <div class="card-container" id="container">
         <div class="card" id="card">
-            <h1>Welcome.</h1>
-            <p>
-                Ye aapki nayi single page website hai. 
-                Iska background completely dynamic CSS se bana hai aur 
-                mouse move karne par ye card 3D mein react karta hai.
-            </p>
-            <a href="#" class="btn">Get Started</a>
+            <span>Content Area</span>
         </div>
     </div>
 
     <script>
-        /* --- JAVASCRIPT LOGIC --- */
-        
-        // 3D Tilt Effect Logic
+        // --- 3D TILT EFFECT LOGIC ---
         const container = document.getElementById('container');
         const card = document.getElementById('card');
-
-        // Mouse movement event
         container.addEventListener('mousemove', (e) => {
             const xAxis = (window.innerWidth / 2 - e.pageX) / 20;
             const yAxis = (window.innerHeight / 2 - e.pageY) / 20;
-            
-            // Card ko rotate karna
             card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
         });
-
-        // Mouse enter (Animation start)
-        container.addEventListener('mouseenter', (e) => {
-            card.style.transition = 'none'; // Delay hatana taaki smooth move kare
-        });
-
-        // Mouse leave (Reset position)
-        container.addEventListener('mouseleave', (e) => {
-            card.style.transition = 'transform 0.5s ease'; // Wapas smooth aane ke liye
+        container.addEventListener('mouseenter', () => card.style.transition = 'none');
+        container.addEventListener('mouseleave', () => {
+            card.style.transition = 'transform 0.5s ease';
             card.style.transform = `rotateY(0deg) rotateX(0deg)`;
         });
+
+        // --- TELEGRAM USER DETECTION LOGIC ---
+        
+        // 1. Telegram WebApp initialize karo
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Fullscreen agar mobile mein hoto
+
+        // Elements select karo
+        const userNameEl = document.getElementById('user-name');
+        const userAvatarEl = document.getElementById('user-avatar');
+        const profileBtn = document.getElementById('profile-btn');
+
+        // Function: User data set karne ke liye
+        function setUserProfile(firstName, photoUrl) {
+            userNameEl.innerText = firstName;
+            
+            if (photoUrl) {
+                userAvatarEl.src = photoUrl;
+            } else {
+                // Agar photo nahi hai to default placeholder
+                userAvatarEl.src = "https://cdn-icons-png.flaticon.com/512/847/847969.png"; 
+            }
+        }
+
+        // Logic check karna ki asli Telegram user hai ya nahi
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            // ASLI TELEGRAM USER DETECTED
+            const user = tg.initDataUnsafe.user;
+            setUserProfile(user.first_name, user.photo_url);
+        } else {
+            // BROWSER TESTING MODE (Fake Data taaki design dikhe)
+            // Jab tum asli bot mein daaloge, ye part skip ho jayega
+            console.log("Telegram not detected. Using Demo Data.");
+            setUserProfile("Resays", "https://cdn-icons-png.flaticon.com/512/3135/3135715.png");
+        }
+
+        // Click Event (Future ke liye)
+        profileBtn.addEventListener('click', () => {
+            // Yahan baad mein jo function chaho wo laga dena
+            console.log("Profile button clicked!");
+            // Animation effect
+            profileBtn.style.transform = "scale(0.9)";
+            setTimeout(() => profileBtn.style.transform = "scale(1)", 150);
+        });
+
     </script>
 </body>
 </html>

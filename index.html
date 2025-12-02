@@ -24,58 +24,59 @@
             align-items: center;
             color: white;
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- APP HEADER --- */
+        /* --- HEADER CONTAINER --- */
         .app-header {
             position: fixed;
             top: 0; left: 0; width: 100%;
             display: flex;
-            justify-content: space-between; /* Dono kone mein rahenge */
-            align-items: center; /* Vertical center */
-            padding: 15px 20px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px; /* Thoda padding adjust kiya hai sleek look ke liye */
             z-index: 1000;
         }
 
-        /* --- LEFT ICON (EXACT MATCH) --- */
+        /* --- LEFT ICON (EXACT REPLICA) --- */
         .left-icon {
             display: flex;
             align-items: center;
+            justify-content: center;
             opacity: 0; 
             transform: translateX(-15px);
-            transition: all 0.6s ease;
-            /* Height set ki hai taaki right side wale button se match kare */
-            height: 45px; 
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* Smooth Apple-like easing */
+            height: 44px; /* Matches profile pill height */
+            width: 44px;
         }
 
         .left-icon svg {
-            width: 42px;  /* Size badhaya hai (Profile pill ke barabar) */
-            height: 42px;
+            width: 38px;
+            height: 38px;
             fill: white;
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); /* Thoda glow taaki distinct dikhe */
+            /* Drop shadow hataya taaki flat clean look aaye jaisa pic mein tha */
         }
 
         /* --- RIGHT PROFILE PILL --- */
         .tg-profile-wrapper {
-            display: none;
+            display: none; /* JS se visible hoga */
             align-items: center;
             opacity: 0;
             transform: translateX(15px);
-            transition: all 0.6s ease;
-            height: 45px; /* Height fix ki hai balance ke liye */
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            height: 44px;
         }
 
         .profile-pill {
             display: flex;
             align-items: center;
-            background: rgba(30, 30, 30, 0.7);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 4px 15px 4px 4px; /* Padding adjust ki hai */
+            background: rgba(30, 30, 30, 0.7); /* Dark semi-transparent */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 4px 16px 4px 4px; /* Right padding text ke liye */
             border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            height: 100%; /* Parent ki height lega */
+            border: 1px solid rgba(255, 255, 255, 0.08); /* Subtle border */
+            height: 100%;
         }
 
         .profile-img {
@@ -83,43 +84,52 @@
             height: 36px;
             border-radius: 50%;
             object-fit: cover;
-            margin-right: 10px;
-            background-color: #333;
+            margin-right: 12px;
+            background-color: #2a2a2a;
+            display: block;
         }
 
         .profile-initials {
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            margin-right: 10px;
-            background: linear-gradient(135deg, #6366f1, #a855f7);
+            margin-right: 12px;
+            background: linear-gradient(135deg, #8E2DE2, #4A00E0);
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: 600;
             color: white;
-            font-size: 1.1rem;
+            font-size: 16px;
             text-transform: uppercase;
         }
 
-        .profile-name { font-size: 0.95rem; font-weight: 500; color: #fff; letter-spacing: 0.5px; }
+        .profile-name { 
+            font-size: 15px; 
+            font-weight: 500; 
+            color: #eeeeee; 
+            letter-spacing: 0.3px; 
+            line-height: 1;
+        }
 
-        /* --- BACKGROUND & CONTENT --- */
+        /* --- BACKGROUND ANIMATION --- */
         .background-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #050505; }
-        .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.6; animation: float 10s infinite alternate; }
-        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #4f46e5; }
-        .blob-2 { bottom: -10%; right: -10%; width: 40vw; height: 40vw; background: #db2777; animation-delay: -2s; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.5; animation: float 10s infinite alternate; }
+        .blob-1 { top: -10%; left: -10%; width: 60vw; height: 60vw; background: #4f46e5; }
+        .blob-2 { bottom: -10%; right: -10%; width: 50vw; height: 50vw; background: #db2777; animation-delay: -2s; }
         @keyframes float { 0% { transform: translate(0,0); } 100% { transform: translate(20px, -20px); } }
 
+        /* --- CENTER CONTENT --- */
         .glass-card {
-            width: 300px; height: 400px;
+            width: 85%; max-width: 320px; height: 400px;
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 24px;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             display: flex; justify-content: center; align-items: center;
-            color: rgba(255,255,255,0.3);
-            margin: auto; 
+            color: rgba(255,255,255,0.4);
+            margin: auto;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
         }
     </style>
 </head>
@@ -128,16 +138,25 @@
     <header class="app-header">
         
         <div class="left-icon" id="leftIcon">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M13 3C18.5228 3 23 7.47715 23 13C23 18.5228 18.5228 23 13 23C7.47715 23 3 18.5228 3 13H5C5 17.4183 8.58172 21 13 21C17.4183 21 21 17.4183 21 13C21 8.58172 17.4183 5 13 5V3ZM12 11V7H14V11.5858L16.2426 13.8284L14.8284 15.2426L12 12.4142V11ZM2 9H8V11H2V9ZM4 5H9V7H4V5ZM14 1V3H12V1H14ZM19.3394 2.91033L20.7537 4.32454L19.3395 5.73875L17.9252 4.32454L19.3394 2.91033ZM0 13H8V15H0V13Z" />
-            </svg>
+            <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                <path d="M234.5 54h43v43h-43z"/>
+                <path d="M213 22h86v32h-86z"/>
+                <path d="M363.6 86.9l30.4 30.4l-22.6 22.6l-30.4-30.4z" transform="rotate(0 380 120)"/>
+                <path d="M256 128C185.3 128 128 185.3 128 256c0 10.9 1.4 21.5 4 31.7H86.4C80.6 277.1 77.5 266.7 77.5 256C77.5 157.4 157.4 77.5 256 77.5c98.6 0 178.5 79.9 178.5 178.5S354.6 434.5 256 434.5c-66.5 0-124.5-36.4-156.2-91H153c23.7 28 58.7 46 98 46c70.7 0 128-57.3 128-128S326.7 128 256 128z"/>
+                <path d="M245 150h22v106h-22z"/> <path d="M256 245l68 68l-15 15l-68-68z"/> <path d="M20 234h120v22H20z"/> <path d="M60 276h80v22H60z"/> <path d="M0 192h80v22H0z"/> </svg>
+            
+            <div style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#000;">
+                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:40px; height:40px; fill:white;">
+                    <path d="M15 1H9V3H15V1ZM11 14H13V8H11V14ZM19.0303 6.3934L20.4445 4.97919L19.0303 3.56497L17.6161 4.97919L19.0303 6.3934ZM13 21C16.866 21 20 17.866 20 14C20 10.134 16.866 7 13 7C11.6661 7 10.4183 7.37326 9.35826 8.02695L10.8663 9.53503C11.4988 9.19176 12.2229 9 13 9C15.7614 9 18 11.2386 18 14C18 16.7614 15.7614 19 13 19C10.2386 19 8 16.7614 8 14H6C6 17.866 9.13401 21 13 21ZM2 13H7V15H2V13ZM5 9H8V11H5V9ZM4 17H8V19H4V17ZM14.6358 12.8906L16.7571 15.0118L15.3429 16.426L13.2216 14.3047L14.6358 12.8906Z"/>
+                </svg>
+            </div>
         </div>
 
         <div class="tg-profile-wrapper" id="profileWrapper">
             <div class="profile-pill">
                 <img src="" id="userAvatar" class="profile-img" style="display: none;">
                 <div id="userInitials" class="profile-initials" style="display: none;"></div>
-                <span id="userName" class="profile-name">Loading...</span>
+                <span id="userName" class="profile-name">...</span>
             </div>
         </div>
     </header>
@@ -147,11 +166,13 @@
         <div class="blob blob-2"></div>
     </div>
 
-    <div class="glass-card">MINI APP CONTENT</div>
+    <div class="glass-card">
+        </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.ready(); tg.expand(); 
+        tg.ready(); 
+        tg.expand();
 
         const profileWrapper = document.getElementById('profileWrapper');
         const leftIcon = document.getElementById('leftIcon');
@@ -159,30 +180,56 @@
         const userAvatarEl = document.getElementById('userAvatar');
         const userInitialsEl = document.getElementById('userInitials');
 
+        // Logic: Only run if inside Telegram
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
-            userNameEl.innerText = user.first_name;
             
+            // 1. Set Name
+            userNameEl.innerText = user.first_name;
+
+            // 2. Set Avatar or Initials
             if (user.photo_url) {
                 userAvatarEl.src = user.photo_url;
                 userAvatarEl.style.display = 'block';
                 userInitialsEl.style.display = 'none';
             } else {
-                userInitialsEl.innerText = user.first_name.charAt(0);
+                // Get First Letter
+                const letter = user.first_name ? user.first_name.charAt(0).toUpperCase() : '?';
+                userInitialsEl.innerText = letter;
                 userInitialsEl.style.display = 'flex';
                 userAvatarEl.style.display = 'none';
             }
 
-            // Animate In
+            // 3. Animation Entry
+            profileWrapper.style.display = 'flex';
+            
+            // Short delay for smooth slide-in
+            setTimeout(() => {
+                profileWrapper.style.opacity = '1';
+                profileWrapper.style.transform = 'translateX(0)';
+                
+                leftIcon.style.opacity = '1';
+                leftIcon.style.transform = 'translateX(0)';
+            }, 100);
+
+        } else {
+            console.log("Not inside Telegram. UI hidden.");
+            // Agar browser mein check karna ho to neeche ki line uncomment karein:
+            // forceShowDemo();
+        }
+
+        // --- Demo Function for Browser Testing (Optional) ---
+        function forceShowDemo() {
+            userNameEl.innerText = "Resays";
+            userInitialsEl.innerText = "R";
+            userInitialsEl.style.display = 'flex';
             profileWrapper.style.display = 'flex';
             setTimeout(() => {
                 profileWrapper.style.opacity = '1';
                 profileWrapper.style.transform = 'translateX(0)';
                 leftIcon.style.opacity = '1';
                 leftIcon.style.transform = 'translateX(0)';
-            }, 150);
-        } else {
-            console.log("Not opened via Telegram App.");
+            }, 100);
         }
     </script>
 </body>

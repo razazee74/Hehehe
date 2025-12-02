@@ -59,14 +59,12 @@
 
         /* --- MAIN CARD --- */
         .glass-card {
-            width: 320px; height: 440px; /* Adjusted height */
+            width: 320px; height: 440px; 
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1); border-radius: 30px;
             backdrop-filter: blur(20px);
             display: flex; flex-direction: column;
-            /* Positioning logic to handle the button below it */
-            margin-top: 80px; 
-            margin-bottom: 15px;
+            margin-top: 80px; margin-bottom: 15px;
             position: relative; z-index: 10;
         }
 
@@ -85,22 +83,41 @@
         .action-btn:active { transform: scale(0.98); }
         .btn-red { background: #ff4d4d; color: white; }
         .btn-green { background: #4ade80; color: black; }
-        
-        /* NEW BLUE BUTTON (Verification) */
         .btn-blue { background: #3b82f6; color: white; }
 
-        /* LIST STYLE */
-        .monitor-list { flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 5px; }
+        /* HEADER SECTION IN LIST (Fixed) */
+        .page-header { flex-shrink: 0; } /* Won't scroll */
+        .page-title { font-size: 18px; font-weight: 600; margin-bottom: 5px; color: #fff; }
+        .page-subtitle { font-size: 12px; color: #888; margin-bottom: 10px; }
+
+        /* SCROLLABLE MONITOR LIST */
+        .monitor-list { 
+            flex-grow: 1; 
+            overflow-y: auto; /* Only this part scrolls */
+            display: flex; flex-direction: column; gap: 8px; 
+            padding-right: 2px;
+            margin-bottom: 10px;
+        }
+        
         .list-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
         .li-name { font-size: 13px; font-weight: 500; }
         .li-tag { font-size: 10px; padding: 2px 6px; border-radius: 4px; }
         .tag-ban { background: rgba(255, 77, 77, 0.2); color: #ff4d4d; }
         .tag-unban { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
-        .li-del { background: transparent; border: none; cursor: pointer; opacity: 0.7; }
+        
+        /* UPDATED CROSS BUTTON (Visible) */
+        .li-del { 
+            width: 28px; height: 28px;
+            background: rgba(255, 50, 50, 0.2); /* Reddish tint */
+            border: 1px solid rgba(255, 50, 50, 0.4);
+            border-radius: 8px;
+            cursor: pointer; 
+            display: flex; justify-content: center; align-items: center;
+        }
+        .li-del svg { width: 14px; height: 14px; fill: #ff9999; } /* Bright red icon */
 
-        /* CLEAR ALL BUTTON (Inside Active List) */
         .clear-all-btn {
-            margin-top: auto; /* Push to bottom */
+            flex-shrink: 0; /* Stays at bottom */
             background: rgba(255, 255, 255, 0.1); color: #ccc;
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 10px; border-radius: 12px;
@@ -116,29 +133,22 @@
         .tab-item svg { width: 22px; height: 22px; fill: white; margin-bottom: 2px; }
         .tab-label { font-size: 9px; font-weight: 500; }
 
-        /* --- NOTIFICATION BUTTON (Below Glass Card) --- */
+        /* NOTIFICATION BUTTON */
         .notif-btn {
-            width: 320px; /* Same width as card */
-            padding: 12px;
-            background: white; color: black;
-            border: none; border-radius: 16px;
-            font-weight: 600; font-size: 14px;
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-            display: flex; justify-content: center; align-items: center; gap: 8px;
-            z-index: 9;
+            width: 320px; padding: 12px; background: white; color: black; border: none; border-radius: 16px; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; gap: 8px; z-index: 9;
         }
         .notif-btn:active { transform: scale(0.98); opacity: 0.9; }
 
-        /* --- BOTTOM SHEET (Menu Links) --- */
-        .bottom-sheet { position: fixed; bottom: 0; left: 0; width: 100%; height: 65vh; background: #121212; border-radius: 30px 30px 0 0; transform: translateY(110%); z-index: 200; box-shadow: 0 -10px 40px rgba(0,0,0,0.6); border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; will-change: transform; touch-action: none; }
+        /* --- BOTTOM SHEET --- */
+        .bottom-sheet { position: fixed; bottom: 0; left: 0; width: 100%; height: 70vh; background: #121212; border-radius: 30px 30px 0 0; transform: translateY(110%); z-index: 200; box-shadow: 0 -10px 40px rgba(0,0,0,0.6); border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; will-change: transform; touch-action: none; }
         .sheet-bg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .sheet-blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.3; animation: float 8s infinite alternate; }
         .drag-area { width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; flex-shrink: 0; position: relative; z-index: 2; touch-action: none; }
         .drag-handle { width: 50px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 10px; }
-        .sheet-content { padding: 10px 20px 40px 20px; flex-grow: 1; position: relative; z-index: 2; overflow: hidden; }
         
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; height: 100%; }
+        .sheet-content { padding: 10px 20px 30px 20px; flex-grow: 1; position: relative; z-index: 2; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .menu-item { position: relative; background: rgba(40, 40, 40, 0.4); border-radius: 24px; padding: 20px; height: 150px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); transition: transform 0.1s; cursor: pointer; }
         .menu-item:active { transform: scale(0.96); background: rgba(60,60,60,0.6); }
         .item-text h3 { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 5px; }
@@ -146,39 +156,53 @@
         .item-icon { align-self: flex-end; width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.08); border-radius: 14px; }
         .item-icon svg { width: 28px; height: 28px; fill: white; }
 
-        /* --- POPUP MODALS (Generic) --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
-            z-index: 3000; display: none; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s;
+        /* SETTINGS BUTTON IN SHEET */
+        .sheet-settings-btn {
+            width: 100%; padding: 15px; margin-top: 10px;
+            background: rgba(255,255,255,0.08); 
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; color: white; font-weight: 500; font-size: 14px;
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
         }
+        .sheet-settings-btn:active { background: rgba(255,255,255,0.15); }
+
+        /* --- POPUP MODALS --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 3000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
         .modal-overlay.active { opacity: 1; }
         
-        .modal-box {
-            background: #1a1a1a; width: 85%; max-width: 320px;
-            border-radius: 24px; padding: 25px;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            transform: scale(0.9); transition: transform 0.3s;
-            display: flex; flex-direction: column; gap: 15px;
-        }
+        .modal-box { background: #1a1a1a; width: 85%; max-width: 320px; border-radius: 24px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.8); transform: scale(0.9); transition: transform 0.3s; display: flex; flex-direction: column; gap: 15px; }
         .modal-overlay.active .modal-box { transform: scale(1); }
-
         .modal-title { font-size: 18px; font-weight: 600; text-align: center; }
         .modal-desc { font-size: 13px; color: #aaa; text-align: center; line-height: 1.4; }
-        
-        /* Modal Buttons */
         .modal-actions { display: flex; gap: 10px; margin-top: 10px; }
         .m-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; }
         .m-cancel { background: rgba(255,255,255,0.1); color: white; }
         .m-confirm { background: white; color: black; }
+        .m-red { background: #ff4d4d; color: white; }
+
+        /* RICH NOTIFICATIONS */
+        .notif-list { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .notif-card {
+            background: rgba(40, 40, 40, 0.6); padding: 12px; border-radius: 14px;
+            display: flex; align-items: center; gap: 10px; position: relative;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .notif-img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+        .notif-content { display: flex; flex-direction: column; gap: 2px; }
+        .notif-head { font-size: 13px; font-weight: 600; color: white; }
+        .notif-sub { font-size: 10px; color: #aaa; }
+        .badge { padding: 1px 4px; border-radius: 3px; font-size: 9px; font-weight: bold; margin-left: 5px; }
+        .badge-ban { background: #ff4d4d; color: white; }
+        .badge-unban { background: #4ade80; color: black; }
         
-        /* Notification Specific */
-        .notif-list { max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
-        .notif-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; font-size: 12px; border-left: 3px solid #4ade80; }
-        .exit-row { display: flex; justify-content: flex-end; }
-        .exit-btn { background: rgba(255,255,255,0.1); color: #aaa; border: none; padding: 5px 15px; border-radius: 20px; font-size: 11px; cursor: pointer; }
+        .notif-close {
+            position: absolute; top: 5px; right: 5px;
+            background: transparent; border: none; color: #666;
+            font-size: 16px; cursor: pointer; padding: 5px;
+        }
+        
+        .exit-row { display: flex; justify-content: flex-end; margin-top: 10px; }
+        .exit-btn { background: rgba(255,255,255,0.1); color: #aaa; border: none; padding: 6px 18px; border-radius: 20px; font-size: 11px; cursor: pointer; }
 
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(3px); z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
         .overlay.active { opacity: 1; pointer-events: auto; }
@@ -218,8 +242,10 @@
         <div class="card-content">
             
             <div class="page active" id="page-check">
-                <div class="page-title">Check Status</div>
-                <div class="page-subtitle">Instantly check account availability</div>
+                <div class="page-header">
+                    <div class="page-title">Check Status</div>
+                    <div class="page-subtitle">Instantly check account availability</div>
+                </div>
                 <div class="input-group">
                     <input type="text" class="clean-input" placeholder="Enter username...">
                 </div>
@@ -230,8 +256,10 @@
             </div>
 
             <div class="page" id="page-task">
-                <div class="page-title">Add Monitor</div>
-                <div class="page-subtitle">Start tracking Ban, Unban or Verify</div>
+                <div class="page-header">
+                    <div class="page-title">Add Monitor</div>
+                    <div class="page-subtitle">Start tracking Ban, Unban or Verify</div>
+                </div>
                 <div class="input-group">
                     <input type="text" class="clean-input" placeholder="Target username...">
                 </div>
@@ -243,38 +271,37 @@
                     <svg style="width:18px;height:18px;fill:black" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
                     Start Unban Watch
                 </button>
-                
                 <button class="action-btn btn-blue">
-                    <svg style="width:18px;height:18px;fill:white" viewBox="0 0 24 24">
-                        <path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12zm-12.91 4.72l-3.8-3.81 1.48-1.48 2.32 2.33 5.85-5.87 1.48 1.48-7.33 7.35z"/>
-                    </svg>
+                    <svg style="width:18px;height:18px;fill:white" viewBox="0 0 24 24"><path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12zm-12.91 4.72l-3.8-3.81 1.48-1.48 2.32 2.33 5.85-5.87 1.48 1.48-7.33 7.35z"/></svg>
                     Start Verification Watch
                 </button>
             </div>
 
             <div class="page" id="page-list">
-                <div class="page-title">Active List</div>
-                <div class="page-subtitle">Currently monitored targets</div>
+                <div class="page-header">
+                    <div class="page-title">Active List</div>
+                    <div class="page-subtitle">Currently monitored targets</div>
+                </div>
                 
                 <div class="monitor-list" id="activeListContainer">
                     <div class="list-item">
                         <div><div class="li-name">@target_one</div><span class="li-tag tag-ban">BAN</span></div>
-                        <button class="li-del">✕</button>
+                        <button class="li-del" onclick="confirmStop('target_one')"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
                     </div>
                     <div class="list-item">
                         <div><div class="li-name">@my_account</div><span class="li-tag tag-unban">UNBAN</span></div>
-                        <button class="li-del">✕</button>
+                        <button class="li-del" onclick="confirmStop('my_account')"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
                     </div>
-                </div>
+                    </div>
 
-                <button class="clear-all-btn" onclick="showClearModal()">
-                    Clear All Usernames
-                </button>
+                <button class="clear-all-btn" onclick="showClearModal()">Clear All Usernames</button>
             </div>
 
             <div class="page" id="page-conf">
-                <div class="page-title">Configuration</div>
-                <div class="page-subtitle">Manage Webhooks</div>
+                <div class="page-header">
+                    <div class="page-title">Configuration</div>
+                    <div class="page-subtitle">Manage Webhooks</div>
+                </div>
                 <div class="input-group">
                     <input type="text" class="clean-input" placeholder="Discord Webhook URL...">
                 </div>
@@ -319,6 +346,7 @@
             <div class="sheet-blob" style="bottom: 10%; right: -10%; width: 70vw; height: 70vw; background: #db2777; animation-delay: -2s;"></div>
         </div>
         <div class="drag-area" id="dragArea"><div class="drag-handle"></div></div>
+        
         <div class="sheet-content">
             <div class="menu-grid">
                 <div class="menu-item" onclick="openLink('https://t.me/safetiest')">
@@ -331,12 +359,25 @@
                 </div>
                 <div class="menu-item" onclick="openLink('https://t.me/resays')">
                     <div class="item-text"><h3>Support</h3><p>We're here to help</p></div>
-                    <div class="item-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22H14V16H12C9.79 16 8 14.21 8 12C8 9.79 9.79 8 12 8C14.21 8 16 9.79 16 12V13H19C19.55 13 20 13.45 20 14V20C20 20.55 19.55 21 19 21H16V22C16 22.55 16.45 23 17 23H19C20.66 23 22 21.66 22 20V12C22 6.48 17.52 2 12 2Z" fill="white"/></svg></div>
+                    <div class="item-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="white"/><path d="M20 14H18V12H16C14.9 12 14 12.9 14 14V16C14 17.1 14.9 18 16 18H18V20H20V14Z" fill="white"/></svg></div>
                 </div>
                 <div class="menu-item" onclick="openLink('https://t.me/monitorON')">
                     <div class="item-text"><h3>Channel</h3><p>Latest updates</p></div>
                     <div class="item-icon"><svg viewBox="0 0 24 24"><path d="M21 11L21 13C21 14.1 20.1 15 19 15H17L13 19V5L17 9H19C20.1 9 21 9.9 21 11ZM5 9H11V15H5C3.9 15 3 14.1 3 13V11C3 9.9 3.9 9 5 9ZM8 15V19C8 19.55 7.55 20 7 20H6C5.45 20 5 19.55 5 19V15H8Z" fill="white"/></svg></div>
                 </div>
+            </div>
+            
+            <button class="sheet-settings-btn">Settings</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="stopModal">
+        <div class="modal-box">
+            <div class="modal-title">Stop Monitor?</div>
+            <div class="modal-desc" id="stopMsg">Do you want to stop monitoring this username?</div>
+            <div class="modal-actions">
+                <button class="m-btn m-cancel" onclick="hideModal('stopModal')">Cancel</button>
+                <button class="m-btn m-red" onclick="finalStop()">Yes, Stop</button>
             </div>
         </div>
     </div>
@@ -344,7 +385,7 @@
     <div class="modal-overlay" id="clearModal">
         <div class="modal-box">
             <div class="modal-title">Clear All?</div>
-            <div class="modal-desc">Are you sure you want to clear all usernames from the active list? This action cannot be undone.</div>
+            <div class="modal-desc">Are you sure you want to clear all usernames from the active list?</div>
             <div class="modal-actions">
                 <button class="m-btn m-cancel" onclick="hideModal('clearModal')">Cancel</button>
                 <button class="m-btn m-confirm" onclick="confirmClear()">Yes, Clear</button>
@@ -353,12 +394,26 @@
     </div>
 
     <div class="modal-overlay" id="notifModal">
-        <div class="modal-box">
+        <div class="modal-box" style="max-width: 340px;">
             <div class="modal-title">Notifications</div>
-            <div class="notif-list">
-                <div class="notif-item"><b>@resays</b> was successfully UNBANNED. <br><span style="color:#888">2 mins ago</span></div>
-                <div class="notif-item" style="border-left-color: #ff4d4d"><b>@spammer</b> was successfully BANNED. <br><span style="color:#888">1 hour ago</span></div>
-                <div class="notif-item" style="border-left-color: #3b82f6"><b>@client</b> is now VERIFIED. <br><span style="color:#888">Yesterday</span></div>
+            <div class="notif-list" id="notifList">
+                <div class="notif-card" id="notif1">
+                    <img src="https://ui-avatars.com/api/?name=Resays&background=random" class="notif-img">
+                    <div class="notif-content">
+                        <div class="notif-head">@resays <span class="badge badge-unban">UNBANNED</span></div>
+                        <div class="notif-sub">Followers: 12.5K • By: You</div>
+                    </div>
+                    <button class="notif-close" onclick="removeNotif('notif1')">✕</button>
+                </div>
+                
+                <div class="notif-card" id="notif2">
+                    <img src="https://ui-avatars.com/api/?name=Spam&background=random" class="notif-img">
+                    <div class="notif-content">
+                        <div class="notif-head">@spammer <span class="badge badge-ban">BANNED</span></div>
+                        <div class="notif-sub">Followers: 200 • By: You</div>
+                    </div>
+                    <button class="notif-close" onclick="removeNotif('notif2')">✕</button>
+                </div>
             </div>
             <div class="exit-row">
                 <button class="exit-btn" onclick="hideModal('notifModal')">Exit</button>
@@ -370,7 +425,6 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        // Elements
         const appLoader = document.getElementById('appLoader');
         const headerLeft = document.getElementById('headerLeft');
         const menuBtn = document.getElementById('menuBtn');
@@ -380,9 +434,10 @@
         const userAvatarEl = document.getElementById('userAvatar');
         const userInitialsEl = document.getElementById('userInitials');
 
+        let targetUserToRemove = null;
+
         function openLink(url) { tg.openTelegramLink(url); }
 
-        // --- TAB SWITCHING ---
         function switchTab(pageId, btn) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('page-' + pageId).classList.add('active');
@@ -390,26 +445,38 @@
             btn.classList.add('active');
         }
 
-        // --- MODAL LOGIC ---
+        // --- MODALS ---
         function showClearModal() {
             document.getElementById('clearModal').style.display = 'flex';
             setTimeout(() => document.getElementById('clearModal').classList.add('active'), 10);
         }
+        function confirmStop(username) {
+            targetUserToRemove = username;
+            document.getElementById('stopMsg').innerText = `Do you want to stop monitoring @${username}?`;
+            document.getElementById('stopModal').style.display = 'flex';
+            setTimeout(() => document.getElementById('stopModal').classList.add('active'), 10);
+        }
+        function finalStop() {
+            // Logic to remove single user would go here
+            console.log("Removing " + targetUserToRemove);
+            hideModal('stopModal');
+        }
         function showNotifModal() {
             document.getElementById('notifModal').style.display = 'flex';
             setTimeout(() => document.getElementById('notifModal').classList.add('active'), 10);
+        }
+        function removeNotif(id) {
+            document.getElementById(id).style.display = 'none';
         }
         function hideModal(id) {
             document.getElementById(id).classList.remove('active');
             setTimeout(() => document.getElementById(id).style.display = 'none', 300);
         }
         function confirmClear() {
-            // Logic to clear list
             document.getElementById('activeListContainer').innerHTML = '<div style="text-align:center;color:#666;font-size:12px;margin-top:20px;">List is empty</div>';
             hideModal('clearModal');
         }
 
-        // --- INIT ---
         window.onload = function() {
             setTimeout(() => {
                 appLoader.classList.add('hidden');
@@ -421,7 +488,6 @@
             }, 500);
         };
 
-        // User Data
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
             userNameEl.innerText = user.first_name;

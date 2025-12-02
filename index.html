@@ -91,7 +91,7 @@
         /* --- BOTTOM SHEET --- */
         .bottom-sheet {
             position: fixed; bottom: 0; left: 0; width: 100%;
-            height: 65vh; /* Page Height reduced (was 80vh) so it's not too big */
+            height: 60vh; /* Compact Height */
             background: #121212; 
             border-radius: 30px 30px 0 0;
             transform: translateY(110%);
@@ -100,9 +100,9 @@
             border-top: 1px solid rgba(255,255,255,0.1);
             display: flex; flex-direction: column;
             will-change: transform;
+            touch-action: none; /* Disable native scroll so swipe works perfectly */
         }
         
-        /* Sheet BG */
         .sheet-bg-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
         }
@@ -111,41 +111,40 @@
             animation: float 8s infinite alternate;
         }
         
-        /* Drag Area */
-        .drag-area {
-            width: 100%; height: 50px;
+        /* Drag Handle Indicator */
+        .drag-indicator {
+            width: 100%; height: 30px;
             display: flex; justify-content: center; align-items: center;
-            flex-shrink: 0; cursor: grab;
+            flex-shrink: 0; 
             position: relative; z-index: 2;
-            touch-action: none; 
+            pointer-events: none; /* Let clicks pass through to sheet for dragging */
         }
-        .drag-handle { width: 50px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 10px; }
+        .drag-bar { width: 50px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 10px; }
 
         .sheet-content { 
-            padding: 0 20px 40px 20px; 
+            padding: 10px 20px 40px 20px; 
             flex-grow: 1; 
             position: relative; z-index: 2;
-            overflow-y: auto;
+            overflow: hidden; /* NO SCROLL */
         }
-        .sheet-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 20px; color: #fff; padding-left: 5px; }
 
-        /* --- BIG BUTTON GRID --- */
+        /* --- MENU GRID --- */
         .menu-grid {
             display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
+            height: 100%; /* Fill available space */
         }
 
-        /* BIGGER BOXES */
+        /* BUTTONS */
         .menu-item {
             position: relative;
             background: rgba(40, 40, 40, 0.4); 
-            border-radius: 24px; /* More rounded */
+            border-radius: 24px;
             padding: 20px;
-            height: 160px; /* HEIGHT INCREASED (Bada Dabba) */
+            height: 150px; /* Good size */
             display: flex; flex-direction: column; justify-content: space-between;
             border: 1px solid rgba(255,255,255,0.08);
             backdrop-filter: blur(10px);
             transition: transform 0.1s, background 0.2s;
-            text-decoration: none; /* For Link */
             cursor: pointer;
         }
         .menu-item:active { transform: scale(0.96); background: rgba(60,60,60,0.6); }
@@ -155,7 +154,7 @@
 
         .item-icon {
             align-self: flex-end;
-            width: 48px; height: 48px; /* Bigger Icon Area */
+            width: 48px; height: 48px;
             display: flex; justify-content: center; align-items: center;
             background: rgba(255,255,255,0.08); border-radius: 14px;
         }
@@ -213,13 +212,11 @@
             <div class="sheet-blob" style="bottom: 10%; right: -10%; width: 70vw; height: 70vw; background: #db2777; animation-delay: -2s;"></div>
         </div>
 
-        <div class="drag-area" id="dragArea">
-            <div class="drag-handle"></div>
+        <div class="drag-indicator">
+            <div class="drag-bar"></div>
         </div>
 
         <div class="sheet-content">
-            <div class="sheet-title">Menu</div>
-            
             <div class="menu-grid">
                 
                 <div class="menu-item" onclick="openLink('https://t.me/resays')">
@@ -229,8 +226,7 @@
                     </div>
                     <div class="item-icon">
                         <svg viewBox="0 0 24 24">
-                            <path d="M12 2C7.03 2 3 6.03 3 11V17C3 17.55 3.45 18 4 18H7V12H5V11C5 7.13 8.13 4 12 4C15.87 4 19 7.13 19 11V18H17V12H19.09C19.04 11.69 19 11.35 19 11C19 6.03 14.97 2 12 2ZM17 14H19V17H17V14ZM5 14H7V17H5V14Z" fill="white"/>
-                            <path d="M12 18C12 18 12.5 18 13.5 18.5C14.5 19 15 20.5 15 20.5H9C9 20.5 9.5 19 10.5 18.5C11.5 18 12 18 12 18Z" fill="white"/>
+                            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22H14V16H12C9.79 16 8 14.21 8 12C8 9.79 9.79 8 12 8C14.21 8 16 9.79 16 12V13H19C19.55 13 20 13.45 20 14V20C20 20.55 19.55 21 19 21H16V22C16 22.55 16.45 23 17 23H19C20.66 23 22 21.66 22 20V12C22 6.48 17.52 2 12 2Z" fill="white"/>
                         </svg>
                     </div>
                 </div>
@@ -243,7 +239,6 @@
                     <div class="item-icon">
                         <svg viewBox="0 0 24 24">
                             <path d="M21 11L21 13C21 14.1 20.1 15 19 15H17L13 19V5L17 9H19C20.1 9 21 9.9 21 11ZM5 9H11V15H5C3.9 15 3 14.1 3 13V11C3 9.9 3.9 9 5 9ZM8 15V19C8 19.55 7.55 20 7 20H6C5.45 20 5 19.55 5 19V15H8Z" fill="white"/>
-                            <path d="M16 11.5L14 10V14L16 12.5Z" fill="white"/>
                         </svg>
                     </div>
                 </div>
@@ -286,16 +281,12 @@
         const headerLeft = document.getElementById('headerLeft');
         const menuBtn = document.getElementById('menuBtn');
         const bottomSheet = document.getElementById('bottomSheet');
-        const dragArea = document.getElementById('dragArea');
         const overlay = document.getElementById('overlay');
         const userNameEl = document.getElementById('userName');
         const userAvatarEl = document.getElementById('userAvatar');
         const userInitialsEl = document.getElementById('userInitials');
 
-        // --- LINK HANDLING ---
         function openLink(url) {
-            // "tg" is window.Telegram.WebApp
-            // This function opens the link inside Telegram without jumping to browser if possible
             tg.openTelegramLink(url);
         }
 
@@ -342,35 +333,41 @@
             overlay.classList.remove('active');
         }
 
-        // --- 4. SMOOTH SWIPE DOWN TO CLOSE ---
+        // --- 4. FULL SHEET SWIPE TO CLOSE ---
         let startY = 0;
         let currentY = 0;
         let isDragging = false;
 
-        dragArea.addEventListener('touchstart', (e) => {
+        // Attaching listener to the WHOLE bottomSheet
+        bottomSheet.addEventListener('touchstart', (e) => {
             startY = e.touches[0].clientY;
+            // Ensure we aren't tapping a button (though we can still drag)
+            // But since scrolling is disabled, any touch on the sheet can start a drag
             isDragging = true;
             bottomSheet.style.transition = 'none'; 
         }, { passive: true });
 
-        dragArea.addEventListener('touchmove', (e) => {
+        bottomSheet.addEventListener('touchmove', (e) => {
             if (!isDragging) return;
             currentY = e.touches[0].clientY;
             const diff = currentY - startY;
+
+            // Only allow dragging downwards
             if (diff > 0) {
                 bottomSheet.style.transform = `translateY(${diff}px)`;
             }
         }, { passive: true });
 
-        dragArea.addEventListener('touchend', (e) => {
+        bottomSheet.addEventListener('touchend', (e) => {
             if (!isDragging) return;
             isDragging = false;
             const diff = currentY - startY;
+            
             bottomSheet.style.transition = 'transform 0.3s ease-out';
-            if (diff > 80) { 
+            if (diff > 100) { // Dragged enough to close
                 closeMenu();
             } else {
-                openMenu();
+                openMenu(); // Snap back
             }
             startY = 0; currentY = 0;
         });

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Telegram Final App</title>
+    <title>Simple Timer App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
@@ -41,15 +41,15 @@
         .header-left {
             display: flex;
             align-items: center;
-            gap: 15px; /* Gap thoda badhaya taki chipka na lage */
+            gap: 15px;
             transform: translateX(-20px);
             opacity: 0;
             transition: all 0.5s ease;
         }
 
-        /* 1. REALISTIC TIMER LOGO */
+        /* 1. SIMPLEST TIMER ICON */
         .timer-icon {
-            width: 32px; /* Icon size thoda sa badhaya detail ke liye */
+            width: 32px;
             height: 32px;
             display: flex; align-items: center; justify-content: center;
         }
@@ -57,28 +57,26 @@
             width: 100%; height: 100%;
             fill: none;
             stroke: white;
-            stroke-width: 1.8; /* Lines thodi sharp ki hain */
+            stroke-width: 2; /* Line motai normal rakhi hai */
             stroke-linecap: round;
             stroke-linejoin: round;
         }
 
-        /* 2. PROFILE PILL (Slightly Bigger Now) */
+        /* 2. PROFILE PILL (Slightly Bigger - 38px) */
         .profile-pill {
             display: flex;
             align-items: center;
-            background: rgba(40, 40, 40, 0.7); /* Thoda sa dark kiya better look ke liye */
+            background: rgba(40, 40, 40, 0.7);
             backdrop-filter: blur(12px);
-            padding: 4px 14px 4px 4px; /* Padding adjust ki */
+            padding: 4px 14px 4px 4px;
             border-radius: 50px;
             border: 1px solid rgba(255, 255, 255, 0.15);
-            /* Height increased from 32px to 38px (Halka sa bada) */
-            height: 38px; 
+            height: 38px; /* Bada Size */
             transition: transform 0.2s;
         }
         .profile-pill:active { transform: scale(0.97); }
 
         .profile-img {
-            /* Image size increased from 26px to 30px */
             width: 30px; height: 30px;
             border-radius: 50%;
             object-fit: cover;
@@ -96,13 +94,13 @@
             text-transform: uppercase;
         }
         .profile-name { 
-            font-size: 14px; /* Font size bhi thoda sa badhaya */
+            font-size: 14px; 
             font-weight: 500; 
             color: #fff; 
             letter-spacing: 0.3px;
         }
 
-        /* 3. MENU BUTTON */
+        /* 3. MENU BUTTON (3 Lines) */
         .menu-btn {
             width: 42px; height: 42px;
             background: rgba(255, 255, 255, 0.1);
@@ -184,18 +182,10 @@
             
             <div class="timer-icon">
                 <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="13" r="8.5" />
-                    <path d="M12 4.5V2" />
+                    <circle cx="12" cy="13" r="9" />
+                    <path d="M12 4V2" />
                     <path d="M10 2H14" />
-                    <path d="M19 6.5L20.5 5" />
-                    <path d="M12 6.5V7.5" stroke-width="1.5"/>
-                    <path d="M12 18.5V19.5" stroke-width="1.5"/>
-                    <path d="M17.5 13H18.5" stroke-width="1.5"/>
-                    <path d="M5.5 13H6.5" stroke-width="1.5"/>
-                    <path d="M12 13L15 10" />
-                    <path d="M12 13L10.5 15" />
-                    <circle cx="12" cy="13" r="0.5" fill="white" stroke="none"/>
-                </svg>
+                    <path d="M12 13V8" /> <path d="M12 13L15 15" /> </svg>
             </div>
 
             <div class="profile-pill">

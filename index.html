@@ -32,72 +32,81 @@
             position: fixed;
             top: 0; left: 0; width: 100%;
             display: flex;
-            justify-content: space-between; /* Left aur Right ko door rakhega */
+            justify-content: space-between;
             align-items: center;
             padding: 15px 20px;
             z-index: 100;
         }
 
-        /* Group for Left Items (Timer + Profile) */
         .header-left {
             display: flex;
             align-items: center;
-            gap: 12px; /* Timer aur Profile ke beech gap */
+            gap: 15px; /* Gap thoda badhaya taki chipka na lage */
             transform: translateX(-20px);
             opacity: 0;
             transition: all 0.5s ease;
         }
 
-        /* 1. SIMPLE TIMER LOGO */
+        /* 1. REALISTIC TIMER LOGO */
         .timer-icon {
-            width: 28px;
-            height: 28px;
+            width: 32px; /* Icon size thoda sa badhaya detail ke liye */
+            height: 32px;
             display: flex; align-items: center; justify-content: center;
         }
         .timer-icon svg {
             width: 100%; height: 100%;
             fill: none;
             stroke: white;
-            stroke-width: 2;
+            stroke-width: 1.8; /* Lines thodi sharp ki hain */
             stroke-linecap: round;
             stroke-linejoin: round;
         }
 
-        /* 2. PROFILE PILL (Left Side) */
+        /* 2. PROFILE PILL (Slightly Bigger Now) */
         .profile-pill {
             display: flex;
             align-items: center;
-            background: rgba(30, 30, 30, 0.6);
-            backdrop-filter: blur(10px);
-            padding: 3px 12px 3px 3px;
+            background: rgba(40, 40, 40, 0.7); /* Thoda sa dark kiya better look ke liye */
+            backdrop-filter: blur(12px);
+            padding: 4px 14px 4px 4px; /* Padding adjust ki */
             border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            height: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            /* Height increased from 32px to 38px (Halka sa bada) */
+            height: 38px; 
+            transition: transform 0.2s;
         }
+        .profile-pill:active { transform: scale(0.97); }
+
         .profile-img {
-            width: 26px; height: 26px;
+            /* Image size increased from 26px to 30px */
+            width: 30px; height: 30px;
             border-radius: 50%;
             object-fit: cover;
-            margin-right: 8px;
+            margin-right: 10px;
             background-color: #2a2a2a;
             display: block;
         }
         .profile-initials {
-            width: 26px; height: 26px;
+            width: 30px; height: 30px;
             border-radius: 50%;
-            margin-right: 8px;
+            margin-right: 10px;
             background: linear-gradient(135deg, #8E2DE2, #4A00E0);
             display: flex; justify-content: center; align-items: center;
-            font-weight: 600; font-size: 12px; color: white;
+            font-weight: 600; font-size: 14px; color: white;
             text-transform: uppercase;
         }
-        .profile-name { font-size: 13px; font-weight: 500; color: #eee; }
+        .profile-name { 
+            font-size: 14px; /* Font size bhi thoda sa badhaya */
+            font-weight: 500; 
+            color: #fff; 
+            letter-spacing: 0.3px;
+        }
 
-        /* 3. MENU BUTTON (Right Side - 3 Lines) */
+        /* 3. MENU BUTTON */
         .menu-btn {
-            width: 40px; height: 40px;
+            width: 42px; height: 42px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            border-radius: 12px;
             backdrop-filter: blur(10px);
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
@@ -109,19 +118,19 @@
             transition: all 0.5s ease;
         }
         .menu-line {
-            width: 18px; height: 2px;
+            width: 20px; height: 2px;
             background-color: white;
             border-radius: 2px;
         }
         .menu-btn:active { transform: scale(0.95); background: rgba(255,255,255,0.2); }
 
-        /* --- BACKGROUND --- */
+        /* --- BACKGROUND & OTHERS --- */
         .main-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; animation: float 8s infinite alternate; }
         .orb-1 { top: 10%; left: 10%; width: 60vw; height: 60vw; background: #2563eb; }
         .orb-2 { bottom: 10%; right: 10%; width: 50vw; height: 50vw; background: #db2777; animation-delay: -3s; }
+        @keyframes float { 0% { transform: translate(0,0); } 100% { transform: translate(20px, -20px); } }
 
-        /* --- CENTER CONTENT --- */
         .glass-card {
             width: 300px; height: 350px;
             background: rgba(255,255,255,0.03);
@@ -130,52 +139,36 @@
             backdrop-filter: blur(20px);
             display: flex; justify-content: center; align-items: center;
             color: rgba(255,255,255,0.3);
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
         }
 
-        /* --- BOTTOM SHEET (Grey Page) --- */
+        /* BOTTOM SHEET */
         .bottom-sheet {
-            position: fixed; bottom: 0; left: 0;
-            width: 100%; height: 60vh;
-            background: #121212;
-            border-radius: 30px 30px 0 0;
-            transform: translateY(110%);
-            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            z-index: 200; overflow: hidden;
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 60vh;
+            background: #121212; border-radius: 30px 30px 0 0;
+            transform: translateY(110%); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            z-index: 200; overflow: hidden; box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
             border-top: 1px solid rgba(255,255,255,0.1);
         }
         .bottom-sheet.active { transform: translateY(0); }
-
-        /* Motion BG Inside Sheet */
         .sheet-bg-anim { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.2; }
         .sheet-blob {
             position: absolute; width: 150px; height: 150px;
             background: radial-gradient(circle, rgba(120,120,120,1) 0%, rgba(0,0,0,0) 70%);
-            border-radius: 50%; filter: blur(30px);
-            animation: sheetMove 6s infinite alternate;
+            border-radius: 50%; filter: blur(30px); animation: sheetMove 6s infinite alternate;
         }
         @keyframes sheetMove { from { transform: translate(-20%, -20%); } to { transform: translate(20%, 20%); } }
-
-        /* Overlay */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); backdrop-filter: blur(2px);
             z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s;
         }
         .overlay.active { opacity: 1; pointer-events: auto; }
-
-        /* Drag Handle */
         .drag-handle {
             width: 40px; height: 4px; background: rgba(255,255,255,0.2);
             border-radius: 10px; position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index: 2;
         }
-        
         .sheet-content { position: relative; z-index: 2; padding: 40px 20px; text-align: center; color: #888; }
-
-        @keyframes float { 0% { transform: translate(0,0); } 100% { transform: translate(20px, -20px); } }
-
     </style>
 </head>
 <body>
@@ -191,10 +184,18 @@
             
             <div class="timer-icon">
                 <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="13" r="9" />
-                    <path d="M12 4V2" />
+                    <circle cx="12" cy="13" r="8.5" />
+                    <path d="M12 4.5V2" />
                     <path d="M10 2H14" />
-                    <path d="M12 13L15 10" /> <path d="M12 13V9" />     </svg>
+                    <path d="M19 6.5L20.5 5" />
+                    <path d="M12 6.5V7.5" stroke-width="1.5"/>
+                    <path d="M12 18.5V19.5" stroke-width="1.5"/>
+                    <path d="M17.5 13H18.5" stroke-width="1.5"/>
+                    <path d="M5.5 13H6.5" stroke-width="1.5"/>
+                    <path d="M12 13L15 10" />
+                    <path d="M12 13L10.5 15" />
+                    <circle cx="12" cy="13" r="0.5" fill="white" stroke="none"/>
+                </svg>
             </div>
 
             <div class="profile-pill">
@@ -213,9 +214,7 @@
 
     </header>
 
-    <div class="glass-card">
-        MAIN CONTENT
-    </div>
+    <div class="glass-card">MAIN CONTENT</div>
 
     <div class="overlay" id="overlay"></div>
 
@@ -226,8 +225,8 @@
         </div>
         <div class="drag-handle"></div>
         <div class="sheet-content">
-            <h2>Dashboard</h2>
-            <p>Your content goes here...</p>
+            <h2>Menu</h2>
+            <p>Options will appear here.</p>
         </div>
     </div>
 
@@ -239,17 +238,13 @@
         const menuBtn = document.getElementById('menuBtn');
         const bottomSheet = document.getElementById('bottomSheet');
         const overlay = document.getElementById('overlay');
-
-        // User Data Elements
         const userNameEl = document.getElementById('userName');
         const userAvatarEl = document.getElementById('userAvatar');
         const userInitialsEl = document.getElementById('userInitials');
 
-        // 1. SET USER DATA
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
             userNameEl.innerText = user.first_name;
-
             if (user.photo_url) {
                 userAvatarEl.src = user.photo_url;
                 userAvatarEl.style.display = 'block';
@@ -262,7 +257,6 @@
             }
         }
 
-        // 2. ANIMATE HEADER IN
         setTimeout(() => {
             headerLeft.style.opacity = '1';
             headerLeft.style.transform = 'translateX(0)';
@@ -270,7 +264,6 @@
             menuBtn.style.transform = 'translateX(0)';
         }, 100);
 
-        // 3. MENU TOGGLE LOGIC
         function toggleMenu() {
             const isActive = bottomSheet.classList.contains('active');
             if (isActive) {
@@ -281,10 +274,8 @@
                 overlay.classList.add('active');
             }
         }
-
         menuBtn.addEventListener('click', toggleMenu);
         overlay.addEventListener('click', toggleMenu);
-
     </script>
 </body>
 </html>

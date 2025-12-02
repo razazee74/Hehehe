@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Telegram Advanced App</title>
+    <title>Telegram Final App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-        :root { --bg-color: #000000; --sheet-bg: #1a1a1a; }
+        :root { --bg-color: #000000; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -19,6 +19,9 @@
             height: 100vh;
             width: 100vw;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             color: white;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
@@ -29,55 +32,90 @@
             position: fixed;
             top: 0; left: 0; width: 100%;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* Left aur Right ko door rakhega */
             align-items: center;
             padding: 15px 20px;
             z-index: 100;
         }
 
-        /* --- 1. REALISTIC ADVANCED TIMER (Left) --- */
-        .timer-logo {
-            width: 42px;
-            height: 42px;
-            opacity: 0;
+        /* Group for Left Items (Timer + Profile) */
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Timer aur Profile ke beech gap */
             transform: translateX(-20px);
-            transition: all 0.6s ease;
-            filter: drop-shadow(0 0 8px rgba(255,255,255,0.15));
+            opacity: 0;
+            transition: all 0.5s ease;
         }
-        .timer-logo svg {
+
+        /* 1. SIMPLE TIMER LOGO */
+        .timer-icon {
+            width: 28px;
+            height: 28px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .timer-icon svg {
             width: 100%; height: 100%;
             fill: none;
             stroke: white;
-            stroke-width: 1.5;
+            stroke-width: 2;
             stroke-linecap: round;
             stroke-linejoin: round;
         }
 
-        /* --- 2. HAMBURGER MENU (Right) --- */
+        /* 2. PROFILE PILL (Left Side) */
+        .profile-pill {
+            display: flex;
+            align-items: center;
+            background: rgba(30, 30, 30, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 3px 12px 3px 3px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 32px;
+        }
+        .profile-img {
+            width: 26px; height: 26px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 8px;
+            background-color: #2a2a2a;
+            display: block;
+        }
+        .profile-initials {
+            width: 26px; height: 26px;
+            border-radius: 50%;
+            margin-right: 8px;
+            background: linear-gradient(135deg, #8E2DE2, #4A00E0);
+            display: flex; justify-content: center; align-items: center;
+            font-weight: 600; font-size: 12px; color: white;
+            text-transform: uppercase;
+        }
+        .profile-name { font-size: 13px; font-weight: 500; color: #eee; }
+
+        /* 3. MENU BUTTON (Right Side - 3 Lines) */
         .menu-btn {
-            width: 44px; height: 44px;
+            width: 40px; height: 40px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            border-radius: 10px;
             backdrop-filter: blur(10px);
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             gap: 5px;
             cursor: pointer;
-            opacity: 0;
-            transform: translateX(20px);
-            transition: all 0.6s ease;
             border: 1px solid rgba(255,255,255,0.05);
+            transform: translateX(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
         }
         .menu-line {
-            width: 20px; height: 2px;
+            width: 18px; height: 2px;
             background-color: white;
             border-radius: 2px;
-            transition: 0.3s;
         }
-        /* Tap effect */
         .menu-btn:active { transform: scale(0.95); background: rgba(255,255,255,0.2); }
 
-        /* --- MAIN BACKGROUND --- */
+        /* --- BACKGROUND --- */
         .main-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; animation: float 8s infinite alternate; }
         .orb-1 { top: 10%; left: 10%; width: 60vw; height: 60vw; background: #2563eb; }
@@ -96,93 +134,45 @@
             transform: translate(-50%, -50%);
         }
 
-        /* --- 3. SLIDE-UP SHEET (Grey Page) --- */
+        /* --- BOTTOM SHEET (Grey Page) --- */
         .bottom-sheet {
-            position: fixed;
-            bottom: 0; left: 0;
-            width: 100%;
-            height: 70vh; /* 70% height */
-            background: #121212; /* Dark Grey Base */
+            position: fixed; bottom: 0; left: 0;
+            width: 100%; height: 60vh;
+            background: #121212;
             border-radius: 30px 30px 0 0;
-            transform: translateY(110%); /* Hidden initially */
+            transform: translateY(110%);
             transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            z-index: 200;
-            overflow: hidden; /* Motion BG ko andar rakhne ke liye */
+            z-index: 200; overflow: hidden;
             box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
             border-top: 1px solid rgba(255,255,255,0.1);
         }
-
-        .bottom-sheet.active {
-            transform: translateY(0);
-        }
+        .bottom-sheet.active { transform: translateY(0); }
 
         /* Motion BG Inside Sheet */
-        .sheet-bg-anim {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0;
-            opacity: 0.3; /* Subtle effect */
-        }
+        .sheet-bg-anim { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.2; }
         .sheet-blob {
-            position: absolute; width: 200px; height: 200px;
-            background: radial-gradient(circle, rgba(100,100,100,1) 0%, rgba(0,0,0,0) 70%);
-            border-radius: 50%;
-            filter: blur(40px);
+            position: absolute; width: 150px; height: 150px;
+            background: radial-gradient(circle, rgba(120,120,120,1) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%; filter: blur(30px);
             animation: sheetMove 6s infinite alternate;
         }
         @keyframes sheetMove { from { transform: translate(-20%, -20%); } to { transform: translate(20%, 20%); } }
 
-        /* Sheet Content */
-        .sheet-content {
-            position: relative; z-index: 1; /* Above animation */
-            padding: 30px;
-            height: 100%;
-            display: flex; flex-direction: column; align-items: center;
-        }
-
-        /* Profile inside Sheet */
-        .sheet-profile {
-            display: flex; flex-direction: column; align-items: center;
-            margin-bottom: 30px;
-        }
-        .sheet-avatar {
-            width: 80px; height: 80px;
-            border-radius: 50%;
-            border: 3px solid #333;
-            margin-bottom: 10px;
-            object-fit: cover;
-            background: #222;
-        }
-        .sheet-name { font-size: 1.2rem; font-weight: 600; }
-        
-        .dummy-text {
-            width: 100%;
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            color: #aaa;
-        }
-
-        /* Overlay (Black tint behind sheet) */
+        /* Overlay */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(3px);
-            z-index: 150;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.3s;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(2px);
+            z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s;
         }
         .overlay.active { opacity: 1; pointer-events: auto; }
 
-        /* Close Handle */
+        /* Drag Handle */
         .drag-handle {
-            width: 50px; height: 5px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
-            position: absolute; top: 12px; left: 50%;
-            transform: translateX(-50%);
+            width: 40px; height: 4px; background: rgba(255,255,255,0.2);
+            border-radius: 10px; position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index: 2;
         }
+        
+        .sheet-content { position: relative; z-index: 2; padding: 40px 20px; text-align: center; color: #888; }
 
         @keyframes float { 0% { transform: translate(0,0); } 100% { transform: translate(20px, -20px); } }
 
@@ -197,14 +187,22 @@
 
     <header class="app-header">
         
-        <div class="timer-logo" id="timerIcon">
-            <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="13" r="9" stroke-width="1.5" />
-                <path d="M12 4V2" stroke-width="2"/>
-                <path d="M10 2H14" stroke-width="2"/> <path d="M19 6L20.5 4.5" stroke-width="2"/> <path d="M12 6V7"/> <path d="M12 19V20"/>
-                <path d="M6 13H5"/> <path d="M19 13H18"/>
-                
-                <path d="M12 13L15 10" stroke-width="1.5"/> <path d="M12 13L9.5 14.5" stroke-width="1.5"/> <circle cx="12" cy="13" r="1" fill="white" stroke="none"/> </svg>
+        <div class="header-left" id="headerLeft">
+            
+            <div class="timer-icon">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="13" r="9" />
+                    <path d="M12 4V2" />
+                    <path d="M10 2H14" />
+                    <path d="M12 13L15 10" /> <path d="M12 13V9" />     </svg>
+            </div>
+
+            <div class="profile-pill">
+                <img src="" id="userAvatar" class="profile-img" style="display: none;">
+                <div id="userInitials" class="profile-initials" style="display: none;">?</div>
+                <span id="userName" class="profile-name">User</span>
+            </div>
+
         </div>
 
         <div class="menu-btn" id="menuBtn">
@@ -216,30 +214,20 @@
     </header>
 
     <div class="glass-card">
-        MAIN CONTENT AREA
+        MAIN CONTENT
     </div>
 
     <div class="overlay" id="overlay"></div>
 
     <div class="bottom-sheet" id="bottomSheet">
         <div class="sheet-bg-anim">
-            <div class="sheet-blob" style="top: 20%; left: 20%; background: rgba(100,100,100,0.2);"></div>
-            <div class="sheet-blob" style="bottom: 20%; right: 20%; background: rgba(60,60,60,0.3); animation-delay: -2s;"></div>
+            <div class="sheet-blob" style="top: 20%; left: 30%;"></div>
+            <div class="sheet-blob" style="bottom: 10%; right: 20%; animation-delay: -2s;"></div>
         </div>
-
         <div class="drag-handle"></div>
-
         <div class="sheet-content">
-            <div class="sheet-profile">
-                <img src="" id="sheetAvatar" class="sheet-avatar" style="display: none;">
-                <div id="sheetInitial" class="sheet-avatar" style="display: none; justify-content: center; align-items: center; font-size: 2rem; background: #444;">?</div>
-                <div class="sheet-name" id="sheetName">Guest User</div>
-            </div>
-
-            <div class="dummy-text">🚀 Dashboard Settings</div>
-            <div class="dummy-text">⚙️ Account Configuration</div>
-            <div class="dummy-text">🔔 Notification Preferences</div>
-            <div class="dummy-text" style="color: #ff5555;">Log Out</div>
+            <h2>Dashboard</h2>
+            <p>Your content goes here...</p>
         </div>
     </div>
 
@@ -247,42 +235,42 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        const timerIcon = document.getElementById('timerIcon');
+        const headerLeft = document.getElementById('headerLeft');
         const menuBtn = document.getElementById('menuBtn');
         const bottomSheet = document.getElementById('bottomSheet');
         const overlay = document.getElementById('overlay');
 
-        // Elements inside Sheet
-        const sheetName = document.getElementById('sheetName');
-        const sheetAvatar = document.getElementById('sheetAvatar');
-        const sheetInitial = document.getElementById('sheetInitial');
+        // User Data Elements
+        const userNameEl = document.getElementById('userName');
+        const userAvatarEl = document.getElementById('userAvatar');
+        const userInitialsEl = document.getElementById('userInitials');
 
-        // --- 1. USER DETECTION ---
+        // 1. SET USER DATA
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
-            
-            // Name
-            sheetName.innerText = user.first_name + (user.last_name ? " " + user.last_name : "");
+            userNameEl.innerText = user.first_name;
 
-            // Photo
             if (user.photo_url) {
-                sheetAvatar.src = user.photo_url;
-                sheetAvatar.style.display = 'block';
+                userAvatarEl.src = user.photo_url;
+                userAvatarEl.style.display = 'block';
+                userInitialsEl.style.display = 'none';
             } else {
-                sheetInitial.innerText = user.first_name.charAt(0).toUpperCase();
-                sheetInitial.style.display = 'flex';
+                const initial = user.first_name.charAt(0).toUpperCase();
+                userInitialsEl.innerText = initial;
+                userInitialsEl.style.display = 'flex';
+                userAvatarEl.style.display = 'none';
             }
         }
 
-        // --- 2. ANIMATIONS ON LOAD ---
+        // 2. ANIMATE HEADER IN
         setTimeout(() => {
-            timerIcon.style.opacity = '1';
-            timerIcon.style.transform = 'translateX(0)';
+            headerLeft.style.opacity = '1';
+            headerLeft.style.transform = 'translateX(0)';
             menuBtn.style.opacity = '1';
             menuBtn.style.transform = 'translateX(0)';
         }, 100);
 
-        // --- 3. MENU INTERACTION ---
+        // 3. MENU TOGGLE LOGIC
         function toggleMenu() {
             const isActive = bottomSheet.classList.contains('active');
             if (isActive) {
@@ -294,10 +282,7 @@
             }
         }
 
-        // Tap on Hamburger
         menuBtn.addEventListener('click', toggleMenu);
-        
-        // Tap on Overlay (to close)
         overlay.addEventListener('click', toggleMenu);
 
     </script>

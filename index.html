@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Monitor App UI</title>
+    <title>Monitor Dashboard</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
@@ -57,96 +57,81 @@
         .menu-line { width: 20px; height: 2px; background-color: white; border-radius: 2px; }
         .menu-btn:active { transform: scale(0.95); background: rgba(255,255,255,0.2); }
 
-        /* --- MAIN CARD (Updated for Tabs) --- */
+        /* --- MAIN CARD --- */
         .glass-card {
-            width: 320px; height: 420px; /* Thoda height badhaya */
+            width: 320px; height: 440px; /* Adjusted height */
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1); border-radius: 30px;
             backdrop-filter: blur(20px);
-            display: flex; flex-direction: column; /* Column Layout */
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            overflow: hidden;
-        }
-
-        /* CARD CONTENT AREA */
-        .card-content {
-            flex-grow: 1;
-            padding: 20px;
             display: flex; flex-direction: column;
-            position: relative;
+            /* Positioning logic to handle the button below it */
+            margin-top: 80px; 
+            margin-bottom: 15px;
+            position: relative; z-index: 10;
         }
 
-        /* PAGES (Hidden/Shown based on Tab) */
-        .page {
-            display: none; flex-direction: column; height: 100%; gap: 15px;
-            animation: fadeIn 0.3s ease;
-        }
+        .card-content { flex-grow: 1; padding: 20px; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+
+        .page { display: none; flex-direction: column; height: 100%; gap: 15px; animation: fadeIn 0.3s ease; }
         .page.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* COMMON INPUTS */
-        .input-group {
-            background: rgba(0,0,0,0.3); border-radius: 16px; padding: 12px;
-            border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center;
-        }
-        .clean-input {
-            background: transparent; border: none; outline: none; color: white;
-            font-family: 'Poppins'; width: 100%; font-size: 14px;
-        }
+        .input-group { background: rgba(0,0,0,0.3); border-radius: 16px; padding: 12px; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; }
+        .clean-input { background: transparent; border: none; outline: none; color: white; font-family: 'Poppins'; width: 100%; font-size: 14px; }
         .clean-input::placeholder { color: #666; }
 
         /* BUTTONS */
-        .action-btn {
-            width: 100%; padding: 14px; border-radius: 16px; border: none;
-            font-weight: 600; font-size: 14px; cursor: pointer; color: black;
-            background: white; transition: transform 0.1s;
-            display: flex; justify-content: center; align-items: center; gap: 8px;
-        }
+        .action-btn { width: 100%; padding: 14px; border-radius: 16px; border: none; font-weight: 600; font-size: 14px; cursor: pointer; color: black; background: white; transition: transform 0.1s; display: flex; justify-content: center; align-items: center; gap: 8px; }
         .action-btn:active { transform: scale(0.98); }
         .btn-red { background: #ff4d4d; color: white; }
         .btn-green { background: #4ade80; color: black; }
         
-        /* PAGE TITLES */
-        .page-title { font-size: 18px; font-weight: 600; margin-bottom: 5px; color: #fff; }
-        .page-subtitle { font-size: 12px; color: #888; margin-bottom: 10px; }
+        /* NEW BLUE BUTTON (Verification) */
+        .btn-blue { background: #3b82f6; color: white; }
 
         /* LIST STYLE */
         .monitor-list { flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 5px; }
-        .list-item {
-            background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
+        .list-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
         .li-name { font-size: 13px; font-weight: 500; }
         .li-tag { font-size: 10px; padding: 2px 6px; border-radius: 4px; }
         .tag-ban { background: rgba(255, 77, 77, 0.2); color: #ff4d4d; }
         .tag-unban { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
         .li-del { background: transparent; border: none; cursor: pointer; opacity: 0.7; }
 
-        /* TAB BAR (Bottom of Card) */
-        .tab-bar {
-            height: 60px;
-            background: rgba(0,0,0,0.2);
-            border-top: 1px solid rgba(255,255,255,0.05);
-            display: flex; justify-content: space-around; align-items: center;
-            padding: 0 10px;
+        /* CLEAR ALL BUTTON (Inside Active List) */
+        .clear-all-btn {
+            margin-top: auto; /* Push to bottom */
+            background: rgba(255, 255, 255, 0.1); color: #ccc;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px; border-radius: 12px;
+            font-size: 12px; cursor: pointer; text-align: center;
+            transition: all 0.2s;
         }
-        .tab-item {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            width: 50px; height: 50px; border-radius: 12px;
-            cursor: pointer; opacity: 0.5; transition: all 0.3s;
-        }
+        .clear-all-btn:hover { background: rgba(255, 50, 50, 0.2); color: #ff5555; border-color: #ff5555; }
+
+        /* TAB BAR */
+        .tab-bar { height: 60px; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-around; align-items: center; padding: 0 10px; }
+        .tab-item { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 12px; cursor: pointer; opacity: 0.5; transition: all 0.3s; }
         .tab-item.active { opacity: 1; background: rgba(255,255,255,0.1); }
         .tab-item svg { width: 22px; height: 22px; fill: white; margin-bottom: 2px; }
         .tab-label { font-size: 9px; font-weight: 500; }
 
-        /* --- BOTTOM SHEET (Menu Links) --- */
-        .bottom-sheet {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 65vh;
-            background: #121212; border-radius: 30px 30px 0 0;
-            transform: translateY(110%); z-index: 200; box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
-            border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column;
-            will-change: transform; touch-action: none;
+        /* --- NOTIFICATION BUTTON (Below Glass Card) --- */
+        .notif-btn {
+            width: 320px; /* Same width as card */
+            padding: 12px;
+            background: white; color: black;
+            border: none; border-radius: 16px;
+            font-weight: 600; font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+            z-index: 9;
         }
+        .notif-btn:active { transform: scale(0.98); opacity: 0.9; }
+
+        /* --- BOTTOM SHEET (Menu Links) --- */
+        .bottom-sheet { position: fixed; bottom: 0; left: 0; width: 100%; height: 65vh; background: #121212; border-radius: 30px 30px 0 0; transform: translateY(110%); z-index: 200; box-shadow: 0 -10px 40px rgba(0,0,0,0.6); border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; will-change: transform; touch-action: none; }
         .sheet-bg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .sheet-blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.3; animation: float 8s infinite alternate; }
         .drag-area { width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; flex-shrink: 0; position: relative; z-index: 2; touch-action: none; }
@@ -154,16 +139,46 @@
         .sheet-content { padding: 10px 20px 40px 20px; flex-grow: 1; position: relative; z-index: 2; overflow: hidden; }
         
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; height: 100%; }
-        .menu-item {
-            position: relative; background: rgba(40, 40, 40, 0.4); border-radius: 24px; padding: 20px;
-            height: 150px; display: flex; flex-direction: column; justify-content: space-between;
-            border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); transition: transform 0.1s; cursor: pointer;
-        }
+        .menu-item { position: relative; background: rgba(40, 40, 40, 0.4); border-radius: 24px; padding: 20px; height: 150px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); transition: transform 0.1s; cursor: pointer; }
         .menu-item:active { transform: scale(0.96); background: rgba(60,60,60,0.6); }
         .item-text h3 { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 5px; }
         .item-text p { font-size: 12px; color: #aaa; line-height: 1.3; }
         .item-icon { align-self: flex-end; width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.08); border-radius: 14px; }
         .item-icon svg { width: 28px; height: 28px; fill: white; }
+
+        /* --- POPUP MODALS (Generic) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+            z-index: 3000; display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .modal-overlay.active { opacity: 1; }
+        
+        .modal-box {
+            background: #1a1a1a; width: 85%; max-width: 320px;
+            border-radius: 24px; padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            transform: scale(0.9); transition: transform 0.3s;
+            display: flex; flex-direction: column; gap: 15px;
+        }
+        .modal-overlay.active .modal-box { transform: scale(1); }
+
+        .modal-title { font-size: 18px; font-weight: 600; text-align: center; }
+        .modal-desc { font-size: 13px; color: #aaa; text-align: center; line-height: 1.4; }
+        
+        /* Modal Buttons */
+        .modal-actions { display: flex; gap: 10px; margin-top: 10px; }
+        .m-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; }
+        .m-cancel { background: rgba(255,255,255,0.1); color: white; }
+        .m-confirm { background: white; color: black; }
+        
+        /* Notification Specific */
+        .notif-list { max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+        .notif-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; font-size: 12px; border-left: 3px solid #4ade80; }
+        .exit-row { display: flex; justify-content: flex-end; }
+        .exit-btn { background: rgba(255,255,255,0.1); color: #aaa; border: none; padding: 5px 15px; border-radius: 20px; font-size: 11px; cursor: pointer; }
 
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(3px); z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
         .overlay.active { opacity: 1; pointer-events: auto; }
@@ -200,14 +215,11 @@
     </header>
 
     <div class="glass-card">
-        
         <div class="card-content">
             
             <div class="page active" id="page-check">
-                <div>
-                    <div class="page-title">Check Status</div>
-                    <div class="page-subtitle">Instantly check account availability</div>
-                </div>
+                <div class="page-title">Check Status</div>
+                <div class="page-subtitle">Instantly check account availability</div>
                 <div class="input-group">
                     <input type="text" class="clean-input" placeholder="Enter username...">
                 </div>
@@ -218,10 +230,8 @@
             </div>
 
             <div class="page" id="page-task">
-                <div>
-                    <div class="page-title">Add Monitor</div>
-                    <div class="page-subtitle">Start tracking Ban or Unban status</div>
-                </div>
+                <div class="page-title">Add Monitor</div>
+                <div class="page-subtitle">Start tracking Ban, Unban or Verify</div>
                 <div class="input-group">
                     <input type="text" class="clean-input" placeholder="Target username...">
                 </div>
@@ -233,36 +243,38 @@
                     <svg style="width:18px;height:18px;fill:black" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
                     Start Unban Watch
                 </button>
+                
+                <button class="action-btn btn-blue">
+                    <svg style="width:18px;height:18px;fill:white" viewBox="0 0 24 24">
+                        <path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12zm-12.91 4.72l-3.8-3.81 1.48-1.48 2.32 2.33 5.85-5.87 1.48 1.48-7.33 7.35z"/>
+                    </svg>
+                    Start Verification Watch
+                </button>
             </div>
 
             <div class="page" id="page-list">
-                <div>
-                    <div class="page-title">Active List</div>
-                    <div class="page-subtitle">Currently monitored targets</div>
-                </div>
-                <div class="monitor-list">
+                <div class="page-title">Active List</div>
+                <div class="page-subtitle">Currently monitored targets</div>
+                
+                <div class="monitor-list" id="activeListContainer">
                     <div class="list-item">
-                        <div>
-                            <div class="li-name">@target_one</div>
-                            <span class="li-tag tag-ban">BAN</span>
-                        </div>
+                        <div><div class="li-name">@target_one</div><span class="li-tag tag-ban">BAN</span></div>
                         <button class="li-del">✕</button>
                     </div>
                     <div class="list-item">
-                        <div>
-                            <div class="li-name">@my_account</div>
-                            <span class="li-tag tag-unban">UNBAN</span>
-                        </div>
+                        <div><div class="li-name">@my_account</div><span class="li-tag tag-unban">UNBAN</span></div>
                         <button class="li-del">✕</button>
                     </div>
                 </div>
+
+                <button class="clear-all-btn" onclick="showClearModal()">
+                    Clear All Usernames
+                </button>
             </div>
 
             <div class="page" id="page-conf">
-                <div>
-                    <div class="page-title">Configuration</div>
-                    <div class="page-subtitle">Manage Webhooks</div>
-                </div>
+                <div class="page-title">Configuration</div>
+                <div class="page-subtitle">Manage Webhooks</div>
                 <div class="input-group">
                     <input type="text" class="clean-input" placeholder="Discord Webhook URL...">
                 </div>
@@ -292,8 +304,12 @@
                 <span class="tab-label">Settings</span>
             </div>
         </div>
-
     </div>
+
+    <button class="notif-btn" onclick="showNotifModal()">
+        <svg style="width:16px;height:16px" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        Notifications
+    </button>
 
     <div class="overlay" id="overlay"></div>
 
@@ -325,6 +341,31 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="clearModal">
+        <div class="modal-box">
+            <div class="modal-title">Clear All?</div>
+            <div class="modal-desc">Are you sure you want to clear all usernames from the active list? This action cannot be undone.</div>
+            <div class="modal-actions">
+                <button class="m-btn m-cancel" onclick="hideModal('clearModal')">Cancel</button>
+                <button class="m-btn m-confirm" onclick="confirmClear()">Yes, Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="notifModal">
+        <div class="modal-box">
+            <div class="modal-title">Notifications</div>
+            <div class="notif-list">
+                <div class="notif-item"><b>@resays</b> was successfully UNBANNED. <br><span style="color:#888">2 mins ago</span></div>
+                <div class="notif-item" style="border-left-color: #ff4d4d"><b>@spammer</b> was successfully BANNED. <br><span style="color:#888">1 hour ago</span></div>
+                <div class="notif-item" style="border-left-color: #3b82f6"><b>@client</b> is now VERIFIED. <br><span style="color:#888">Yesterday</span></div>
+            </div>
+            <div class="exit-row">
+                <button class="exit-btn" onclick="hideModal('notifModal')">Exit</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
@@ -341,17 +382,31 @@
 
         function openLink(url) { tg.openTelegramLink(url); }
 
-        // --- TAB SWITCHING LOGIC ---
+        // --- TAB SWITCHING ---
         function switchTab(pageId, btn) {
-            // Remove active from all pages
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            // Show target page
             document.getElementById('page-' + pageId).classList.add('active');
-            
-            // Remove active from all tabs
             document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-            // Activate clicked tab
             btn.classList.add('active');
+        }
+
+        // --- MODAL LOGIC ---
+        function showClearModal() {
+            document.getElementById('clearModal').style.display = 'flex';
+            setTimeout(() => document.getElementById('clearModal').classList.add('active'), 10);
+        }
+        function showNotifModal() {
+            document.getElementById('notifModal').style.display = 'flex';
+            setTimeout(() => document.getElementById('notifModal').classList.add('active'), 10);
+        }
+        function hideModal(id) {
+            document.getElementById(id).classList.remove('active');
+            setTimeout(() => document.getElementById(id).style.display = 'none', 300);
+        }
+        function confirmClear() {
+            // Logic to clear list
+            document.getElementById('activeListContainer').innerHTML = '<div style="text-align:center;color:#666;font-size:12px;margin-top:20px;">List is empty</div>';
+            hideModal('clearModal');
         }
 
         // --- INIT ---

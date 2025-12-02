@@ -32,84 +32,87 @@
             position: fixed;
             top: 0; left: 0; width: 100%;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start; /* Sab kuch Left mein */
             align-items: center;
             padding: 15px 20px;
             z-index: 1000;
+            gap: 15px; /* Icon aur Profile ke beech ka gap */
         }
 
-        /* --- LEFT ICON CONTAINER --- */
-        .left-icon-container {
+        /* --- TIMER ICON (Small) --- */
+        .timer-icon {
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0; 
-            transform: translateX(-15px);
+            transform: translateX(-10px);
             transition: all 0.5s ease;
-            /* Size thoda bada rakha hai taaki bold dikhe */
-            height: 48px; 
-            width: 48px;
+            width: 28px; /* Size chhota kar diya */
+            height: 28px;
         }
 
-        /* SVG Styling - Stroke ki jagah FILL use kiya hai BOLDness ke liye */
-        .left-icon-container svg {
+        .timer-icon svg {
             width: 100%;
             height: 100%;
-            fill: white; /* Ab ye solid white bhara hua dikhega */
+            fill: white;
         }
 
-        /* --- RIGHT PROFILE PILL --- */
+        /* --- PROFILE PILL (Compact) --- */
         .tg-profile-wrapper {
             display: none; 
             align-items: center;
             opacity: 0;
-            transform: translateX(15px);
+            transform: translateX(-10px); /* Left se slide hoga */
             transition: all 0.5s ease;
-            height: 46px; 
+            height: 32px; /* Height chhoti kar di */
         }
 
         .profile-pill {
             display: flex;
             align-items: center;
-            background: rgba(30, 30, 30, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 4px 16px 4px 4px; 
+            background: rgba(30, 30, 30, 0.6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 3px 12px 3px 3px; /* Padding kam kar di */
             border-radius: 50px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             height: 100%;
         }
 
         .profile-img {
-            width: 38px;
-            height: 38px;
+            width: 26px; /* Photo size chhota */
+            height: 26px;
             border-radius: 50%;
             object-fit: cover;
-            margin-right: 12px;
+            margin-right: 8px;
             background-color: #2a2a2a;
             display: block;
         }
 
         .profile-initials {
-            width: 38px;
-            height: 38px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
-            margin-right: 12px;
+            margin-right: 8px;
             background: linear-gradient(135deg, #8E2DE2, #4A00E0);
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: 600;
             color: white;
-            font-size: 16px;
+            font-size: 12px; /* Font chhota */
             text-transform: uppercase;
         }
 
-        .profile-name { font-size: 16px; font-weight: 500; color: #ffffff; }
+        .profile-name { 
+            font-size: 13px; /* Name font chhota */
+            font-weight: 500; 
+            color: #eeeeee; 
+        }
 
         /* --- BACKGROUND --- */
         .background-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #050505; }
-        .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.5; animation: float 10s infinite alternate; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: float 10s infinite alternate; }
         .blob-1 { top: -10%; left: -10%; width: 60vw; height: 60vw; background: #4f46e5; }
         .blob-2 { bottom: -10%; right: -10%; width: 50vw; height: 50vw; background: #db2777; animation-delay: -2s; }
         @keyframes float { 0% { transform: translate(0,0); } 100% { transform: translate(20px, -20px); } }
@@ -131,28 +134,20 @@
 
     <header class="app-header">
         
-        <div class="left-icon-container" id="leftIcon">
+        <div class="timer-icon" id="timerIcon">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 2C10 1.44772 10.4477 1 11 1H13C13.5523 1 14 1.44772 14 2V3.05C14.0169 3.05058 14.0337 3.05151 14.0505 3.05281L14.6198 3.33749C14.2407 3.5286 13.8824 3.75549 13.548 4.00977L13 3.59868V3H11V3.59868L10.452 4.00977C10.1176 3.75549 9.75928 3.5286 9.38018 3.33749L9.94954 3.05281C9.96627 3.05151 9.98311 3.05058 10 3.05V2Z"/>
-
-                <path d="M17.882 4.67385C18.2323 4.23933 18.8687 4.17094 19.3032 4.5212L20.4788 5.46906C20.9133 5.81932 20.9817 6.45568 20.6315 6.8902L19.4558 8.34807C19.1056 8.78258 18.4692 8.85097 18.0347 8.50071L16.8591 7.55284C16.4246 7.20258 16.3562 6.56623 16.7064 6.13171L17.882 4.67385Z"/>
-
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 5C16.9706 5 21 9.02944 21 14C21 18.9706 16.9706 23 12 23C7.57551 23 3.9056 19.7946 3.14954 15.5H5.20455C5.90806 18.6734 8.69466 21 12 21C15.866 21 19 17.866 19 14C19 10.134 15.866 7 12 7C9.36671 7 7.07663 8.45558 5.82397 10.6385L6.00282 10.7416C6.48079 11.0176 6.64455 11.6288 6.36857 12.1068C6.09259 12.5847 5.48143 12.7485 5.00346 12.4725L2.40532 10.9725C1.92735 10.6965 1.76359 10.0854 2.03957 9.6074L3.19794 7.60124C3.47392 7.12327 4.08508 6.95951 4.56305 7.23549C5.04102 7.51147 5.20478 8.12263 4.9288 8.6006L4.47161 9.39237C6.11546 6.70327 9.04944 5 12 5Z"/>
-
-                <path d="M11 9C11 8.44772 11.4477 8 12 8C12.5523 8 13 8.44772 13 9V13.2929L15.8536 16.1464C16.2441 16.537 16.2441 17.1699 15.8536 17.5607C15.463 17.9512 14.8299 17.9512 14.4393 17.5607L11.2929 14.4142C11.1054 14.2267 11 13.9724 11 13.7071V9Z"/>
-
-                <path d="M2.5 9C2.5 8.44772 2.94772 8 3.5 8H6.5C7.05228 8 7.5 8.44772 7.5 9C7.5 9.55228 7.05228 10 6.5 10H3.5C2.94772 10 2.5 9.55228 2.5 9Z"/>
-                <path d="M0 13C0 12.4477 0.447715 12 1 12H9C9.55228 12 10 12.4477 10 13C10 13.5523 9.55228 14 9 14H1C0.447715 14 0 13.5523 0 13Z"/>
-                <path d="M2.5 17C2.5 16.4477 2.94772 16 3.5 16H6.5C7.05228 16 7.5 16.4477 7.5 17C7.5 17.5523 7.05228 18 6.5 18H3.5C2.94772 18 2.5 17.5523 2.5 17Z"/>
+                <path d="M12 22C16.9706 22 21 17.9706 21 13C21 8.02944 16.9706 4 12 4C7.02944 4 3 8.02944 3 13C3 17.9706 7.02944 22 12 22Z" fill="none" stroke="white" stroke-width="2"/>
+                <path d="M12 8V13L15 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 2H14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                <path d="M20 5L18 7" stroke="white" stroke-width="2" stroke-linecap="round"/>
             </svg>
         </div>
-
 
         <div class="tg-profile-wrapper" id="profileWrapper">
             <div class="profile-pill">
                 <img src="" id="userAvatar" class="profile-img" style="display: none;">
                 <div id="userInitials" class="profile-initials" style="display: none;"></div>
-                <span id="userName" class="profile-name">Loading...</span>
+                <span id="userName" class="profile-name">User</span>
             </div>
         </div>
     </header>
@@ -171,12 +166,11 @@
         tg.ready(); tg.expand();
 
         const profileWrapper = document.getElementById('profileWrapper');
-        const leftIcon = document.getElementById('leftIcon');
+        const timerIcon = document.getElementById('timerIcon');
         const userNameEl = document.getElementById('userName');
         const userAvatarEl = document.getElementById('userAvatar');
         const userInitialsEl = document.getElementById('userInitials');
 
-        // Telegram User Detection
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
             userNameEl.innerText = user.first_name;
@@ -192,16 +186,18 @@
                 userAvatarEl.style.display = 'none';
             }
 
-            // Animations
+            // Reveal Animation
             profileWrapper.style.display = 'flex';
             setTimeout(() => {
+                timerIcon.style.opacity = '1';
+                timerIcon.style.transform = 'translateX(0)';
+                
                 profileWrapper.style.opacity = '1';
                 profileWrapper.style.transform = 'translateX(0)';
-                leftIcon.style.opacity = '1';
-                leftIcon.style.transform = 'translateX(0)';
             }, 100);
         } else {
-             console.log("Not inside Telegram");
+             // Browser demo (Optional)
+             // timerIcon.style.opacity = '1'; timerIcon.style.transform = 'translateX(0)';
         }
     </script>
 </body>

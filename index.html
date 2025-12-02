@@ -100,7 +100,7 @@
             border-top: 1px solid rgba(255,255,255,0.1);
             display: flex; flex-direction: column;
             will-change: transform;
-            touch-action: none; /* Disable native scroll so swipe works perfectly */
+            touch-action: none; /* Disable native scroll */
         }
         
         .sheet-bg-layer {
@@ -117,7 +117,7 @@
             display: flex; justify-content: center; align-items: center;
             flex-shrink: 0; 
             position: relative; z-index: 2;
-            pointer-events: none; /* Let clicks pass through to sheet for dragging */
+            pointer-events: none; 
         }
         .drag-bar { width: 50px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 10px; }
 
@@ -131,7 +131,7 @@
         /* --- MENU GRID --- */
         .menu-grid {
             display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
-            height: 100%; /* Fill available space */
+            height: 100%;
         }
 
         /* BUTTONS */
@@ -140,7 +140,7 @@
             background: rgba(40, 40, 40, 0.4); 
             border-radius: 24px;
             padding: 20px;
-            height: 150px; /* Good size */
+            height: 150px;
             display: flex; flex-direction: column; justify-content: space-between;
             border: 1px solid rgba(255,255,255,0.08);
             backdrop-filter: blur(10px);
@@ -219,30 +219,6 @@
         <div class="sheet-content">
             <div class="menu-grid">
                 
-                <div class="menu-item" onclick="openLink('https://t.me/resays')">
-                    <div class="item-text">
-                        <h3>Support</h3>
-                        <p>We're here to help</p>
-                    </div>
-                    <div class="item-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22H14V16H12C9.79 16 8 14.21 8 12C8 9.79 9.79 8 12 8C14.21 8 16 9.79 16 12V13H19C19.55 13 20 13.45 20 14V20C20 20.55 19.55 21 19 21H16V22C16 22.55 16.45 23 17 23H19C20.66 23 22 21.66 22 20V12C22 6.48 17.52 2 12 2Z" fill="white"/>
-                        </svg>
-                    </div>
-                </div>
-
-                <div class="menu-item" onclick="openLink('https://t.me/monitorON')">
-                    <div class="item-text">
-                        <h3>Channel</h3>
-                        <p>Latest updates</p>
-                    </div>
-                    <div class="item-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M21 11L21 13C21 14.1 20.1 15 19 15H17L13 19V5L17 9H19C20.1 9 21 9.9 21 11ZM5 9H11V15H5C3.9 15 3 14.1 3 13V11C3 9.9 3.9 9 5 9ZM8 15V19C8 19.55 7.55 20 7 20H6C5.45 20 5 19.55 5 19V15H8Z" fill="white"/>
-                        </svg>
-                    </div>
-                </div>
-
                 <div class="menu-item" onclick="openLink('https://t.me/safetiest')">
                     <div class="item-text">
                         <h3>Portal</h3>
@@ -265,6 +241,31 @@
                     <div class="item-icon">
                         <svg viewBox="0 0 24 24">
                             <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2 9.24L7.45 13.97L5.82 21L12 17.27Z" fill="white"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="menu-item" onclick="openLink('https://t.me/resays')">
+                    <div class="item-text">
+                        <h3>Support</h3>
+                        <p>We're here to help</p>
+                    </div>
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="white"/>
+                            <path d="M20 14H18V12H16C14.9 12 14 12.9 14 14V16C14 17.1 14.9 18 16 18H18V20H20V14Z" fill="white"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="menu-item" onclick="openLink('https://t.me/monitorON')">
+                    <div class="item-text">
+                        <h3>Channel</h3>
+                        <p>Latest updates</p>
+                    </div>
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M21 11L21 13C21 14.1 20.1 15 19 15H17L13 19V5L17 9H19C20.1 9 21 9.9 21 11ZM5 9H11V15H5C3.9 15 3 14.1 3 13V11C3 9.9 3.9 9 5 9ZM8 15V19C8 19.55 7.55 20 7 20H6C5.45 20 5 19.55 5 19V15H8Z" fill="white"/>
                         </svg>
                     </div>
                 </div>
@@ -338,11 +339,8 @@
         let currentY = 0;
         let isDragging = false;
 
-        // Attaching listener to the WHOLE bottomSheet
         bottomSheet.addEventListener('touchstart', (e) => {
             startY = e.touches[0].clientY;
-            // Ensure we aren't tapping a button (though we can still drag)
-            // But since scrolling is disabled, any touch on the sheet can start a drag
             isDragging = true;
             bottomSheet.style.transition = 'none'; 
         }, { passive: true });
@@ -352,7 +350,6 @@
             currentY = e.touches[0].clientY;
             const diff = currentY - startY;
 
-            // Only allow dragging downwards
             if (diff > 0) {
                 bottomSheet.style.transform = `translateY(${diff}px)`;
             }
@@ -364,10 +361,10 @@
             const diff = currentY - startY;
             
             bottomSheet.style.transition = 'transform 0.3s ease-out';
-            if (diff > 100) { // Dragged enough to close
+            if (diff > 100) { 
                 closeMenu();
             } else {
-                openMenu(); // Snap back
+                openMenu(); 
             }
             startY = 0; currentY = 0;
         });

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Realistic Telegram App</title>
+    <title>Telegram App Links</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
@@ -91,7 +91,7 @@
         /* --- BOTTOM SHEET --- */
         .bottom-sheet {
             position: fixed; bottom: 0; left: 0; width: 100%;
-            height: 80vh; /* TALLER */
+            height: 65vh; /* Page Height reduced (was 80vh) so it's not too big */
             background: #121212; 
             border-radius: 30px 30px 0 0;
             transform: translateY(110%);
@@ -99,10 +99,10 @@
             box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
             border-top: 1px solid rgba(255,255,255,0.1);
             display: flex; flex-direction: column;
-            /* Improved Performance */
             will-change: transform;
         }
         
+        /* Sheet BG */
         .sheet-bg-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
         }
@@ -111,13 +111,13 @@
             animation: float 8s infinite alternate;
         }
         
-        /* Drag Area - Made Larger for easy swiping */
+        /* Drag Area */
         .drag-area {
-            width: 100%; height: 60px;
+            width: 100%; height: 50px;
             display: flex; justify-content: center; align-items: center;
             flex-shrink: 0; cursor: grab;
             position: relative; z-index: 2;
-            touch-action: none; /* KEY for Swipe Fix */
+            touch-action: none; 
         }
         .drag-handle { width: 50px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 10px; }
 
@@ -127,33 +127,37 @@
             position: relative; z-index: 2;
             overflow-y: auto;
         }
-        .sheet-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 20px; color: #fff; padding-left: 5px; }
+        .sheet-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 20px; color: #fff; padding-left: 5px; }
 
-        /* --- GRID LAYOUT --- */
+        /* --- BIG BUTTON GRID --- */
         .menu-grid {
             display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
         }
 
+        /* BIGGER BOXES */
         .menu-item {
             position: relative;
             background: rgba(40, 40, 40, 0.4); 
-            border-radius: 20px; padding: 20px;
-            height: 155px; /* Increased Size for Balance */
+            border-radius: 24px; /* More rounded */
+            padding: 20px;
+            height: 160px; /* HEIGHT INCREASED (Bada Dabba) */
             display: flex; flex-direction: column; justify-content: space-between;
             border: 1px solid rgba(255,255,255,0.08);
             backdrop-filter: blur(10px);
-            transition: transform 0.1s;
+            transition: transform 0.1s, background 0.2s;
+            text-decoration: none; /* For Link */
+            cursor: pointer;
         }
-        .menu-item:active { transform: scale(0.97); background: rgba(60,60,60,0.5); }
+        .menu-item:active { transform: scale(0.96); background: rgba(60,60,60,0.6); }
 
-        .item-text h3 { font-size: 17px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .item-text h3 { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 5px; }
         .item-text p { font-size: 12px; color: #aaa; line-height: 1.3; }
 
         .item-icon {
             align-self: flex-end;
-            width: 44px; height: 44px;
+            width: 48px; height: 48px; /* Bigger Icon Area */
             display: flex; justify-content: center; align-items: center;
-            background: rgba(255,255,255,0.08); border-radius: 12px;
+            background: rgba(255,255,255,0.08); border-radius: 14px;
         }
         .item-icon svg { width: 28px; height: 28px; fill: white; }
 
@@ -204,7 +208,6 @@
     <div class="overlay" id="overlay"></div>
 
     <div class="bottom-sheet" id="bottomSheet">
-        
         <div class="sheet-bg-layer">
             <div class="sheet-blob" style="top: 10%; left: -10%; width: 80vw; height: 80vw; background: #2563eb;"></div>
             <div class="sheet-blob" style="bottom: 10%; right: -10%; width: 70vw; height: 70vw; background: #db2777; animation-delay: -2s;"></div>
@@ -215,38 +218,37 @@
         </div>
 
         <div class="sheet-content">
-            <div class="sheet-title">More Content</div>
+            <div class="sheet-title">Menu</div>
             
             <div class="menu-grid">
                 
-                <div class="menu-item">
+                <div class="menu-item" onclick="openLink('https://t.me/resays')">
                     <div class="item-text">
                         <h3>Support</h3>
                         <p>We're here to help</p>
                     </div>
                     <div class="item-icon">
                         <svg viewBox="0 0 24 24">
-                             <path d="M20 12C20 7.58 16.42 4 12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20H13V15H11C9.34 15 8 13.66 8 12V10H6V12C6 15.31 8.69 18 12 18H13V21H12C7.03 21 3 16.97 3 12C3 7.03 7.03 3 12 3C16.97 3 21 7.03 21 12V13H19V12H20Z" fill="white"/>
-                             <circle cx="12" cy="12" r="3" fill="white"/>
-                             <path d="M19 15H16V21H19V15Z" fill="white"/>
-                             <path d="M18 18H20C20 19.1 19.1 20 18 20V18Z" fill="white"/>
+                            <path d="M12 2C7.03 2 3 6.03 3 11V17C3 17.55 3.45 18 4 18H7V12H5V11C5 7.13 8.13 4 12 4C15.87 4 19 7.13 19 11V18H17V12H19.09C19.04 11.69 19 11.35 19 11C19 6.03 14.97 2 12 2ZM17 14H19V17H17V14ZM5 14H7V17H5V14Z" fill="white"/>
+                            <path d="M12 18C12 18 12.5 18 13.5 18.5C14.5 19 15 20.5 15 20.5H9C9 20.5 9.5 19 10.5 18.5C11.5 18 12 18 12 18Z" fill="white"/>
                         </svg>
                     </div>
                 </div>
 
-                <div class="menu-item">
+                <div class="menu-item" onclick="openLink('https://t.me/monitorON')">
                     <div class="item-text">
                         <h3>Channel</h3>
                         <p>Latest updates</p>
                     </div>
                     <div class="item-icon">
                         <svg viewBox="0 0 24 24">
-                            <path d="M4 9V15H8L13 20V4L8 9H4ZM16.5 12C16.5 10.23 15.48 8.71 14 7.97V16.02C15.48 15.29 16.5 13.77 16.5 12ZM19 12C19 15.17 16.89 17.85 14 18.71V20.77C18.01 19.86 21 16.28 21 12C21 7.72 18.01 4.14 14 3.23V5.29C16.89 6.15 19 8.83 19 12Z" fill="white"/>
+                            <path d="M21 11L21 13C21 14.1 20.1 15 19 15H17L13 19V5L17 9H19C20.1 9 21 9.9 21 11ZM5 9H11V15H5C3.9 15 3 14.1 3 13V11C3 9.9 3.9 9 5 9ZM8 15V19C8 19.55 7.55 20 7 20H6C5.45 20 5 19.55 5 19V15H8Z" fill="white"/>
+                            <path d="M16 11.5L14 10V14L16 12.5Z" fill="white"/>
                         </svg>
                     </div>
                 </div>
 
-                <div class="menu-item">
+                <div class="menu-item" onclick="openLink('https://t.me/safetiest')">
                     <div class="item-text">
                         <h3>Portal</h3>
                         <p>Gateway access</p>
@@ -260,16 +262,14 @@
                     </div>
                 </div>
 
-                <div class="menu-item">
+                <div class="menu-item" onclick="openLink('https://t.me/feedure')">
                     <div class="item-text">
                         <h3>Vouch</h3>
                         <p>Verified reviews</p>
                     </div>
                     <div class="item-icon">
                         <svg viewBox="0 0 24 24">
-                            <path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z" fill="white"/>
-                            <circle cx="12" cy="12" r="9" stroke="white" stroke-width="2" fill="none"/>
-                            <path d="M12 2V5" stroke="white" stroke-width="2"/>
+                            <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2 9.24L7.45 13.97L5.82 21L12 17.27Z" fill="white"/>
                         </svg>
                     </div>
                 </div>
@@ -291,6 +291,13 @@
         const userNameEl = document.getElementById('userName');
         const userAvatarEl = document.getElementById('userAvatar');
         const userInitialsEl = document.getElementById('userInitials');
+
+        // --- LINK HANDLING ---
+        function openLink(url) {
+            // "tg" is window.Telegram.WebApp
+            // This function opens the link inside Telegram without jumping to browser if possible
+            tg.openTelegramLink(url);
+        }
 
         // --- 1. REALISTIC LOADING ---
         window.onload = function() {
@@ -335,16 +342,15 @@
             overlay.classList.remove('active');
         }
 
-        // --- 4. SWIPE LOGIC (FIXED & SMOOTH) ---
+        // --- 4. SMOOTH SWIPE DOWN TO CLOSE ---
         let startY = 0;
         let currentY = 0;
         let isDragging = false;
 
-        // dragArea is the top handle part
         dragArea.addEventListener('touchstart', (e) => {
             startY = e.touches[0].clientY;
             isDragging = true;
-            bottomSheet.style.transition = 'none'; // Instant movement
+            bottomSheet.style.transition = 'none'; 
         }, { passive: true });
 
         dragArea.addEventListener('touchmove', (e) => {
@@ -360,19 +366,15 @@
             if (!isDragging) return;
             isDragging = false;
             const diff = currentY - startY;
-            
-            // Restore animation
             bottomSheet.style.transition = 'transform 0.3s ease-out';
-
-            if (diff > 80) { // Threshold to close
+            if (diff > 80) { 
                 closeMenu();
             } else {
-                openMenu(); // Snap back up
+                openMenu();
             }
             startY = 0; currentY = 0;
         });
 
-        // Click Logic
         menuBtn.addEventListener('click', openMenu);
         overlay.addEventListener('click', closeMenu);
 

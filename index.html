@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Telegram App Links</title>
+    <title>Monitor Dashboard</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-        :root { --bg-color: #000000; }
+        :root { --bg-color: #000000; --accent: #ffffff; --glass: rgba(255, 255, 255, 0.05); }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -47,11 +47,9 @@
             transform: translateX(-20px); opacity: 0; transition: all 0.5s ease;
         }
 
-        /* Timer Icon */
         .timer-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
         .timer-icon svg { width: 100%; height: 100%; fill: none; stroke: white; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-        /* Profile Pill */
         .profile-pill {
             display: flex; align-items: center;
             background: rgba(40, 40, 40, 0.7); backdrop-filter: blur(12px);
@@ -64,7 +62,6 @@
         .profile-initials { width: 30px; height: 30px; border-radius: 50%; margin-right: 10px; background: linear-gradient(135deg, #8E2DE2, #4A00E0); display: flex; justify-content: center; align-items: center; font-weight: 600; font-size: 14px; color: white; text-transform: uppercase; }
         .profile-name { font-size: 14px; font-weight: 500; color: #fff; letter-spacing: 0.3px; }
 
-        /* Menu Button */
         .menu-btn {
             width: 42px; height: 42px; background: rgba(255, 255, 255, 0.1); border-radius: 12px;
             backdrop-filter: blur(10px); display: flex; flex-direction: column;
@@ -74,98 +71,143 @@
         .menu-line { width: 20px; height: 2px; background-color: white; border-radius: 2px; }
         .menu-btn:active { transform: scale(0.95); background: rgba(255,255,255,0.2); }
 
-        /* --- GLOBAL BACKGROUND --- */
+        /* --- BACKGROUND --- */
         .main-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; animation: float 8s infinite alternate; }
         .orb-1 { top: 10%; left: 10%; width: 60vw; height: 60vw; background: #2563eb; }
         .orb-2 { bottom: 10%; right: 10%; width: 50vw; height: 50vw; background: #db2777; animation-delay: -3s; }
         @keyframes float { 0% { transform: translate(0,0); } 100% { transform: translate(20px, -20px); } }
 
-        .glass-card {
-            width: 300px; height: 350px; background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 24px;
-            backdrop-filter: blur(20px); display: flex; justify-content: center; align-items: center;
-            color: rgba(255,255,255,0.3); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        /* --- DASHBOARD CONTAINER (Replaces Glass Card) --- */
+        .dashboard-container {
+            width: 90%; max-width: 400px;
+            /* Positioning it nicely below header */
+            margin-top: 80px; 
+            display: flex; flex-direction: column; gap: 20px;
+            z-index: 10;
         }
+
+        /* 1. CHECKER SECTION */
+        .checker-box {
+            background: rgba(30, 30, 30, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 6px;
+            display: flex; align-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .checker-input {
+            flex-grow: 1;
+            background: transparent; border: none; outline: none;
+            color: white; padding: 10px 15px; font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+        .checker-input::placeholder { color: #888; }
+        
+        .check-btn {
+            background: white; color: black;
+            border: none; border-radius: 14px;
+            width: 40px; height: 40px;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; transition: transform 0.1s;
+        }
+        .check-btn:active { transform: scale(0.9); }
+        .check-btn svg { width: 20px; height: 20px; fill: black; }
+
+        /* 2. RESULT BOX (Hidden by default) */
+        .result-box {
+            background: rgba(40, 40, 40, 0.8);
+            border-radius: 16px; padding: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: none; /* JS will show this */
+            flex-direction: column; gap: 10px;
+            animation: fadeIn 0.3s ease;
+        }
+        .result-row { display: flex; justify-content: space-between; align-items: center; }
+        .res-status { font-weight: 600; font-size: 14px; }
+        .status-avail { color: #4ade80; } /* Green */
+        .status-banned { color: #f87171; } /* Red */
+        
+        .action-btn-row { display: flex; gap: 10px; margin-top: 5px; }
+        .act-btn {
+            flex: 1; padding: 8px; border-radius: 10px; border: none;
+            font-size: 12px; font-weight: 600; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; gap: 5px;
+        }
+        .btn-ban { background: rgba(248, 113, 113, 0.2); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.3); }
+        .btn-unban { background: rgba(74, 222, 128, 0.2); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); }
+
+        /* 3. MONITOR LIST SECTION */
+        .list-header {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px; padding: 5px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .tab-btn {
+            flex: 1; padding: 10px; border: none; background: transparent;
+            color: #888; font-family: 'Poppins'; font-size: 13px; font-weight: 500;
+            cursor: pointer; border-radius: 12px; transition: all 0.3s;
+        }
+        .tab-btn.active { background: rgba(255,255,255,0.1); color: white; font-weight: 600; }
+
+        .monitor-list {
+            display: flex; flex-direction: column; gap: 10px;
+            max-height: 40vh; overflow-y: auto;
+            padding-bottom: 20px;
+        }
+        
+        /* List Item (User Card) */
+        .user-card {
+            background: rgba(30, 30, 30, 0.5);
+            border-radius: 16px; padding: 12px 15px;
+            display: flex; justify-content: space-between; align-items: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.1s;
+        }
+        .u-info { display: flex; flex-direction: column; }
+        .u-name { font-size: 14px; font-weight: 500; color: #eee; }
+        .u-time { font-size: 10px; color: #666; }
+        
+        .trash-btn {
+            width: 32px; height: 32px; border-radius: 10px;
+            background: rgba(255, 50, 50, 0.1);
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; border: none;
+        }
+        .trash-btn svg { width: 16px; height: 16px; fill: #ff5555; }
 
         /* --- BOTTOM SHEET --- */
         .bottom-sheet {
             position: fixed; bottom: 0; left: 0; width: 100%;
-            height: 60vh; /* Compact Height */
-            background: #121212; 
-            border-radius: 30px 30px 0 0;
-            transform: translateY(110%);
-            z-index: 200; 
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
-            border-top: 1px solid rgba(255,255,255,0.1);
-            display: flex; flex-direction: column;
-            will-change: transform;
-            touch-action: none; /* Disable native scroll */
+            height: 65vh; background: #121212; border-radius: 30px 30px 0 0;
+            transform: translateY(110%); z-index: 200; box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
+            border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column;
+            will-change: transform; touch-action: none;
         }
-        
-        .sheet-bg-layer {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
-        }
-        .sheet-blob { 
-            position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.3; 
-            animation: float 8s infinite alternate;
-        }
-        
-        /* Drag Handle Indicator */
-        .drag-indicator {
-            width: 100%; height: 30px;
-            display: flex; justify-content: center; align-items: center;
-            flex-shrink: 0; 
-            position: relative; z-index: 2;
-            pointer-events: none; 
-        }
-        .drag-bar { width: 50px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 10px; }
+        .sheet-bg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .sheet-blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.3; animation: float 8s infinite alternate; }
+        .drag-area { width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; flex-shrink: 0; position: relative; z-index: 2; touch-action: none; }
+        .drag-handle { width: 50px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 10px; }
+        .sheet-content { padding: 0 20px 40px 20px; flex-grow: 1; position: relative; z-index: 2; overflow-y: auto; }
 
-        .sheet-content { 
-            padding: 10px 20px 40px 20px; 
-            flex-grow: 1; 
-            position: relative; z-index: 2;
-            overflow: hidden; /* NO SCROLL */
-        }
-
-        /* --- MENU GRID --- */
-        .menu-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
-            height: 100%;
-        }
-
-        /* BUTTONS */
+        /* Grid & Items (Same as before) */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .menu-item {
-            position: relative;
-            background: rgba(40, 40, 40, 0.4); 
-            border-radius: 24px;
-            padding: 20px;
-            height: 150px;
-            display: flex; flex-direction: column; justify-content: space-between;
-            border: 1px solid rgba(255,255,255,0.08);
-            backdrop-filter: blur(10px);
-            transition: transform 0.1s, background 0.2s;
-            cursor: pointer;
+            position: relative; background: rgba(40, 40, 40, 0.4); border-radius: 24px; padding: 20px;
+            height: 160px; display: flex; flex-direction: column; justify-content: space-between;
+            border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); transition: transform 0.1s; cursor: pointer;
         }
         .menu-item:active { transform: scale(0.96); background: rgba(60,60,60,0.6); }
-
         .item-text h3 { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 5px; }
         .item-text p { font-size: 12px; color: #aaa; line-height: 1.3; }
-
-        .item-icon {
-            align-self: flex-end;
-            width: 48px; height: 48px;
-            display: flex; justify-content: center; align-items: center;
-            background: rgba(255,255,255,0.08); border-radius: 14px;
-        }
+        .item-icon { align-self: flex-end; width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.08); border-radius: 14px; }
         .item-icon svg { width: 28px; height: 28px; fill: white; }
 
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(3px);
-            z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s;
-        }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(3px); z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
         .overlay.active { opacity: 1; pointer-events: auto; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
     </style>
 </head>
@@ -184,8 +226,7 @@
         <div class="header-left" id="headerLeft">
             <div class="timer-icon">
                 <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="13" r="9" />
-                    <path d="M12 4V2" /> <path d="M10 2H14" />
+                    <circle cx="12" cy="13" r="9" /> <path d="M12 4V2" /> <path d="M10 2H14" />
                     <path d="M12 13V8" /> <path d="M12 13L15 15" />
                 </svg>
             </div>
@@ -202,7 +243,53 @@
         </div>
     </header>
 
-    <div class="glass-card">MAIN CONTENT</div>
+    <div class="dashboard-container">
+        
+        <div class="checker-box">
+            <input type="text" id="checkInput" class="checker-input" placeholder="Enter username (e.g. resays)...">
+            <button class="check-btn" id="checkBtn">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </button>
+        </div>
+
+        <div class="result-box" id="resultBox">
+            <div class="result-row">
+                <span class="u-name" id="resUsername">@username</span>
+                <span class="res-status status-avail" id="resStatus">Available</span>
+            </div>
+            <div class="result-row" style="margin-top: 5px;">
+                <span class="u-time">Followers: <b id="resFollowers">0</b></span>
+            </div>
+            <div class="action-btn-row">
+                <button class="act-btn btn-ban" onclick="addToMonitor('ban')">
+                    <svg style="width:14px;height:14px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg>
+                    Ban Watch
+                </button>
+                <button class="act-btn btn-unban" onclick="addToMonitor('unban')">
+                    <svg style="width:14px;height:14px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
+                    Unban Watch
+                </button>
+            </div>
+        </div>
+
+        <div class="list-header">
+            <button class="tab-btn active" id="tabBan" onclick="switchTab('ban')">Ban Watch</button>
+            <button class="tab-btn" id="tabUnban" onclick="switchTab('unban')">Unban Watch</button>
+        </div>
+
+        <div class="monitor-list" id="monitorList">
+            <div class="user-card">
+                <div class="u-info">
+                    <span class="u-name">@example_user</span>
+                    <span class="u-time">Since: 10m ago</span>
+                </div>
+                <button class="trash-btn">
+                    <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                </button>
+            </div>
+        </div>
+
+    </div>
 
     <div class="overlay" id="overlay"></div>
 
@@ -211,65 +298,34 @@
             <div class="sheet-blob" style="top: 10%; left: -10%; width: 80vw; height: 80vw; background: #2563eb;"></div>
             <div class="sheet-blob" style="bottom: 10%; right: -10%; width: 70vw; height: 70vw; background: #db2777; animation-delay: -2s;"></div>
         </div>
-
-        <div class="drag-indicator">
-            <div class="drag-bar"></div>
-        </div>
+        <div class="drag-area" id="dragArea"><div class="drag-handle"></div></div>
 
         <div class="sheet-content">
             <div class="menu-grid">
-                
                 <div class="menu-item" onclick="openLink('https://t.me/safetiest')">
-                    <div class="item-text">
-                        <h3>Portal</h3>
-                        <p>Gateway access</p>
-                    </div>
+                    <div class="item-text"><h3>Portal</h3><p>Gateway access</p></div>
                     <div class="item-icon">
-                        <svg viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10" stroke="white" fill="none" stroke-width="2"/>
-                            <path d="M2 12H22" stroke="white" stroke-width="2"/>
-                            <path d="M12 2C14.5 2 16.5 6.5 16.5 12C16.5 17.5 14.5 22 12 22C9.5 22 7.5 17.5 7.5 12C7.5 6.5 9.5 2 12 2Z" stroke="white" fill="none" stroke-width="2"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="white" fill="none" stroke-width="2"/><path d="M2 12H22" stroke="white" stroke-width="2"/><path d="M12 2C14.5 2 16.5 6.5 16.5 12C16.5 17.5 14.5 22 12 22C9.5 22 7.5 17.5 7.5 12C7.5 6.5 9.5 2 12 2Z" stroke="white" fill="none" stroke-width="2"/></svg>
                     </div>
                 </div>
-
                 <div class="menu-item" onclick="openLink('https://t.me/feedure')">
-                    <div class="item-text">
-                        <h3>Vouch</h3>
-                        <p>Verified reviews</p>
-                    </div>
+                    <div class="item-text"><h3>Vouch</h3><p>Verified reviews</p></div>
                     <div class="item-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2 9.24L7.45 13.97L5.82 21L12 17.27Z" fill="white"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2 9.24L7.45 13.97L5.82 21L12 17.27Z" fill="white"/></svg>
                     </div>
                 </div>
-
                 <div class="menu-item" onclick="openLink('https://t.me/resays')">
-                    <div class="item-text">
-                        <h3>Support</h3>
-                        <p>We're here to help</p>
-                    </div>
+                    <div class="item-text"><h3>Support</h3><p>We're here to help</p></div>
                     <div class="item-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="white"/>
-                            <path d="M20 14H18V12H16C14.9 12 14 12.9 14 14V16C14 17.1 14.9 18 16 18H18V20H20V14Z" fill="white"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="white"/><path d="M20 14H18V12H16C14.9 12 14 12.9 14 14V16C14 17.1 14.9 18 16 18H18V20H20V14Z" fill="white"/></svg>
                     </div>
                 </div>
-
                 <div class="menu-item" onclick="openLink('https://t.me/monitorON')">
-                    <div class="item-text">
-                        <h3>Channel</h3>
-                        <p>Latest updates</p>
-                    </div>
+                    <div class="item-text"><h3>Channel</h3><p>Latest updates</p></div>
                     <div class="item-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M21 11L21 13C21 14.1 20.1 15 19 15H17L13 19V5L17 9H19C20.1 9 21 9.9 21 11ZM5 9H11V15H5C3.9 15 3 14.1 3 13V11C3 9.9 3.9 9 5 9ZM8 15V19C8 19.55 7.55 20 7 20H6C5.45 20 5 19.55 5 19V15H8Z" fill="white"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M21 11L21 13C21 14.1 20.1 15 19 15H17L13 19V5L17 9H19C20.1 9 21 9.9 21 11ZM5 9H11V15H5C3.9 15 3 14.1 3 13V11C3 9.9 3.9 9 5 9ZM8 15V19C8 19.55 7.55 20 7 20H6C5.45 20 5 19.55 5 19V15H8Z" fill="white"/></svg>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -278,6 +334,7 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
+        // Elements
         const appLoader = document.getElementById('appLoader');
         const headerLeft = document.getElementById('headerLeft');
         const menuBtn = document.getElementById('menuBtn');
@@ -287,87 +344,140 @@
         const userAvatarEl = document.getElementById('userAvatar');
         const userInitialsEl = document.getElementById('userInitials');
 
-        function openLink(url) {
-            tg.openTelegramLink(url);
+        // Dashboard Elements
+        const checkBtn = document.getElementById('checkBtn');
+        const checkInput = document.getElementById('checkInput');
+        const resultBox = document.getElementById('resultBox');
+        const resUsername = document.getElementById('resUsername');
+        const resStatus = document.getElementById('resStatus');
+        const resFollowers = document.getElementById('resFollowers');
+
+        const tabBan = document.getElementById('tabBan');
+        const tabUnban = document.getElementById('tabUnban');
+        const monitorList = document.getElementById('monitorList');
+
+        let currentTab = 'ban';
+
+        // --- MOCK DATA FOR DEMO (To be connected to Python later) ---
+        let banList = ['target_one', 'banned_guy'];
+        let unbanList = ['waiting_recovery', 'my_account'];
+
+        function openLink(url) { tg.openTelegramLink(url); }
+
+        // --- RENDER LIST ---
+        function renderList() {
+            monitorList.innerHTML = "";
+            const list = currentTab === 'ban' ? banList : unbanList;
+            
+            list.forEach(user => {
+                const div = document.createElement('div');
+                div.className = 'user-card';
+                div.innerHTML = `
+                    <div class="u-info">
+                        <span class="u-name">@${user}</span>
+                        <span class="u-time">Active</span>
+                    </div>
+                    <button class="trash-btn" onclick="removeItem('${user}')">
+                        <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    </button>
+                `;
+                monitorList.appendChild(div);
+            });
         }
 
-        // --- 1. REALISTIC LOADING ---
+        function switchTab(tab) {
+            currentTab = tab;
+            if(tab === 'ban') {
+                tabBan.classList.add('active'); tabUnban.classList.remove('active');
+            } else {
+                tabUnban.classList.add('active'); tabBan.classList.remove('active');
+            }
+            renderList();
+        }
+
+        function removeItem(user) {
+            if(currentTab === 'ban') banList = banList.filter(u => u !== user);
+            else unbanList = unbanList.filter(u => u !== user);
+            renderList();
+        }
+
+        function addToMonitor(type) {
+            const val = checkInput.value.trim();
+            if(!val) return;
+            if(type === 'ban') {
+                if(!banList.includes(val)) banList.push(val);
+                switchTab('ban');
+            } else {
+                if(!unbanList.includes(val)) unbanList.push(val);
+                switchTab('unban');
+            }
+            checkInput.value = "";
+            resultBox.style.display = 'none';
+        }
+
+        // --- CHECK STATUS SIMULATION ---
+        checkBtn.addEventListener('click', () => {
+            const val = checkInput.value.trim();
+            if(!val) return;
+            
+            // Show Loading effect on button
+            const originalHTML = checkBtn.innerHTML;
+            checkBtn.innerHTML = `<div class="spinner" style="width:20px;height:20px;border-width:2px;"></div>`;
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                checkBtn.innerHTML = originalHTML;
+                resultBox.style.display = 'flex';
+                resUsername.innerText = "@" + val;
+                
+                // Random simulation for demo
+                const isAvail = Math.random() > 0.5;
+                if(isAvail) {
+                    resStatus.innerText = "Available";
+                    resStatus.className = "res-status status-avail";
+                } else {
+                    resStatus.innerText = "Banned/User Not Found";
+                    resStatus.className = "res-status status-banned";
+                }
+                resFollowers.innerText = Math.floor(Math.random() * 50000);
+            }, 1000);
+        });
+
+
+        // --- INIT ---
         window.onload = function() {
+            renderList(); // Initial Render
             setTimeout(() => {
                 appLoader.classList.add('hidden');
                 setTimeout(() => {
-                    headerLeft.style.opacity = '1';
-                    headerLeft.style.transform = 'translateX(0)';
-                    menuBtn.style.opacity = '1';
-                    menuBtn.style.transform = 'translateX(0)';
+                    headerLeft.style.opacity = '1'; headerLeft.style.transform = 'translateX(0)';
+                    menuBtn.style.opacity = '1'; menuBtn.style.transform = 'translateX(0)';
                     appLoader.style.display = 'none';
                 }, 200);
             }, 500);
         };
 
-        // --- 2. USER DATA ---
+        // User Data
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
             userNameEl.innerText = user.first_name;
             if (user.photo_url) {
                 userAvatarEl.src = user.photo_url;
-                userAvatarEl.style.display = 'block';
-                userInitialsEl.style.display = 'none';
+                userAvatarEl.style.display = 'block'; userInitialsEl.style.display = 'none';
             } else {
                 const initial = user.first_name.charAt(0).toUpperCase();
-                userInitialsEl.innerText = initial;
-                userInitialsEl.style.display = 'flex';
-                userAvatarEl.style.display = 'none';
+                userInitialsEl.innerText = initial; userInitialsEl.style.display = 'flex'; userAvatarEl.style.display = 'none';
             }
         }
 
-        // --- 3. MENU TOGGLE ---
-        function openMenu() {
-            bottomSheet.style.transition = 'transform 0.4s cubic-bezier(0.19, 1, 0.22, 1)';
-            bottomSheet.style.transform = 'translateY(0)';
-            overlay.classList.add('active');
-        }
+        // --- SHEET LOGIC ---
+        let startY = 0; let currentY = 0; let isDragging = false;
+        function openMenu() { bottomSheet.style.transform = 'translateY(0)'; overlay.classList.add('active'); }
+        function closeMenu() { bottomSheet.style.transform = 'translateY(110%)'; overlay.classList.remove('active'); }
 
-        function closeMenu() {
-            bottomSheet.style.transition = 'transform 0.4s cubic-bezier(0.19, 1, 0.22, 1)';
-            bottomSheet.style.transform = 'translateY(110%)';
-            overlay.classList.remove('active');
-        }
-
-        // --- 4. FULL SHEET SWIPE TO CLOSE ---
-        let startY = 0;
-        let currentY = 0;
-        let isDragging = false;
-
-        bottomSheet.addEventListener('touchstart', (e) => {
-            startY = e.touches[0].clientY;
-            isDragging = true;
-            bottomSheet.style.transition = 'none'; 
-        }, { passive: true });
-
-        bottomSheet.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            currentY = e.touches[0].clientY;
-            const diff = currentY - startY;
-
-            if (diff > 0) {
-                bottomSheet.style.transform = `translateY(${diff}px)`;
-            }
-        }, { passive: true });
-
-        bottomSheet.addEventListener('touchend', (e) => {
-            if (!isDragging) return;
-            isDragging = false;
-            const diff = currentY - startY;
-            
-            bottomSheet.style.transition = 'transform 0.3s ease-out';
-            if (diff > 100) { 
-                closeMenu();
-            } else {
-                openMenu(); 
-            }
-            startY = 0; currentY = 0;
-        });
+        bottomSheet.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; isDragging = true; bottomSheet.style.transition = 'none'; }, { passive: true });
+        bottomSheet.addEventListener('touchmove', (e) => { if(!isDragging) return; currentY = e.touches[0].clientY; const diff = currentY - startY; if(diff > 0) bottomSheet.style.transform = `translateY(${diff}px)`; }, { passive: true });
+        bottomSheet.addEventListener('touchend', (e) => { if(!isDragging) return; isDragging = false; const diff = currentY - startY; bottomSheet.style.transition = 'transform 0.3s ease-out'; if(diff > 100) closeMenu(); else openMenu(); startY = 0; currentY = 0; });
 
         menuBtn.addEventListener('click', openMenu);
         overlay.addEventListener('click', closeMenu);
@@ -375,3 +485,4 @@
     </script>
 </body>
 </html>
+

@@ -33,31 +33,29 @@
             top: 0; left: 0; width: 100%;
             display: flex;
             justify-content: space-between;
-            align-items: center; /* Vertically center align */
-            padding: 15px 20px; 
+            align-items: center;
+            padding: 15px 20px;
             z-index: 1000;
         }
 
-        /* --- LEFT ICON (Manually Designed to Match 34579.jpg) --- */
-        .left-icon {
+        /* --- LEFT ICON CONTAINER --- */
+        .left-icon-container {
             display: flex;
             align-items: center;
-            justify-content: center;
             opacity: 0; 
             transform: translateX(-15px);
             transition: all 0.5s ease;
-            /* Size Bada kar diya hai */
-            width: 50px; 
-            height: 50px;
-            background: transparent; /* No Background strictly */
+            /* Height ko Right side wale button ke barabar set kiya hai */
+            height: 46px; 
         }
 
-        .left-icon svg {
-            width: 100%; /* Full size of container */
-            height: 100%;
-            fill: white;
-            stroke: white;
-            stroke-width: 0;
+        /* --- YOUR CUSTOM UPLOADED IMAGE STYLE --- */
+        .custom-logo-img {
+            height: 100%; /* Container ki full height lega (46px) */
+            width: auto;  /* Width apne aap adjust hogi taaki photo khiche nahi */
+            object-fit: contain; /* Ensure karta hai ki puri image dikhe */
+            /* Agar white glow chahiye to neeche wali line uncomment kar dena: */
+            /* filter: drop-shadow(0 0 2px rgba(255,255,255,0.5)); */
         }
 
         /* --- RIGHT PROFILE PILL --- */
@@ -67,7 +65,7 @@
             opacity: 0;
             transform: translateX(15px);
             transition: all 0.5s ease;
-            height: 46px; /* Matching height visually */
+            height: 46px; /* Matching height */
         }
 
         .profile-pill {
@@ -107,11 +105,7 @@
             text-transform: uppercase;
         }
 
-        .profile-name { 
-            font-size: 16px; 
-            font-weight: 500; 
-            color: #ffffff; 
-        }
+        .profile-name { font-size: 16px; font-weight: 500; color: #ffffff; }
 
         /* --- BACKGROUND --- */
         .background-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #050505; }
@@ -137,23 +131,16 @@
 
     <header class="app-header">
         
-        <div class="left-icon" id="leftIcon">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11 1H13V3H11V1Z" />
-                <path d="M19.07 4.93L20.49 6.34L19.07 7.76L17.66 6.34L19.07 4.93Z" />
-                
-                <path d="M13 5C17.97 5 22 9.03 22 14C22 18.97 17.97 23 13 23C8.03 23 4 18.97 4 14H6C6 17.87 9.13 21 13 21C16.87 21 20 17.87 20 14C20 10.13 16.87 7 13 7V5Z" />
-                
-                <path d="M12 9H14V14.2L17.6 16.6L16.4 18.4L12 15.5V9Z" />
-                
-                <rect x="0" y="13" width="8" height="2" rx="1" /> <rect x="2" y="9" width="6" height="2" rx="1" />  <rect x="2" y="17" width="6" height="2" rx="1" /> </svg>
+        <div class="left-icon-container" id="leftIcon">
+            <img src="==> यहाँ अपना GITHUB IMAGE LINK डालें <==" alt="Logo" class="custom-logo-img">
         </div>
+
 
         <div class="tg-profile-wrapper" id="profileWrapper">
             <div class="profile-pill">
                 <img src="" id="userAvatar" class="profile-img" style="display: none;">
                 <div id="userInitials" class="profile-initials" style="display: none;"></div>
-                <span id="userName" class="profile-name"></span>
+                <span id="userName" class="profile-name">Ismail</span>
             </div>
         </div>
     </header>
@@ -177,14 +164,11 @@
         const userAvatarEl = document.getElementById('userAvatar');
         const userInitialsEl = document.getElementById('userInitials');
 
-        // Logic to detect Telegram User
+        // Telegram User Detection
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
-            
-            // Set Name
             userNameEl.innerText = user.first_name;
 
-            // Set Avatar
             if (user.photo_url) {
                 userAvatarEl.src = user.photo_url;
                 userAvatarEl.style.display = 'block';
@@ -201,17 +185,14 @@
             setTimeout(() => {
                 profileWrapper.style.opacity = '1';
                 profileWrapper.style.transform = 'translateX(0)';
-                
                 leftIcon.style.opacity = '1';
                 leftIcon.style.transform = 'translateX(0)';
             }, 100);
         } else {
-            console.log("Not inside Telegram");
-            // Demo for browser testing (Remove later)
-            // userNameEl.innerText = "Demo";
-            // userInitialsEl.innerText = "D";
-            // userInitialsEl.style.display = 'flex';
+            // Browser Testing Mode (Optional: Uncomment to see in browser)
+            // console.log("Not inside Telegram");
             // profileWrapper.style.display = 'flex';
+            // userInitialsEl.innerText = "T"; userInitialsEl.style.display = 'flex';
             // setTimeout(() => { profileWrapper.style.opacity = '1'; profileWrapper.style.transform = 'translateX(0)'; leftIcon.style.opacity = '1'; leftIcon.style.transform = 'translateX(0)'; }, 100);
         }
     </script>

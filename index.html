@@ -3,46 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Realistic App</title>
+    <title>Realistic Telegram App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-        :root { --bg-color: #000000; --card-bg: #222; }
+        :root { --bg-color: #000000; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg-color);
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: white;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
+            height: 100vh; width: 100vw; overflow: hidden;
+            display: flex; flex-direction: column; align-items: center;
+            color: white; user-select: none; -webkit-tap-highlight-color: transparent;
         }
 
         /* --- LOADING SCREEN --- */
         .app-loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            z-index: 9999;
+            background: #000; z-index: 9999;
             display: flex; justify-content: center; align-items: center;
-            transition: opacity 0.5s ease, visibility 0.5s;
+            transition: opacity 0.4s ease, visibility 0.4s;
         }
         .spinner {
-            width: 40px; height: 40px;
-            border: 4px solid rgba(255,255,255,0.1);
-            border-top: 4px solid #fff;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            width: 45px; height: 45px;
+            border: 4px solid rgba(255,255,255,0.1); border-top: 4px solid #fff;
+            border-radius: 50%; animation: spin 0.8s linear infinite;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
         .app-loader.hidden { opacity: 0; visibility: hidden; }
 
         /* --- HEADER --- */
@@ -56,11 +47,11 @@
             transform: translateX(-20px); opacity: 0; transition: all 0.5s ease;
         }
 
-        /* Simple Timer Icon */
+        /* Timer Icon (Simple) */
         .timer-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
         .timer-icon svg { width: 100%; height: 100%; fill: none; stroke: white; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-        /* Profile Pill (Big) */
+        /* Profile Pill */
         .profile-pill {
             display: flex; align-items: center;
             background: rgba(40, 40, 40, 0.7); backdrop-filter: blur(12px);
@@ -99,56 +90,84 @@
 
         /* --- BOTTOM SHEET --- */
         .bottom-sheet {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: auto; min-height: 50vh;
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            height: 75vh; /* TALLER HEIGHT (75%) */
             background: #121212; border-radius: 30px 30px 0 0;
-            transform: translateY(110%); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            z-index: 200; box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+            transform: translateY(110%);
+            /* Smooth transitions handled by JS for swipe, but CSS for toggle */
+            z-index: 200; box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
             border-top: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 40px;
+            padding-bottom: 30px;
+            display: flex; flex-direction: column;
         }
-        .bottom-sheet.active { transform: translateY(0); }
-        .drag-handle { width: 40px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 10px; position: absolute; top: 12px; left: 50%; transform: translateX(-50%); }
+        
+        .drag-area {
+            width: 100%; height: 40px;
+            display: flex; justify-content: center; align-items: center;
+            flex-shrink: 0; /* Prevent shrinking */
+            cursor: grab;
+        }
+        .drag-handle { width: 50px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 10px; }
 
-        .sheet-content { padding: 40px 20px 20px 20px; }
-        .sheet-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; color: #fff; padding-left: 5px; }
+        .sheet-content { 
+            padding: 10px 20px 30px 20px; 
+            flex-grow: 1; 
+            overflow-y: auto; /* Scrollable if needed */
+        }
+        
+        .sheet-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 25px; color: #fff; padding-left: 5px; }
 
-        /* --- GRID LAYOUT (4 Boxes) --- */
+        /* --- GRID LAYOUT --- */
         .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* 2 Columns */
-            gap: 12px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
         }
 
         .menu-item {
-            background: #222;
-            border-radius: 16px;
-            padding: 16px;
             position: relative;
-            height: 120px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: background 0.2s, transform 0.1s;
+            background: rgba(30, 30, 30, 0.5); /* Semi-transparent base */
+            border-radius: 20px; padding: 20px;
+            height: 140px; /* Bigger Boxes */
+            display: flex; flex-direction: column; justify-content: space-between;
+            border: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden; /* For inner motion */
+            transition: transform 0.1s;
         }
-        .menu-item:active { background: #2a2a2a; transform: scale(0.98); }
+        .menu-item:active { transform: scale(0.97); }
 
-        .item-text h3 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 4px; }
-        .item-text p { font-size: 11px; color: #888; line-height: 1.3; }
+        /* MOTION BG INSIDE BOXES */
+        .box-bg-anim {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; opacity: 0.4;
+        }
+        .box-blob {
+            position: absolute; width: 100px; height: 100px; border-radius: 50%;
+            filter: blur(40px); animation: boxFloat 5s infinite alternate;
+        }
+        /* Different colors for boxes */
+        .box-1 .box-blob { background: #4f46e5; top: -20%; right: -20%; }
+        .box-2 .box-blob { background: #db2777; bottom: -20%; left: -20%; }
+        .box-3 .box-blob { background: #0ea5e9; top: 40%; left: 40%; }
+        .box-4 .box-blob { background: #eab308; top: -10%; left: -10%; }
+
+        @keyframes boxFloat { 0% { transform: translate(0,0); } 100% { transform: translate(10px, 10px); } }
+
+        /* Box Content */
+        .item-text { position: relative; z-index: 1; }
+        .item-text h3 { font-size: 17px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .item-text p { font-size: 12px; color: #aaa; line-height: 1.3; }
 
         .item-icon {
-            align-self: flex-end; /* Bottom Right */
-            width: 32px; height: 32px;
+            position: relative; z-index: 1; align-self: flex-end;
+            width: 40px; height: 40px;
             display: flex; justify-content: center; align-items: center;
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
+            background: rgba(255,255,255,0.1); border-radius: 12px;
+            backdrop-filter: blur(5px);
         }
-        .item-icon svg { width: 20px; height: 20px; fill: white; }
+        .item-icon svg { width: 24px; height: 24px; fill: white; }
 
-        /* Overlay */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(2px);
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(3px);
             z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s;
         }
         .overlay.active { opacity: 1; pointer-events: auto; }
@@ -193,46 +212,59 @@
     <div class="overlay" id="overlay"></div>
 
     <div class="bottom-sheet" id="bottomSheet">
-        <div class="drag-handle"></div>
+        <div class="drag-area" id="dragArea">
+            <div class="drag-handle"></div>
+        </div>
+
         <div class="sheet-content">
-            <div class="sheet-title">More Content</div>
+            <div class="sheet-title">Menu</div>
             
             <div class="menu-grid">
                 
-                <div class="menu-item">
+                <div class="menu-item box-1">
+                    <div class="box-bg-anim"><div class="box-blob"></div></div>
                     <div class="item-text">
                         <h3>Support</h3>
                         <p>We're here to help</p>
                     </div>
                     <div class="item-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C7.03 2 3 6.03 3 11V17C3 17.55 3.45 18 4 18H7V12H5V11C5 7.13 8.13 4 12 4C15.87 4 19 7.13 19 11V12H17V18H20C20.55 18 21 17.55 21 17V11C21 6.03 16.97 2 12 2Z"/><path d="M15 12H19V18H15z"/><path d="M5 12H9V18H5z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M21 12.22C21 6.88 16.74 2.67 11.5 3.02C6.96 3.33 3.23 7.03 3.01 11.55C2.76 16.8 6.94 21 12 21H13V15H11C9.34 15 8 13.66 8 12V10H6V12C6 15.31 8.69 18 12 18H13V21H12C7.03 21 3 16.97 3 12C3 7.03 7.03 3 12 3C16.97 3 21 7.03 21 12V13H19V12.22H21ZM19 15H16V21H19V15ZM19 13C20.1 13 21 13.9 21 15V21H15V13H19Z"/></svg>
                     </div>
                 </div>
 
-                <div class="menu-item">
+                <div class="menu-item box-2">
+                    <div class="box-bg-anim"><div class="box-blob" style="background: #ec4899;"></div></div>
                     <div class="item-text">
                         <h3>Channel</h3>
-                        <p>Never miss an update</p>
+                        <p>Latest updates</p>
                     </div>
                     <div class="item-icon">
-                        <svg viewBox="0 0 24 24"><path d="M2 17H4V12H2V17ZM22 12C22 10.9 21.1 10 20 10V14C21.1 14 22 13.1 22 12ZM18 10V14H16V10H18ZM14 10V14H6V10H14ZM14 8H6C4.9 8 4 8.9 4 10V14C4 15.1 4.9 16 6 16H11L15 20V16H18C19.1 16 20 15.1 20 14V10C20 8.9 19.1 8 18 8H14Z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M4 9V15H8L13 20V4L8 9H4ZM16.5 12C16.5 10.23 15.48 8.71 14 7.97V16.02C15.48 15.29 16.5 13.77 16.5 12ZM14 3.23V5.29C16.89 6.15 19 8.83 19 12C19 15.17 16.89 17.85 14 18.71V20.77C18.01 19.86 21 16.28 21 12C21 7.72 18.01 4.14 14 3.23Z"/></svg>
                     </div>
                 </div>
 
-                <div class="menu-item">
+                <div class="menu-item box-3">
+                    <div class="box-bg-anim"><div class="box-blob" style="background: #3b82f6;"></div></div>
                     <div class="item-text">
                         <h3>Portal</h3>
-                        <p>Your gateway access</p>
+                        <p>Gateway access</p>
                     </div>
                     <div class="item-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C10.95 20 9.95 19.16 9.5 18H14.5C14.05 19.16 13.05 20 12 20ZM12 4C13.05 4 14.05 4.84 14.5 6H9.5C9.95 4.84 10.95 4 12 4ZM4 12C4 11.26 4.1 10.55 4.29 9.88C4.85 10.43 5.76 10.82 6.82 10.96C6.88 11.3 6.92 11.64 6.92 12C6.92 12.36 6.88 12.7 6.82 13.04C5.76 13.18 4.85 13.57 4.29 14.12C4.1 13.45 4 12.74 4 12ZM12 18C10.65 18 9.4 17.65 8.35 17.06C8.75 16.32 9.76 15.79 11 15.65V18H12ZM12 13.65V10.35C10.76 10.21 9.75 9.68 9.35 8.94C9.11 9.38 8.96 9.87 8.92 10.39C8.92 10.39 8.92 10.39 8.92 10.39C8.92 10.92 8.96 11.45 9.04 11.96C9.04 11.97 9.04 11.99 9.04 12C9.04 12.01 9.04 12.03 9.04 12.04C8.96 12.55 8.92 13.08 8.92 13.61C8.96 14.13 9.11 14.62 9.35 15.06C9.75 14.32 10.76 13.79 12 13.65ZM13 18V15.65C14.24 15.79 15.25 16.32 15.65 17.06C14.6 17.65 13.35 18 13 18ZM15.65 8.94C15.25 9.68 14.24 10.21 13 10.35V6H12V8.35C13.24 8.21 14.25 7.68 14.65 6.94C15.7 7.53 16.6 8.36 17.21 9.38C16.53 9.11 15.75 8.95 14.92 8.95C14.92 8.95 14.92 8.95 14.92 8.95C15.18 8.94 15.42 8.94 15.65 8.94ZM19.71 14.12C19.15 13.57 18.24 13.18 17.18 13.04C17.12 12.7 17.08 12.36 17.08 12C17.08 11.64 17.12 11.3 17.18 10.96C18.24 10.82 19.15 10.43 19.71 9.88C19.9 10.55 20 11.26 20 12C20 12.74 19.9 13.45 19.71 14.12Z"/></svg>
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke="white" fill="none" stroke-width="2"/>
+                            <path d="M2 12H22" stroke="white" stroke-width="2"/>
+                            <path d="M12 2C14.5 2 16.5 6.5 16.5 12C16.5 17.5 14.5 22 12 22C9.5 22 7.5 17.5 7.5 12C7.5 6.5 9.5 2 12 2Z" stroke="white" fill="none" stroke-width="2"/>
+                            <path d="M4 7H20" stroke="white" stroke-width="2"/>
+                            <path d="M4 17H20" stroke="white" stroke-width="2"/>
+                        </svg>
                     </div>
                 </div>
 
-                <div class="menu-item">
+                <div class="menu-item box-4">
+                    <div class="box-bg-anim"><div class="box-blob" style="background: #eab308;"></div></div>
                     <div class="item-text">
                         <h3>Vouch</h3>
-                        <p>Leave a vouch for our services</p>
+                        <p>Verified reviews</p>
                     </div>
                     <div class="item-icon">
                         <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2ZM12 15.4L14.05 16.47L13.5 14.24L15.22 12.63L12.87 12.31L12 10.22L11.13 12.31L8.78 12.63L10.5 14.24L9.95 16.47L12 15.4Z"/></svg>
@@ -251,27 +283,24 @@
         const headerLeft = document.getElementById('headerLeft');
         const menuBtn = document.getElementById('menuBtn');
         const bottomSheet = document.getElementById('bottomSheet');
+        const dragArea = document.getElementById('dragArea');
         const overlay = document.getElementById('overlay');
         const userNameEl = document.getElementById('userName');
         const userAvatarEl = document.getElementById('userAvatar');
         const userInitialsEl = document.getElementById('userInitials');
 
-        // --- 1. REALISTIC LOADING LOGIC ---
+        // --- 1. REALISTIC LOADING (0.5s) ---
         window.onload = function() {
             setTimeout(() => {
-                // Loader fade out
                 appLoader.classList.add('hidden');
-                
-                // Elements fade in after loader
                 setTimeout(() => {
                     headerLeft.style.opacity = '1';
                     headerLeft.style.transform = 'translateX(0)';
                     menuBtn.style.opacity = '1';
                     menuBtn.style.transform = 'translateX(0)';
-                    // Remove loader from DOM to click items behind it
                     appLoader.style.display = 'none';
-                }, 300);
-            }, 800); // 0.8s loading time (thoda realistic)
+                }, 200);
+            }, 500);
         };
 
         // --- 2. USER DATA ---
@@ -290,19 +319,68 @@
             }
         }
 
-        // --- 3. MENU TOGGLE ---
-        function toggleMenu() {
-            const isActive = bottomSheet.classList.contains('active');
-            if (isActive) {
-                bottomSheet.classList.remove('active');
-                overlay.classList.remove('active');
-            } else {
-                bottomSheet.classList.add('active');
-                overlay.classList.add('active');
-            }
+        // --- 3. MENU OPEN/CLOSE ---
+        function openMenu() {
+            bottomSheet.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            bottomSheet.style.transform = 'translateY(0)';
+            overlay.classList.add('active');
         }
-        menuBtn.addEventListener('click', toggleMenu);
-        overlay.addEventListener('click', toggleMenu);
+
+        function closeMenu() {
+            bottomSheet.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            bottomSheet.style.transform = 'translateY(110%)';
+            overlay.classList.remove('active');
+        }
+
+        // --- 4. SWIPE TO CLOSE LOGIC (REALISTIC) ---
+        let startY = 0;
+        let currentY = 0;
+        let isDragging = false;
+
+        // Attach touch events to the Drag Area (Header of Sheet)
+        // You can attach to bottomSheet if you want whole area draggable, 
+        // but Drag Area is better to allow scrolling inside content.
+        bottomSheet.addEventListener('touchstart', (e) => {
+            // Only drag if we are at the top of scroll
+            if (bottomSheet.scrollTop === 0) {
+                startY = e.touches[0].clientY;
+                isDragging = true;
+                bottomSheet.style.transition = 'none'; // Disable transition for direct tracking
+            }
+        }, { passive: true });
+
+        bottomSheet.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            currentY = e.touches[0].clientY;
+            let diff = currentY - startY;
+
+            // Only allow dragging DOWN (positive diff)
+            if (diff > 0) {
+                e.preventDefault(); // Stop scrolling
+                bottomSheet.style.transform = `translateY(${diff}px)`;
+            }
+        }, { passive: false });
+
+        bottomSheet.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            let diff = currentY - startY;
+
+            if (diff > 100) {
+                // If dragged down more than 100px, close it
+                closeMenu();
+            } else {
+                // Bounce back up
+                openMenu(); 
+            }
+            // Reset variables
+            startY = 0; currentY = 0;
+        });
+
+        // Click Events
+        menuBtn.addEventListener('click', openMenu);
+        overlay.addEventListener('click', closeMenu);
+
     </script>
 </body>
 </html>

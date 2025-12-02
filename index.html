@@ -3,16 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Telegram User Site</title>
+    <title>Telegram Profile</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-        :root {
-            --bg-color: #000000;
-            --accent-color: #3b82f6;
-        }
+        :root { --bg-color: #000000; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -26,111 +23,76 @@
             justify-content: center;
             align-items: center;
             color: white;
-            user-select: none; /* Prevent text selection */
+            user-select: none;
         }
 
-        /* --- DYNAMIC PROFILE PILL (Top Right) --- */
+        /* --- PROFILE PILL (Top Right) --- */
         .tg-profile-wrapper {
             position: fixed;
             top: 15px;
             right: 15px;
             z-index: 1000;
-            display: none; /* By default CHUPA rahega */
+            display: none; /* JS se show hoga */
             align-items: center;
             opacity: 0;
             transform: translateY(-10px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: all 0.5s ease;
         }
 
         .profile-pill {
             display: flex;
             align-items: center;
-            background: rgba(20, 20, 20, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 4px 16px 4px 4px;
+            background: rgba(30, 30, 30, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 5px 15px 5px 5px;
             border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            cursor: default;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
-        /* Avatar Image Style */
         .profile-img {
-            width: 32px;
-            height: 32px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             object-fit: cover;
             margin-right: 10px;
-            background-color: #1c1c1c;
-            display: block;
+            background-color: #333;
         }
 
-        /* Fallback Avatar (Initials) Style */
         .profile-initials {
-            width: 32px;
-            height: 32px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             margin-right: 10px;
-            background: linear-gradient(135deg, #FF9966, #FF5E62);
+            background: linear-gradient(135deg, #6366f1, #a855f7);
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: 600;
-            font-size: 14px;
             color: white;
             text-transform: uppercase;
         }
 
-        .profile-name {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #ffffff;
-            letter-spacing: 0.3px;
-        }
+        .profile-name { font-size: 0.9rem; font-weight: 500; color: #fff; }
 
-        /* --- BACKGROUND ANIMATION (Mesh Gradient) --- */
-        .background-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background: #050505;
-        }
+        /* --- BACKGROUND --- */
+        .background-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #050505; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; animation: float 10s infinite alternate; }
+        .blob-1 { top: 0%; left: 0%; width: 50vw; height: 50vw; background: #4f46e5; }
+        .blob-2 { bottom: 0%; right: 0%; width: 40vw; height: 40vw; background: #db2777; animation-delay: -2s; }
+        
+        @keyframes float { 0% { transform: translate(0,0); } 100% { transform: translate(20px, -20px); } }
 
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(90px);
-            opacity: 0.6;
-            animation: float 10s infinite alternate ease-in-out;
-        }
-
-        .blob-1 { top: 0%; left: 10%; width: 40vw; height: 40vw; background: #6366f1; animation-delay: 0s; }
-        .blob-2 { bottom: 0%; right: 10%; width: 35vw; height: 35vw; background: #ec4899; animation-delay: -2s; }
-        .blob-3 { top: 40%; left: 40%; width: 30vw; height: 30vw; background: #06b6d4; animation-delay: -4s; opacity: 0.4; }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(30px, -30px) scale(1.1); }
-        }
-
-        /* --- GLASS CARD (Empty Center) --- */
+        /* --- CENTER CARD --- */
         .glass-card {
-            width: 300px;
-            height: 400px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
+            width: 300px; height: 400px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 0.8rem;
+            display: flex; justify-content: center; align-items: center;
             color: rgba(255,255,255,0.3);
-            text-transform: uppercase;
-            letter-spacing: 2px;
         }
     </style>
 </head>
@@ -138,77 +100,63 @@
 
     <div class="tg-profile-wrapper" id="profileWrapper">
         <div class="profile-pill">
-            <img src="" alt="" id="userAvatar" class="profile-img" style="display: none;">
+            <img src="" id="userAvatar" class="profile-img" style="display: none;">
             <div id="userInitials" class="profile-initials" style="display: none;"></div>
-            <span id="userName" class="profile-name"></span>
+            <span id="userName" class="profile-name">Loading...</span>
         </div>
     </div>
 
     <div class="background-container">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
     </div>
 
-    <div class="glass-card">
-        </div>
+    <div class="glass-card">MINI APP CONTENT</div>
 
     <script>
-        // --- TELEGRAM USER DETECTION LOGIC ---
+        // --- TELEGRAM DATA EXTRACTION ---
+        const tg = window.Telegram.WebApp;
         
-        document.addEventListener('DOMContentLoaded', () => {
-            const tg = window.Telegram.WebApp;
-            
-            // App ready state batana zaroori hai
-            tg.ready();
-            tg.expand(); // Full height khulne ke liye
+        // App ko batana ki hum ready hain
+        tg.ready();
+        tg.expand(); 
 
-            // Elements fetch karo
-            const profileWrapper = document.getElementById('profileWrapper');
-            const userNameEl = document.getElementById('userName');
-            const userAvatarEl = document.getElementById('userAvatar');
-            const userInitialsEl = document.getElementById('userInitials');
+        const profileWrapper = document.getElementById('profileWrapper');
+        const userNameEl = document.getElementById('userName');
+        const userAvatarEl = document.getElementById('userAvatar');
+        const userInitialsEl = document.getElementById('userInitials');
 
-            // --- MAIN LOGIC ---
-            // Check karega ki kya ye sach mein Telegram ke andar khula hai?
-            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                const user = tg.initDataUnsafe.user;
+        // Check if opened via Telegram Bot Button
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            const user = tg.initDataUnsafe.user;
 
-                // 1. NAME SET KARO
-                // Sirf First Name chahiye jaisa aapne kaha
-                userNameEl.textContent = user.first_name;
+            // 1. Set Name
+            userNameEl.innerText = user.first_name;
 
-                // 2. PHOTO DETECTION LOGIC
-                if (user.photo_url) {
-                    // Agar Telegram ne photo di hai, to photo dikhao
-                    userAvatarEl.src = user.photo_url;
-                    userAvatarEl.style.display = 'block';
-                    userInitialsEl.style.display = 'none';
-                } else {
-                    // Agar Telegram ne Privacy ki wajah se photo nahi di
-                    // To naam ka pehla letter lekar colorful circle banao (Just like Telegram default)
-                    const firstLetter = user.first_name.charAt(0).toUpperCase();
-                    userInitialsEl.textContent = firstLetter;
-                    userInitialsEl.style.display = 'flex';
-                    userAvatarEl.style.display = 'none';
-                }
-
-                // 3. AB PROFILE BUTTON DIKHAO
-                profileWrapper.style.display = 'flex';
-                // Thoda delay taaki smooth animation aye
-                setTimeout(() => {
-                    profileWrapper.style.opacity = '1';
-                    profileWrapper.style.transform = 'translateY(0)';
-                }, 100);
-
+            // 2. Set Photo (Agar available hai)
+            if (user.photo_url) {
+                userAvatarEl.src = user.photo_url;
+                userAvatarEl.style.display = 'block';
+                userInitialsEl.style.display = 'none';
             } else {
-                // AGAR BROWSER MEIN KHOLA (Not Telegram)
-                // Aapne kaha tha "Jiska ID hoga usi ka dikhega"
-                // Kyunki browser mein koi ID nahi hai, hum kuch nahi dikhayenge.
-                // Button hidden rahega. Koi fake data nahi.
-                console.log("Not open in Telegram. Profile hidden.");
+                // Photo nahi mili (Privacy setting ya missing) -> Show Initials
+                const initial = user.first_name.charAt(0);
+                userInitialsEl.innerText = initial;
+                userInitialsEl.style.display = 'flex';
+                userAvatarEl.style.display = 'none';
             }
-        });
+
+            // 3. Show the UI
+            profileWrapper.style.display = 'flex';
+            setTimeout(() => {
+                profileWrapper.style.opacity = '1';
+                profileWrapper.style.transform = 'translateY(0)';
+            }, 100);
+        } else {
+            console.log("Not opened via Telegram App.");
+            // Browser mein testing ke liye agar chaho to fake data dikha sakte ho,
+            // par aapne mana kiya tha, isliye yahan kuch nahi dikhega.
+        }
     </script>
 </body>
 </html>

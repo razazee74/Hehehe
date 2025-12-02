@@ -2,252 +2,202 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bump Clone</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awesome Single Page Site</title>
     <style>
-        /* CSS: Design & Styling */
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Arial', sans-serif;
+        /* --- CSS STYLES --- */
+        
+        /* Font Import */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+        :root {
+            --color-bg1: rgb(8, 10, 15);
+            --color-blob1: 18, 113, 255;
+            --color-blob2: 221, 74, 255;
+            --color-blob3: 100, 220, 255;
+            --color-blob4: 200, 50, 50;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--color-bg1);
             height: 100vh;
-            overflow: hidden;
-        }
-
-        /* Top Header */
-        .header {
-            padding: 20px;
-            text-align: center;
-            background: linear-gradient(180deg, #1a1a1a 0%, #000 100%);
-        }
-        .user-name {
-            font-size: 14px;
-            color: #888;
-        }
-        .balance {
-            font-size: 48px;
-            font-weight: bold;
-            margin-top: 10px;
-            color: #ffffff;
-        }
-        .balance span {
-            font-size: 18px;
-            color: #00ff88; /* Green tint */
-        }
-
-        /* Farming Circle Area */
-        .farming-container {
-            flex: 1;
+            width: 100vw;
+            overflow: hidden; /* Scrollbar hatane ke liye */
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
+            color: white;
         }
 
-        .circle-bg {
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #2a2a2a 0%, #000 70%);
-            border: 2px solid #333;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
-            position: relative;
+        /* --- BACKGROUND ANIMATION --- */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--color-bg1);
+            filter: blur(80px); /* Smooth blobs create karne ke liye */
         }
 
-        /* Farming Progress Bar (Simple Ring) */
-        .progress-ring {
+        .blob {
             position: absolute;
-            width: 260px;
-            height: 260px;
             border-radius: 50%;
-            border: 4px solid transparent;
-            border-top-color: #00ff88;
-            animation: spin 2s linear infinite;
-            display: none; /* Initially hidden */
+            animation: move 20s infinite alternate;
+            opacity: 0.7;
         }
 
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        .btn-claim {
-            background: #00ff88;
-            color: #000;
-            border: none;
-            padding: 15px 40px;
-            font-size: 20px;
-            font-weight: bold;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
-            z-index: 10;
+        .blob-1 {
+            top: 10%;
+            left: 10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(var(--color-blob1), 0.8) 0%, rgba(0,0,0,0) 70%);
+            animation-duration: 25s;
         }
 
-        .btn-farming {
-            background: #333;
-            color: #888;
-            cursor: not-allowed;
-            box-shadow: none;
+        .blob-2 {
+            bottom: 10%;
+            right: 10%;
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, rgba(var(--color-blob2), 0.8) 0%, rgba(0,0,0,0) 70%);
+            animation-duration: 30s;
         }
 
-        .farming-timer {
-            margin-top: 10px;
-            font-size: 16px;
-            color: #aaa;
+        .blob-3 {
+            bottom: 30%;
+            left: 20%;
+            width: 30vw;
+            height: 30vw;
+            background: radial-gradient(circle, rgba(var(--color-blob3), 0.8) 0%, rgba(0,0,0,0) 70%);
+            animation-duration: 22s;
         }
 
-        /* Bottom Navigation Menu */
-        .nav-bar {
-            background-color: #111;
-            padding: 15px 0;
-            display: flex;
-            justify-content: space-around;
-            border-top: 1px solid #333;
+        @keyframes move {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(20px, -50px) scale(1.1); }
+            100% { transform: translate(-20px, 20px) scale(0.9); }
         }
-        .nav-item {
+
+        /* --- GLASS CARD DESIGN --- */
+        .card-container {
+            perspective: 1000px; /* 3D effect ke liye */
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            width: 90%;
+            max-width: 500px;
             text-align: center;
-            color: #666;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .nav-item.active {
-            color: #00ff88;
-        }
-        .nav-icon {
-            font-size: 24px;
-            display: block;
-            margin-bottom: 5px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform-style: preserve-3d;
+            transition: transform 0.1s;
         }
 
+        .card h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #fff, #b3b3b3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transform: translateZ(20px); /* Text ko thoda uthane ke liye */
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            transform: translateZ(15px);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 35px;
+            background: white;
+            color: black;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            transform: translateZ(25px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateZ(30px) scale(1.05);
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+            background: #fff;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            .card h1 { font-size: 2rem; }
+            .card { padding: 2rem; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="user-name" id="username">Loading User...</div>
-        <div class="balance" id="balance">0.00 <span>MMPoints</span></div>
+    <div class="background-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
     </div>
 
-    <div class="farming-container">
-        <div class="progress-ring" id="loader"></div>
-        
-        <div class="circle-bg">
-            <button class="btn-claim" id="actionBtn" onclick="handleAction()">Start Farming</button>
-            <div class="farming-timer" id="timerDisplay"></div>
-        </div>
-    </div>
-
-    <div class="nav-bar">
-        <div class="nav-item active">
-            <span class="nav-icon">🏠</span>
-            Home
-        </div>
-        <div class="nav-item">
-            <span class="nav-icon">📋</span>
-            Tasks
-        </div>
-        <div class="nav-item">
-            <span class="nav-icon">👥</span>
-            Friends
-        </div>
-        <div class="nav-item">
-            <span class="nav-icon">👛</span>
-            Wallet
+    <div class="card-container" id="container">
+        <div class="card" id="card">
+            <h1>Welcome.</h1>
+            <p>
+                Ye aapki nayi single page website hai. 
+                Iska background completely dynamic CSS se bana hai aur 
+                mouse move karne par ye card 3D mein react karta hai.
+            </p>
+            <a href="#" class="btn">Get Started</a>
         </div>
     </div>
 
     <script>
-        // JAVASCRIPT: Logic
+        /* --- JAVASCRIPT LOGIC --- */
+        
+        // 3D Tilt Effect Logic
+        const container = document.getElementById('container');
+        const card = document.getElementById('card');
 
-        // 1. Telegram User Data Fetch
-        const tg = window.Telegram.WebApp;
-        tg.expand(); // App ko full screen karne ke liye
-
-        const userDisplay = document.getElementById('username');
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            userDisplay.innerText = `👋 Hi, ${tg.initDataUnsafe.user.first_name}`;
-        } else {
-            userDisplay.innerText = "👋 Hi, Farmer";
-        }
-
-        // 2. Farming Logic
-        let balance = 0.00;
-        let isFarming = false;
-        let farmingTime = 10; // Demo ke liye 10 seconds (Asli app mein 6 hours hota hai)
-        let timeLeft = farmingTime;
-        let timerInterval;
-
-        const actionBtn = document.getElementById('actionBtn');
-        const timerDisplay = document.getElementById('timerDisplay');
-        const balanceDisplay = document.getElementById('balance');
-        const loader = document.getElementById('loader');
-
-        function handleAction() {
-            if (!isFarming) {
-                // Farming Start Karo
-                startFarming();
-            } else {
-                // Claim Karo
-                claimRewards();
-            }
-        }
-
-        function startFarming() {
-            isFarming = true;
-            actionBtn.innerText = "Farming...";
-            actionBtn.classList.add('btn-farming'); // Style change (grey button)
-            loader.style.display = 'block'; // Spin animation on
+        // Mouse movement event
+        container.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 20;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 20;
             
-            timeLeft = farmingTime;
-            
-            // Timer Loop
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                let minutes = Math.floor(timeLeft / 60);
-                let seconds = timeLeft % 60;
-                timerDisplay.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            // Card ko rotate karna
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
 
-                if (timeLeft <= 0) {
-                    finishFarming();
-                }
-            }, 1000);
-        }
+        // Mouse enter (Animation start)
+        container.addEventListener('mouseenter', (e) => {
+            card.style.transition = 'none'; // Delay hatana taaki smooth move kare
+        });
 
-        function finishFarming() {
-            clearInterval(timerInterval);
-            loader.style.display = 'none';
-            timerDisplay.innerText = "Ready to Claim!";
-            actionBtn.innerText = "Claim 100 Points";
-            actionBtn.classList.remove('btn-farming');
-            // Ab user click karega toh 'claimRewards' call hoga (logic handleAction mein hai par yahan flag change karna padega)
-            // Hum isFarming ko true hi rakhte hain lekin button behavior change karte hain
-            actionBtn.onclick = claimRewards; 
-        }
-
-        function claimRewards() {
-            // Balance update
-            balance += 100;
-            balanceDisplay.innerHTML = `${balance.toFixed(2)} <span>MMPoints</span>`;
-
-            // Haptic Feedback (Vibration) - Telegram Special Feature
-            if(tg.HapticFeedback) {
-                tg.HapticFeedback.notificationOccurred('success');
-            }
-
-            // Reset UI
-            actionBtn.innerText = "Start Farming";
-            timerDisplay.innerText = "";
-            actionBtn.onclick = handleAction; // Wapas start function par set karo
-            isFarming = false;
-        }
-
+        // Mouse leave (Reset position)
+        container.addEventListener('mouseleave', (e) => {
+            card.style.transition = 'transform 0.5s ease'; // Wapas smooth aane ke liye
+            card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        });
     </script>
 </body>
 </html>

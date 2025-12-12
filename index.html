@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Monitor Dashboard Ultimate</title>
+    <title>Monitor Dashboard Pro</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.3/gsap.min.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-        :root { --bg-color: #000000; --accent: #ffffff; }
+        :root { --bg-color: #000000; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -22,17 +22,6 @@
             color: white; user-select: none; -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- LOADER --- */
-        .app-loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999;
-            display: flex; justify-content: center; align-items: center;
-            transition: opacity 0.4s ease, visibility 0.4s;
-        }
-        .spinner { width: 45px; height: 45px; border: 4px solid rgba(255,255,255,0.1); border-top: 4px solid #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        .app-loader.hidden { opacity: 0; visibility: hidden; }
-
         /* --- BACKGROUND --- */
         .main-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; animation: float 8s infinite alternate; }
@@ -40,28 +29,24 @@
         .orb-2 { bottom: 10%; right: 10%; width: 50vw; height: 50vw; background: #db2777; animation-delay: -3s; }
         @keyframes float { 0% { transform: translate(0,0); } 100% { transform: translate(20px, -20px); } }
 
-        /* --- HEADER --- */
+        /* --- HEADER & CONTENT --- */
         .app-header {
             position: fixed; top: 0; left: 0; width: 100%;
             display: flex; justify-content: space-between; align-items: center;
             padding: 15px 20px; z-index: 100;
         }
-        .header-left { display: flex; align-items: center; gap: 15px; transform: translateX(-20px); opacity: 0; transition: all 0.5s ease; }
-        .timer-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
-        .timer-icon svg { width: 100%; height: 100%; fill: none; stroke: white; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-        .profile-pill { display: flex; align-items: center; background: rgba(40, 40, 40, 0.7); backdrop-filter: blur(12px); padding: 4px 14px 4px 4px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.15); height: 38px; transition: transform 0.2s; }
-        .profile-pill:active { transform: scale(0.97); }
-        .profile-img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; margin-right: 10px; background-color: #2a2a2a; display: block; }
-        .profile-initials { width: 30px; height: 30px; border-radius: 50%; margin-right: 10px; background: linear-gradient(135deg, #8E2DE2, #4A00E0); display: flex; justify-content: center; align-items: center; font-weight: 600; font-size: 14px; color: white; text-transform: uppercase; }
-        .profile-name { font-size: 14px; font-weight: 500; color: #fff; letter-spacing: 0.3px; }
-        .menu-btn { width: 42px; height: 42px; background: rgba(255, 255, 255, 0.1); border-radius: 12px; backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transform: translateX(20px); opacity: 0; transition: all 0.5s ease; }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .profile-pill { display: flex; align-items: center; background: rgba(40, 40, 40, 0.7); backdrop-filter: blur(12px); padding: 4px 14px 4px 4px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.15); height: 38px; }
+        .profile-initials { width: 30px; height: 30px; border-radius: 50%; margin-right: 10px; background: linear-gradient(135deg, #8E2DE2, #4A00E0); display: flex; justify-content: center; align-items: center; font-weight: 600; font-size: 14px; color: white; }
+        .profile-name { font-size: 14px; font-weight: 500; }
+        
+        .menu-btn { width: 42px; height: 42px; background: rgba(255, 255, 255, 0.1); border-radius: 12px; backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; border: 1px solid rgba(255,255,255,0.05); }
         .menu-line { width: 20px; height: 2px; background-color: white; border-radius: 2px; }
-        .menu-btn:active { transform: scale(0.95); background: rgba(255,255,255,0.2); }
 
-        /* --- MAIN CONTENT AREA --- */
+        /* --- MAIN CARD --- */
         .glass-card {
             width: 340px; 
-            height: 60vh; /* Adjusted height so it doesn't hit the navbar */
+            height: 65vh; /* Space for navbar */
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1); border-radius: 30px;
             backdrop-filter: blur(20px);
@@ -70,27 +55,20 @@
             position: relative; z-index: 10;
         }
 
-        .card-content { flex-grow: 1; padding: 20px; display: flex; flex-direction: column; position: relative; overflow: hidden; }
-
+        .card-content { flex-grow: 1; padding: 20px; display: flex; flex-direction: column; position: relative; overflow: hidden; padding-bottom: 20px; }
         .page { display: none; flex-direction: column; height: 100%; gap: 15px; animation: fadeIn 0.3s ease; }
         .page.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         .input-group { background: rgba(0,0,0,0.3); border-radius: 16px; padding: 12px; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; }
         .clean-input { background: transparent; border: none; outline: none; color: white; font-family: 'Poppins'; width: 100%; font-size: 14px; }
-        .clean-input::placeholder { color: #666; }
-
-        .action-btn { width: 100%; padding: 14px; border-radius: 16px; border: none; font-weight: 600; font-size: 14px; cursor: pointer; color: black; background: white; transition: transform 0.1s; display: flex; justify-content: center; align-items: center; gap: 8px; }
-        .action-btn:active { transform: scale(0.98); }
+        
+        .action-btn { width: 100%; padding: 14px; border-radius: 16px; border: none; font-weight: 600; font-size: 14px; cursor: pointer; color: black; background: white; display: flex; justify-content: center; align-items: center; gap: 8px; }
         .btn-red { background: #ff4d4d; color: white; }
         .btn-green { background: #4ade80; color: black; }
         .btn-blue { background: #3b82f6; color: white; }
-
-        .page-header { flex-shrink: 0; }
-        .page-title { font-size: 18px; font-weight: 600; margin-bottom: 5px; color: #fff; }
-        .page-subtitle { font-size: 12px; color: #888; margin-bottom: 10px; }
-
-        .monitor-list { flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 2px; margin-bottom: 10px; }
+        
+        .monitor-list { flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
         .list-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
         .li-name { font-size: 13px; font-weight: 500; }
         .li-tag { font-size: 10px; padding: 2px 6px; border-radius: 4px; }
@@ -98,182 +76,113 @@
         .tag-unban { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
         .li-del { width: 28px; height: 28px; background: rgba(255, 50, 50, 0.2); border: 1px solid rgba(255, 50, 50, 0.4); border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
         .li-del svg { width: 14px; height: 14px; fill: #ff9999; }
-        .clear-all-btn { flex-shrink: 0; background: rgba(255, 255, 255, 0.1); color: #ccc; border: 1px solid rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 12px; font-size: 12px; cursor: pointer; text-align: center; transition: all 0.2s; }
-
-        /* --- NOTIFICATION BUTTON --- */
-        .notif-btn {
-            width: 340px; padding: 12px; background: white; color: black; border: none; border-radius: 16px; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; gap: 8px; z-index: 9;
-            margin-top: 15px;
-        }
+        
+        .page-title { font-size: 18px; font-weight: 600; margin-bottom: 5px; color: #fff; }
+        .page-subtitle { font-size: 12px; color: #888; margin-bottom: 10px; }
 
         /* =========================================
-           GOOEY NAVIGATION BAR (From Script 2)
+           REAL GOOEY NAVBAR (Correct Structure)
            ========================================= */
         #navbarContainer {
             width: 100%;
             height: 90px;
-            /* Background color set to white-ish or custom color from your script 2 */
-            background-color: transparent; 
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
+            /* Container sits at bottom */
             position: fixed;
             bottom: 0;
             left: 0;
             z-index: 50;
-            overflow: hidden;
-            pointer-events: none; /* Let clicks pass through empty areas */
+            display: flex;
+            justify-content: center;
         }
 
+        /* 1. The White/Glass Bar (Sits behind the goo) */
         #navbar {
             width: 100%;
-            height: 65px;
-            background-color: #1a1a1a; /* Dark Bar */
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.1); /* Glassy Gray */
+            backdrop-filter: blur(20px);
             position: absolute;
             bottom: 0;
             border-top: 1px solid rgba(255,255,255,0.1);
-            pointer-events: auto;
-            border-radius: 20px 20px 0 0;
         }
 
-        #bubbleWrapper {
-            position: absolute;
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            bottom: 25px;
-            pointer-events: none;
-        }
-
-        .bubble {
-            background-color: #1a1a1a; /* Match navbar color */
-            width: 50px;
-            height: 50px;
-            bottom: 85px;
-            border-radius: 50%;
-            z-index: 1;
-            transform: translateY(120%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        /* Active Icons inside the Bubble (Popped up) */
-        .icon { opacity: 0; }
-        .icon svg { width: 24px; height: 24px; fill: white; }
-
-        #bubble1 {
-            transform: translateY(0%);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-        }
-        #bubble1 > span { opacity: 1; }
-
-        /* The Gooey Connector */
+        /* 2. The Gooey Wrapper (Sits ON TOP to drip down) */
         #bgWrapper {
             filter: url(#goo);
-            width: 100%;
-            height: 100px;
             position: absolute;
-            bottom: 60px;
-            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            bottom: 0; /* Align with bottom */
+            pointer-events: none; /* Let clicks pass to menu */
         }
 
+        /* The "Source" of the liquid (Invisible or Dark Background) 
+           In dark mode, this needs to match body color to look like a cutout */
+        #bg {
+            background-color: #000000; /* Black Liquid */
+            width: 120%;
+            height: 100%;
+            position: absolute;
+            top: -60px; /* Sits above the bar */
+            left: -10%;
+        }
+
+        /* The Moving Liquid Ball */
         #bgBubble {
             position: absolute;
-            background-color: #1a1a1a; /* Match Navbar */
+            background-color: #000000; /* Black Liquid */
             width: 70px;
             height: 70px;
             border-radius: 50%;
-            bottom: -50px;
-            left: 12.5%; /* Position for Item 1 */
+            bottom: -35px; /* Drips DOWN into the bar */
+            left: 12.5%; /* Position 1 */
             transform: translateX(-50%);
         }
 
-        /* The Menu Items (Static) */
+        /* 3. The Menu Items (Sit on top of everything) */
         #menuWrapper {
             position: absolute;
             width: 100%;
-            height: 65px; /* Match Navbar Height */
+            height: 60px;
             bottom: 0;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            pointer-events: auto;
+            z-index: 60;
         }
 
         .menuElement {
-            opacity: 1;
-            transform: translateY(0); /* Resetting from original script */
             cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             width: 50px;
-            height: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        /* Icons */
+        .menuElement svg { 
+            width: 24px; height: 24px; 
+            fill: #aaaaaa; 
+            transition: all 0.3s;
+            z-index: 2;
         }
         
-        .menuElement svg { width: 22px; height: 22px; fill: #666; transition: all 0.2s; margin-bottom: 4px; }
-        .menu-caption { font-size: 10px; color: #666; font-weight: 500; transition: all 0.2s; }
+        /* Active State */
+        .menuElement.active svg { 
+            fill: white; 
+            transform: translateY(-5px); 
+        }
 
-        .menuElement:hover svg, .menuElement:hover .menu-caption { fill: white; color: white; opacity: 0.8; }
-        
-        /* When Active (Hide static icon, keep text or hide it - user said keep text) */
-        .menuElement.active svg { opacity: 0; }
-        .menuElement.active .menu-caption { color: white; transform: translateY(5px); } /* Push text down slightly */
-
-        /* SVG Filter */
+        /* SVG Filter Hidden */
         .svg-filter { position: absolute; visibility: hidden; }
-
-        /* --- BOTTOM SHEET & MODALS --- */
-        .bottom-sheet { position: fixed; bottom: 0; left: 0; width: 100%; height: 70vh; background: #121212; border-radius: 30px 30px 0 0; transform: translateY(110%); z-index: 200; box-shadow: 0 -10px 40px rgba(0,0,0,0.6); border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; will-change: transform; touch-action: none; }
-        .sheet-bg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        .sheet-blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.3; animation: float 8s infinite alternate; }
-        .drag-area { width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; flex-shrink: 0; position: relative; z-index: 2; touch-action: none; }
-        .drag-handle { width: 50px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 10px; }
-        .sheet-content { padding: 10px 20px 30px 20px; flex-grow: 1; position: relative; z-index: 2; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .menu-item { position: relative; background: rgba(40, 40, 40, 0.4); border-radius: 24px; padding: 20px; height: 150px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); transition: transform 0.1s; cursor: pointer; }
-        .menu-item:active { transform: scale(0.96); background: rgba(60,60,60,0.6); }
-        .item-text h3 { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 5px; }
-        .item-text p { font-size: 12px; color: #aaa; line-height: 1.3; }
-        .item-icon { align-self: flex-end; width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.08); border-radius: 14px; }
-        .item-icon svg { width: 28px; height: 28px; fill: white; }
-        .sheet-settings-btn { width: 100%; padding: 15px; margin-top: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; color: white; font-weight: 500; font-size: 14px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 3000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
-        .modal-overlay.active { opacity: 1; }
-        .modal-box { background: #1a1a1a; width: 85%; max-width: 320px; border-radius: 24px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.8); transform: scale(0.9); transition: transform 0.3s; display: flex; flex-direction: column; gap: 15px; }
-        .modal-overlay.active .modal-box { transform: scale(1); }
-        .modal-title { font-size: 18px; font-weight: 600; text-align: center; }
-        .modal-desc { font-size: 13px; color: #aaa; text-align: center; line-height: 1.4; }
-        .modal-actions { display: flex; gap: 10px; margin-top: 10px; }
-        .m-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; }
-        .m-cancel { background: rgba(255,255,255,0.1); color: white; }
-        .m-confirm { background: white; color: black; }
-        .m-red { background: #ff4d4d; color: white; }
-        .notif-list { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .notif-card { background: rgba(40, 40, 40, 0.6); padding: 12px; border-radius: 14px; display: flex; align-items: center; gap: 10px; position: relative; border: 1px solid rgba(255,255,255,0.05); }
-        .notif-img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
-        .notif-content { display: flex; flex-direction: column; gap: 2px; }
-        .notif-head { font-size: 13px; font-weight: 600; color: white; }
-        .notif-sub { font-size: 10px; color: #aaa; }
-        .badge { padding: 1px 4px; border-radius: 3px; font-size: 9px; font-weight: bold; margin-left: 5px; }
-        .badge-ban { background: #ff4d4d; color: white; }
-        .badge-unban { background: #4ade80; color: black; }
-        .notif-close { position: absolute; top: 5px; right: 5px; background: transparent; border: none; color: #666; font-size: 16px; cursor: pointer; padding: 5px; }
-        .exit-row { display: flex; justify-content: flex-end; margin-top: 10px; }
-        .exit-btn { background: rgba(255,255,255,0.1); color: #aaa; border: none; padding: 6px 18px; border-radius: 20px; font-size: 11px; cursor: pointer; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(3px); z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-        .overlay.active { opacity: 1; pointer-events: auto; }
 
     </style>
 </head>
 <body>
-
-    <div class="app-loader" id="appLoader">
-        <div class="spinner"></div>
-    </div>
 
     <div class="main-bg">
         <div class="orb orb-1"></div>
@@ -281,18 +190,13 @@
     </div>
 
     <header class="app-header">
-        <div class="header-left" id="headerLeft">
-            <div class="timer-icon">
-                <svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="9" /> <path d="M12 4V2" /> <path d="M10 2H14" /> <path d="M12 13V8" /> <path d="M12 13L15 15" /></svg>
-            </div>
+        <div class="header-left">
             <div class="profile-pill">
-                <img src="" id="userAvatar" class="profile-img" style="display: none;">
-                <div id="userInitials" class="profile-initials" style="display: none;">?</div>
+                <div id="userInitials" class="profile-initials">U</div>
                 <span id="userName" class="profile-name">User</span>
             </div>
         </div>
-        <div class="menu-btn" id="menuBtn">
-            <div class="menu-line"></div>
+        <div class="menu-btn">
             <div class="menu-line"></div>
             <div class="menu-line"></div>
         </div>
@@ -300,293 +204,103 @@
 
     <div class="glass-card">
         <div class="card-content">
-            
             <div class="page active" id="page-check">
-                <div class="page-header">
-                    <div class="page-title">Check Status</div>
-                    <div class="page-subtitle">Instantly check account availability</div>
-                </div>
-                <div class="input-group">
-                    <input type="text" class="clean-input" placeholder="Enter username...">
-                </div>
-                <button class="action-btn">
-                    <svg style="width:18px;height:18px" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                    Check Now
-                </button>
+                <div class="page-title">Check Status</div>
+                <div class="page-subtitle">Check account availability</div>
+                <div class="input-group"><input type="text" class="clean-input" placeholder="Enter username..."></div>
+                <button class="action-btn" style="margin-top:10px;">Check Now</button>
             </div>
 
             <div class="page" id="page-task">
-                <div class="page-header">
-                    <div class="page-title">Add Monitor</div>
-                    <div class="page-subtitle">Start tracking Ban, Unban or Verify</div>
+                <div class="page-title">Add Monitor</div>
+                <div class="page-subtitle">Start tracking</div>
+                <div class="input-group"><input type="text" class="clean-input" placeholder="Target username..."></div>
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+                    <button class="action-btn btn-red">Start Ban Watch</button>
+                    <button class="action-btn btn-green">Start Unban Watch</button>
+                    <button class="action-btn btn-blue">Start Verify Watch</button>
                 </div>
-                <div class="input-group">
-                    <input type="text" class="clean-input" placeholder="Target username...">
-                </div>
-                <button class="action-btn btn-red">
-                    <svg style="width:18px;height:18px;fill:white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg>
-                    Start Ban Watch
-                </button>
-                <button class="action-btn btn-green">
-                    <svg style="width:18px;height:18px;fill:black" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
-                    Start Unban Watch
-                </button>
-                <button class="action-btn btn-blue">
-                    <svg style="width:18px;height:18px;fill:white" viewBox="0 0 24 24"><path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12zm-12.91 4.72l-3.8-3.81 1.48-1.48 2.32 2.33 5.85-5.87 1.48 1.48-7.33 7.35z"/></svg>
-                    Start Verification Watch
-                </button>
             </div>
 
             <div class="page" id="page-list">
-                <div class="page-header">
-                    <div class="page-title">Active List</div>
-                    <div class="page-subtitle">Currently monitored targets</div>
-                </div>
-                <div class="monitor-list" id="activeListContainer">
+                <div class="page-title">Active List</div>
+                <div class="monitor-list">
                     <div class="list-item">
                         <div><div class="li-name">@target_one</div><span class="li-tag tag-ban">BAN</span></div>
-                        <button class="li-del" onclick="confirmStop('target_one')"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+                        <button class="li-del"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
                     </div>
                 </div>
-                <button class="clear-all-btn" onclick="showClearModal()">Clear All Usernames</button>
             </div>
 
             <div class="page" id="page-conf">
-                <div class="page-header">
-                    <div class="page-title">Configuration</div>
-                    <div class="page-subtitle">Manage Webhooks</div>
-                </div>
-                <div class="input-group">
-                    <input type="text" class="clean-input" placeholder="Discord Webhook URL...">
-                </div>
-                <button class="action-btn">
-                    <svg style="width:18px;height:18px" viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
-                    Save Settings
-                </button>
+                <div class="page-title">Settings</div>
+                <div class="input-group"><input type="text" class="clean-input" placeholder="Discord Webhook..."></div>
+                <button class="action-btn" style="margin-top:10px;">Save Config</button>
             </div>
         </div>
     </div>
 
     <div id="navbarContainer">
-        <div id="navbar">
-          <div id="bubbleWrapper">
-            <div id="bubble1" class="bubble"><span class="icon"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></span></div>
-            <div id="bubble2" class="bubble"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg></span></div>
-            <div id="bubble3" class="bubble"><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg></span></div>
-            <div id="bubble4" class="bubble"><span class="icon"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L5.16 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.04.64.09.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></span></div>
-          </div>
-          
-          <div id="menuWrapper">
-            <div id="menu1" class="menuElement active" onclick="switchNav('1', '12.5%')">
-                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                <div class="menu-caption">Status</div>
-            </div>
-            <div id="menu2" class="menuElement" onclick="switchNav('2', '37.5%')">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
-                <div class="menu-caption">Monitor</div>
-            </div>
-            <div id="menu3" class="menuElement" onclick="switchNav('3', '62.5%')">
-                <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
-                <div class="menu-caption">Active</div>
-            </div>
-            <div id="menu4" class="menuElement" onclick="switchNav('4', '87.5%')">
-                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L5.16 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.04.64.09.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-                <div class="menu-caption">Settings</div>
-            </div>
-          </div>
-        </div>
+        <div id="navbar"></div>
         
         <div id="bgWrapper">
-          <div id="bgBubble"></div>
+            <div id="bg"></div>
+            <div id="bgBubble"></div>
+        </div>
+        
+        <div id="menuWrapper">
+            <div id="menu1" class="menuElement active" onclick="move('1', '12.5%')">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </div>
+            <div id="menu2" class="menuElement" onclick="move('2', '37.5%')">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+            </div>
+            <div id="menu3" class="menuElement" onclick="move('3', '62.5%')">
+                <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+            </div>
+            <div id="menu4" class="menuElement" onclick="move('4', '87.5%')">
+                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L5.16 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.04.64.09.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            </div>
         </div>
     </div>
-
-    <button class="notif-btn" onclick="showNotifModal()">
-        <svg style="width:16px;height:16px" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-        Notifications
-    </button>
 
     <svg width="0" height="0" class="svg-filter">
         <defs>
           <filter id="goo">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="20" result="blur" id="blurFilter"/>
-            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 30 -15" result="goo" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
             <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
           </filter>
         </defs>
     </svg>
 
-    <div class="overlay" id="overlay"></div>
-    <div class="bottom-sheet" id="bottomSheet">
-        <div class="sheet-bg-layer">
-            <div class="sheet-blob" style="top: 10%; left: -10%; width: 80vw; height: 80vw; background: #2563eb;"></div>
-            <div class="sheet-blob" style="bottom: 10%; right: -10%; width: 70vw; height: 70vw; background: #db2777; animation-delay: -2s;"></div>
-        </div>
-        <div class="drag-area" id="dragArea"><div class="drag-handle"></div></div>
-        <div class="sheet-content">
-            <div class="menu-grid">
-                <div class="menu-item" onclick="openLink('https://t.me/safetiest')"><div class="item-text"><h3>Portal</h3><p>Gateway access</p></div><div class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="white" fill="none" stroke-width="2"/><path d="M2 12H22" stroke="white" stroke-width="2"/><path d="M12 2C14.5 2 16.5 6.5 16.5 12C16.5 17.5 14.5 22 12 22C9.5 22 7.5 17.5 7.5 12C7.5 6.5 9.5 2 12 2Z" stroke="white" fill="none" stroke-width="2"/></svg></div></div>
-                <div class="menu-item" onclick="openLink('https://t.me/feedure')"><div class="item-text"><h3>Vouch</h3><p>Verified reviews</p></div><div class="item-icon"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2 9.24L7.45 13.97L5.82 21L12 17.27Z" fill="white"/></svg></div></div>
-                <div class="menu-item" onclick="openLink('https://t.me/resays')"><div class="item-text"><h3>Support</h3><p>We're here to help</p></div><div class="item-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="white"/><path d="M20 14H18V12H16C14.9 12 14 12.9 14 14V16C14 17.1 14.9 18 16 18H18V20H20V14Z" fill="white"/></svg></div></div>
-                <div class="menu-item" onclick="openLink('https://t.me/monitorON')"><div class="item-text"><h3>Channel</h3><p>Latest updates</p></div><div class="item-icon"><svg viewBox="0 0 24 24"><path d="M21 11L21 13C21 14.1 20.1 15 19 15H17L13 19V5L17 9H19C20.1 9 21 9.9 21 11ZM5 9H11V15H5C3.9 15 3 14.1 3 13V11C3 9.9 3.9 9 5 9ZM8 15V19C8 19.55 7.55 20 7 20H6C5.45 20 5 19.55 5 19V15H8Z" fill="white"/></svg></div></div>
-            </div>
-            <button class="sheet-settings-btn">Settings</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="stopModal">
-        <div class="modal-box">
-            <div class="modal-title">Stop Monitor?</div>
-            <div class="modal-desc" id="stopMsg">Do you want to stop monitoring this username?</div>
-            <div class="modal-actions">
-                <button class="m-btn m-cancel" onclick="hideModal('stopModal')">Cancel</button>
-                <button class="m-btn m-red" onclick="finalStop()">Yes, Stop</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="clearModal">
-        <div class="modal-box">
-            <div class="modal-title">Clear All?</div>
-            <div class="modal-desc">Are you sure you want to clear all usernames from the active list?</div>
-            <div class="modal-actions">
-                <button class="m-btn m-cancel" onclick="hideModal('clearModal')">Cancel</button>
-                <button class="m-btn m-confirm" onclick="confirmClear()">Yes, Clear</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="notifModal">
-        <div class="modal-box" style="max-width: 340px;">
-            <div class="modal-title">Notifications</div>
-            <div class="notif-list" id="notifList">
-                <div class="notif-card" id="notif1">
-                    <img src="https://ui-avatars.com/api/?name=Resays&background=random" class="notif-img">
-                    <div class="notif-content">
-                        <div class="notif-head">@resays <span class="badge badge-unban">UNBANNED</span></div>
-                        <div class="notif-sub">Followers: 12.5K • By: You</div>
-                    </div>
-                    <button class="notif-close" onclick="removeNotif('notif1')">✕</button>
-                </div>
-            </div>
-            <div class="exit-row">
-                <button class="exit-btn" onclick="hideModal('notifModal')">Exit</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        const appLoader = document.getElementById('appLoader');
-        const headerLeft = document.getElementById('headerLeft');
-        const menuBtn = document.getElementById('menuBtn');
-        const bottomSheet = document.getElementById('bottomSheet');
-        const overlay = document.getElementById('overlay');
-        const userNameEl = document.getElementById('userName');
-        const userAvatarEl = document.getElementById('userAvatar');
-        const userInitialsEl = document.getElementById('userInitials');
-
-        let targetUserToRemove = null;
-
-        function openLink(url) { tg.openTelegramLink(url); }
-
-        /* =========================================
-           NAV ANIMATION LOGIC (Adapted for 4 items)
-           ========================================= */
-        function switchNav(id, position) {
-            // 1. Update active classes on static menu items
+        function move(id, position) {
+            // Update Active Icon
             document.querySelectorAll('.menuElement').forEach(el => el.classList.remove('active'));
             document.getElementById('menu' + id).classList.add('active');
 
-            // 2. GSAP Animation (The Liquid Effect)
-            var tl = gsap.timeline();
-            tl.to("#bgBubble", {duration: 0.15, bottom: "-30px", ease: "ease-out"}, 0)
-              .to(".bubble", {duration: 0.1, y: "120%", boxShadow: 'none', ease: "ease-out"}, 0) // Reset all bubbles
-              .to(".icon", {duration: 0.05, opacity: 0, ease: "ease-out"}, 0) // Hide all icons
-              .to("#bgBubble", {duration: 0.2, left: position, ease: "ease-in-out"}, 0.1) // Move liquid
-              .to("#bgBubble", {duration: 0.15, bottom: "-50px", ease: "ease-out"}, '-=0.2') // Settle liquid
-              .to(`#bubble${id}`, {duration: 0.15, y: "0%", opacity: 1, boxShadow: '0 1px 3px rgba(0,0,0,0.12)', ease: "ease-out"}, '-=0.1') // Pop up active bubble
-              .to(`#bubble${id}> span`, {duration: 0.15, opacity: 1, ease: "ease-out"}, '-=0.1'); // Show active icon
+            // Move the Liquid Bubble (Dripping Effect)
+            gsap.to("#bgBubble", {
+                duration: 0.2, 
+                left: position, 
+                ease: "power2.inOut" 
+            });
 
-            // 3. Page Switching Logic
-            const pages = {
-                '1': 'check',
-                '2': 'task',
-                '3': 'list',
-                '4': 'conf'
-            };
+            // Switch Pages
+            const pages = { '1': 'check', '2': 'task', '3': 'list', '4': 'conf' };
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('page-' + pages[id]).classList.add('active');
         }
 
-        // --- MODALS ---
-        function showClearModal() {
-            document.getElementById('clearModal').style.display = 'flex';
-            setTimeout(() => document.getElementById('clearModal').classList.add('active'), 10);
-        }
-        function confirmStop(username) {
-            targetUserToRemove = username;
-            document.getElementById('stopMsg').innerText = `Do you want to stop monitoring @${username}?`;
-            document.getElementById('stopModal').style.display = 'flex';
-            setTimeout(() => document.getElementById('stopModal').classList.add('active'), 10);
-        }
-        function finalStop() {
-            // Logic to remove single user would go here
-            hideModal('stopModal');
-        }
-        function showNotifModal() {
-            document.getElementById('notifModal').style.display = 'flex';
-            setTimeout(() => document.getElementById('notifModal').classList.add('active'), 10);
-        }
-        function removeNotif(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-        function hideModal(id) {
-            document.getElementById(id).classList.remove('active');
-            setTimeout(() => document.getElementById(id).style.display = 'none', 300);
-        }
-        function confirmClear() {
-            document.getElementById('activeListContainer').innerHTML = '<div style="text-align:center;color:#666;font-size:12px;margin-top:20px;">List is empty</div>';
-            hideModal('clearModal');
-        }
-
-        window.onload = function() {
-            setTimeout(() => {
-                appLoader.classList.add('hidden');
-                setTimeout(() => {
-                    headerLeft.style.opacity = '1'; headerLeft.style.transform = 'translateX(0)';
-                    menuBtn.style.opacity = '1'; menuBtn.style.transform = 'translateX(0)';
-                    appLoader.style.display = 'none';
-                }, 200);
-            }, 500);
-        };
-
+        // Init User Data
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            const user = tg.initDataUnsafe.user;
-            userNameEl.innerText = user.first_name;
-            if (user.photo_url) {
-                userAvatarEl.src = user.photo_url;
-                userAvatarEl.style.display = 'block'; userInitialsEl.style.display = 'none';
-            } else {
-                const initial = user.first_name.charAt(0).toUpperCase();
-                userInitialsEl.innerText = initial; userInitialsEl.style.display = 'flex'; userAvatarEl.style.display = 'none';
-            }
+            document.getElementById('userName').innerText = tg.initDataUnsafe.user.first_name;
+            document.getElementById('userInitials').innerText = tg.initDataUnsafe.user.first_name.charAt(0).toUpperCase();
         }
-
-        // --- SHEET LOGIC ---
-        let startY = 0; let currentY = 0; let isDragging = false;
-        function openMenu() { bottomSheet.style.transform = 'translateY(0)'; overlay.classList.add('active'); }
-        function closeMenu() { bottomSheet.style.transform = 'translateY(110%)'; overlay.classList.remove('active'); }
-
-        bottomSheet.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; isDragging = true; bottomSheet.style.transition = 'none'; }, { passive: true });
-        bottomSheet.addEventListener('touchmove', (e) => { if(!isDragging) return; currentY = e.touches[0].clientY; const diff = currentY - startY; if(diff > 0) bottomSheet.style.transform = `translateY(${diff}px)`; }, { passive: true });
-        bottomSheet.addEventListener('touchend', (e) => { if(!isDragging) return; isDragging = false; const diff = currentY - startY; bottomSheet.style.transition = 'transform 0.3s ease-out'; if(diff > 100) closeMenu(); else openMenu(); startY = 0; currentY = 0; });
-
-        menuBtn.addEventListener('click', openMenu);
-        overlay.addEventListener('click', closeMenu);
-
     </script>
 </body>
 </html>

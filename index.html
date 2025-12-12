@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Monitor Dashboard X Gooey</title>
+    <title>Monitor Dashboard Fixed</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.3/gsap.min.js"></script>
     
@@ -60,18 +60,18 @@
 
         /* --- MAIN CARD --- */
         .glass-card {
-            width: 340px; 
-            /* Height adjusted to account for new navbar overlap */
-            height: 65vh; 
+            width: 320px; 
+            height: 500px; /* Thodi height badhai taaki nav fit ho */
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1); border-radius: 30px;
             backdrop-filter: blur(20px);
             display: flex; flex-direction: column;
             margin-top: 80px; 
             position: relative; z-index: 10;
+            overflow: hidden; /* Important for gooey effect containment */
         }
 
-        .card-content { flex-grow: 1; padding: 20px; display: flex; flex-direction: column; position: relative; overflow: hidden; padding-bottom: 20px;}
+        .card-content { flex-grow: 1; padding: 20px; display: flex; flex-direction: column; position: relative; overflow: hidden; padding-bottom: 70px; /* Space for nav */ }
 
         .page { display: none; flex-direction: column; height: 100%; gap: 15px; animation: fadeIn 0.3s ease; }
         .page.active { display: flex; }
@@ -101,30 +101,33 @@
         .li-del svg { width: 14px; height: 14px; fill: #ff9999; }
         .clear-all-btn { flex-shrink: 0; background: rgba(255, 255, 255, 0.1); color: #ccc; border: 1px solid rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 12px; font-size: 12px; cursor: pointer; text-align: center; transition: all 0.2s; }
 
-        /* --- NEW GOOEY NAVBAR STYLES --- */
+        /* --- NOTIFICATION BUTTON --- */
+        .notif-btn {
+            width: 320px; padding: 12px; background: white; color: black; border: none; border-radius: 16px; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; gap: 8px; z-index: 9;
+            margin-top: 15px;
+        }
+
+        /* --- INTEGRATED GOOEY NAVBAR (INSIDE CARD) --- */
         #navbarContainer {
             width: 100%;
-            height: 90px;
-            /* Transparent Dark Background */
-            background-color: transparent;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end; /* Align to bottom */
-            overflow: hidden;
-            position: fixed;
+            height: 80px; /* Reduced height to fit card */
+            background-color: rgba(0,0,0,0.3); /* Dark background like original */
+            border-top: 1px solid rgba(255,255,255,0.1);
+            position: absolute;
             bottom: 0;
+            left: 0;
+            display: flex;
+            justify-content: flex-end;
+            flex-direction: column;
+            overflow: hidden;
             z-index: 50;
         }
 
         #navbar {
             width: 100%;
-            height: 60px;
-            /* Semi-transparent Glass Bar */
-            background-color: rgba(20, 20, 20, 0.8);
-            backdrop-filter: blur(15px);
+            height: 100%;
             position: absolute;
-            bottom: 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            top: 0; left: 0;
         }
 
         #bubbleWrapper {
@@ -132,14 +135,14 @@
             display: flex;
             justify-content: space-around;
             width: 100%;
-            bottom: 25px;
-            pointer-events: none; /* Let clicks pass through to menuWrapper */
+            bottom: 30px; /* Higher up */
+            pointer-events: none;
         }
 
         .bubble {
-            background-color: #fff; /* White Bubble */
-            width: 50px;
-            height: 50px;
+            background-color: #fff;
+            width: 40px; /* Smaller bubble for card */
+            height: 40px;
             bottom: 85px;
             border-radius: 50%;
             z-index: 1;
@@ -149,71 +152,70 @@
             align-items: center;
         }
 
-        .icon { opacity: 0; color: black; } /* Icon inside bubble is black */
-        .icon svg { width: 24px; height: 24px; fill: black; }
+        .icon { opacity: 0; }
+        .icon svg { width: 20px; height: 20px; fill: black; } /* Black icon inside white bubble */
 
-        /* Initial State for Tab 1 */
         #bubble1 {
             transform: translateY(0%);
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
         }
         #bubble1 > span { opacity: 1; }
 
-        /* The Gooey Filter Layer */
         #bgWrapper {
             filter: url(#goo);
             width: 100%;
             height: 100px;
             position: absolute;
-            bottom: 60px;
+            bottom: 0px;
             pointer-events: none;
         }
 
         #bgBubble {
             position: absolute;
-            background-color: #fff; /* Moving Liquid Color */
-            width: 70px;
-            height: 70px;
+            background-color: #fff;
+            width: 60px; /* Fluid ball size */
+            height: 60px;
             border-radius: 50%;
-            bottom: -50px;
-            left: 12.5%; /* Start at position 1 */
+            bottom: -45px; /* Hidden below */
+            left: 12.5%; /* Matches first item center */
             transform: translateX(-50%);
         }
 
         #menuWrapper {
             position: absolute;
             width: 100%;
-            height: 60px;
-            bottom: 0;
+            height: 100%;
             display: flex;
             justify-content: space-around;
-            align-items: center;
-            z-index: 60;
+            align-items: flex-end; /* Align to bottom */
+            padding-bottom: 10px;
         }
 
         .menuElement {
-            opacity: 0.5;
+            opacity: 1;
             cursor: pointer;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-end; /* Push content down */
             align-items: center;
-            transition: opacity 0.2s;
+            padding-bottom: 5px;
+            z-index: 10;
         }
-        .menuElement svg { width: 24px; height: 24px; fill: white; }
-        .menuElement:hover { opacity: 0.8; }
         
-        /* SVG Filter Hidden */
+        .menuElement svg { width: 22px; height: 22px; fill: white; margin-bottom: 22px; transition: opacity 0.2s; }
+        .menu-label { font-size: 9px; font-weight: 500; color: #ccc; position: absolute; bottom: 8px; transition: opacity 0.2s; }
+        
+        /* When active, hide the static icon and label because bubble takes over */
+        .menuElement.active svg { opacity: 0; } 
+        /* Label stays visible */
+        .menuElement.active .menu-label { color: white; opacity: 1; }
+
         .svg-filter { position: absolute; visibility: hidden; }
 
-        /* --- NOTIFICATION BUTTON (Moved up slightly) --- */
-        .notif-btn {
-            width: 340px; padding: 12px; background: white; color: black; border: none; border-radius: 16px; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; gap: 8px; z-index: 9;
-            margin-top: 15px;
-        }
 
-        /* --- BOTTOM SHEET & MODALS (Same as before) --- */
+        /* --- BOTTOM SHEET & MODALS --- */
         .bottom-sheet { position: fixed; bottom: 0; left: 0; width: 100%; height: 70vh; background: #121212; border-radius: 30px 30px 0 0; transform: translateY(110%); z-index: 200; box-shadow: 0 -10px 40px rgba(0,0,0,0.6); border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; will-change: transform; touch-action: none; }
         .sheet-bg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .sheet-blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.3; animation: float 8s infinite alternate; }
@@ -310,18 +312,9 @@
                 <div class="input-group">
                     <input type="text" class="clean-input" placeholder="Target username...">
                 </div>
-                <button class="action-btn btn-red">
-                    <svg style="width:18px;height:18px;fill:white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg>
-                    Start Ban Watch
-                </button>
-                <button class="action-btn btn-green">
-                    <svg style="width:18px;height:18px;fill:black" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
-                    Start Unban Watch
-                </button>
-                <button class="action-btn btn-blue">
-                    <svg style="width:18px;height:18px;fill:white" viewBox="0 0 24 24"><path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12zm-12.91 4.72l-3.8-3.81 1.48-1.48 2.32 2.33 5.85-5.87 1.48 1.48-7.33 7.35z"/></svg>
-                    Start Verification Watch
-                </button>
+                <button class="action-btn btn-red">Start Ban Watch</button>
+                <button class="action-btn btn-green">Start Unban Watch</button>
+                <button class="action-btn btn-blue">Start Verification Watch</button>
             </div>
 
             <div class="page" id="page-list">
@@ -333,10 +326,6 @@
                     <div class="list-item">
                         <div><div class="li-name">@target_one</div><span class="li-tag tag-ban">BAN</span></div>
                         <button class="li-del" onclick="confirmStop('target_one')"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
-                    </div>
-                    <div class="list-item">
-                        <div><div class="li-name">@my_account</div><span class="li-tag tag-unban">UNBAN</span></div>
-                        <button class="li-del" onclick="confirmStop('my_account')"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
                     </div>
                 </div>
                 <button class="clear-all-btn" onclick="showClearModal()">Clear All Usernames</button>
@@ -350,62 +339,38 @@
                 <div class="input-group">
                     <input type="text" class="clean-input" placeholder="Discord Webhook URL...">
                 </div>
-                <button class="action-btn">
-                    <svg style="width:18px;height:18px" viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
-                    Save Settings
-                </button>
+                <button class="action-btn">Save Settings</button>
             </div>
         </div>
-    </div>
 
-    <button class="notif-btn" onclick="showNotifModal()">
-        <svg style="width:16px;height:16px" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-        Notifications
-    </button>
-
-    <div id="navbarContainer">
-        <div id="navbar">
-          <div id="bubbleWrapper">
-            <div id="bubble1" class="bubble">
-                <span class="icon">
-                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                </span>
+        <div id="navbarContainer">
+            <div id="navbar">
+                <div id="bubbleWrapper">
+                    <div id="bubble1" class="bubble"><span class="icon"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></span></div>
+                    <div id="bubble2" class="bubble"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg></span></div>
+                    <div id="bubble3" class="bubble"><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg></span></div>
+                    <div id="bubble4" class="bubble"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span></div>
+                </div>
+                <div id="menuWrapper">
+                    <div id="menu1" class="menuElement active" onclick="switchNav('1', '12.5%')">
+                        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                        <span class="menu-label">Status</span>
+                    </div>
+                    <div id="menu2" class="menuElement" onclick="switchNav('2', '37.5%')">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+                        <span class="menu-label">Monitor</span>
+                    </div>
+                    <div id="menu3" class="menuElement" onclick="switchNav('3', '62.5%')">
+                        <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+                        <span class="menu-label">Active</span>
+                    </div>
+                    <div id="menu4" class="menuElement" onclick="switchNav('4', '87.5%')">
+                        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        <span class="menu-label">Settings</span>
+                    </div>
+                </div>
             </div>
-            <div id="bubble2" class="bubble">
-                <span class="icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
-                </span>
-            </div>
-            <div id="bubble3" class="bubble">
-                <span class="icon">
-                    <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
-                </span>
-            </div>
-            <div id="bubble4" class="bubble">
-                <span class="icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                </span>
-            </div>
-          </div>
-          
-          <div id="menuWrapper">
-            <div id="menu1" class="menuElement" onclick="switchNav('1', '12.5%')">
-                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-            </div>
-            <div id="menu2" class="menuElement" onclick="switchNav('2', '37.5%')">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
-            </div>
-            <div id="menu3" class="menuElement" onclick="switchNav('3', '62.5%')">
-                <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
-            </div>
-            <div id="menu4" class="menuElement" onclick="switchNav('4', '87.5%')">
-                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-            </div>
-          </div>
-        </div>
-        
-        <div id="bgWrapper">
-          <div id="bgBubble"></div>
+            <div id="bgWrapper"><div id="bgBubble"></div></div>
         </div>
     </div>
 
@@ -419,11 +384,16 @@
         </defs>
     </svg>
 
+    <button class="notif-btn" onclick="showNotifModal()">
+        <svg style="width:16px;height:16px" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        Notifications
+    </button>
+
     <div class="overlay" id="overlay"></div>
     <div class="bottom-sheet" id="bottomSheet">
         <div class="sheet-bg-layer">
-            <div class="sheet-blob" style="top: 10%; left: -10%; width: 80vw; height: 80vw; background: #2563eb;"></div>
-            <div class="sheet-blob" style="bottom: 10%; right: -10%; width: 70vw; height: 70vw; background: #db2777; animation-delay: -2s;"></div>
+            <div class="sheet-blob" style="background: #2563eb; top: 10%; left: -10%;"></div>
+            <div class="sheet-blob" style="background: #db2777; bottom: 10%; right: -10%;"></div>
         </div>
         <div class="drag-area" id="dragArea"><div class="drag-handle"></div></div>
         <div class="sheet-content">
@@ -447,7 +417,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal-overlay" id="clearModal">
         <div class="modal-box">
             <div class="modal-title">Clear All?</div>
@@ -458,7 +427,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal-overlay" id="notifModal">
         <div class="modal-box" style="max-width: 340px;">
             <div class="modal-title">Notifications</div>
@@ -495,9 +463,13 @@
 
         function openLink(url) { tg.openTelegramLink(url); }
 
-        // --- NEW NAV LOGIC ---
+        // --- GOOEY NAV LOGIC ---
         function switchNav(id, position) {
-            // 1. GSAP Animation (Same logic as new script, but no color change)
+            // Update Active State for styles
+            document.querySelectorAll('.menuElement').forEach(el => el.classList.remove('active'));
+            document.getElementById('menu' + id).classList.add('active');
+
+            // GSAP Animation
             var tl = gsap.timeline();
             tl.to("#bgBubble", {duration: 0.15, bottom: "-30px", ease: "ease-out"}, 0)
               .to("#bubble1", {duration: 0.1, y: "120%", boxShadow: 'none', ease: "ease-out",}, 0)
@@ -506,52 +478,24 @@
               .to("#bubble4", {duration: 0.1, y: "120%", boxShadow: 'none', ease: "ease-out",}, 0)
               .to(".icon", {duration: 0.05, opacity: 0, ease: "ease-out",}, 0)
               .to("#bgBubble", {duration: 0.2, left: position, ease: "ease-in-out"}, 0.1)
-              .to("#bgBubble", {duration: 0.15, bottom: "-50px", ease: "ease-out"}, '-=0.2')
+              .to("#bgBubble", {duration: 0.15, bottom: "-45px", ease: "ease-out"}, '-=0.2')
               .to(`#bubble${id}`, {duration: 0.15, y: "0%", opacity: 1, boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)', ease: "ease-out"}, '-=0.1')
               .to(`#bubble${id}> span`, {duration: 0.15, y: "0%", opacity: 1, ease: "ease-out"}, '-=0.1');
 
-            // 2. Page Switching Logic (Mapped from original script)
-            const pages = {
-                '1': 'check',
-                '2': 'task',
-                '3': 'list',
-                '4': 'conf'
-            };
-            
+            // Page Switch
+            const pages = { '1': 'check', '2': 'task', '3': 'list', '4': 'conf' };
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('page-' + pages[id]).classList.add('active');
         }
 
         // --- MODALS ---
-        function showClearModal() {
-            document.getElementById('clearModal').style.display = 'flex';
-            setTimeout(() => document.getElementById('clearModal').classList.add('active'), 10);
-        }
-        function confirmStop(username) {
-            targetUserToRemove = username;
-            document.getElementById('stopMsg').innerText = `Do you want to stop monitoring @${username}?`;
-            document.getElementById('stopModal').style.display = 'flex';
-            setTimeout(() => document.getElementById('stopModal').classList.add('active'), 10);
-        }
-        function finalStop() {
-            console.log("Removing " + targetUserToRemove);
-            hideModal('stopModal');
-        }
-        function showNotifModal() {
-            document.getElementById('notifModal').style.display = 'flex';
-            setTimeout(() => document.getElementById('notifModal').classList.add('active'), 10);
-        }
-        function removeNotif(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-        function hideModal(id) {
-            document.getElementById(id).classList.remove('active');
-            setTimeout(() => document.getElementById(id).style.display = 'none', 300);
-        }
-        function confirmClear() {
-            document.getElementById('activeListContainer').innerHTML = '<div style="text-align:center;color:#666;font-size:12px;margin-top:20px;">List is empty</div>';
-            hideModal('clearModal');
-        }
+        function showClearModal() { document.getElementById('clearModal').style.display = 'flex'; setTimeout(() => document.getElementById('clearModal').classList.add('active'), 10); }
+        function confirmStop(username) { targetUserToRemove = username; document.getElementById('stopMsg').innerText = `Do you want to stop monitoring @${username}?`; document.getElementById('stopModal').style.display = 'flex'; setTimeout(() => document.getElementById('stopModal').classList.add('active'), 10); }
+        function finalStop() { hideModal('stopModal'); }
+        function showNotifModal() { document.getElementById('notifModal').style.display = 'flex'; setTimeout(() => document.getElementById('notifModal').classList.add('active'), 10); }
+        function removeNotif(id) { document.getElementById(id).style.display = 'none'; }
+        function hideModal(id) { document.getElementById(id).classList.remove('active'); setTimeout(() => document.getElementById(id).style.display = 'none', 300); }
+        function confirmClear() { document.getElementById('activeListContainer').innerHTML = '<div style="text-align:center;color:#666;font-size:12px;margin-top:20px;">List is empty</div>'; hideModal('clearModal'); }
 
         window.onload = function() {
             setTimeout(() => {
@@ -567,28 +511,21 @@
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
             userNameEl.innerText = user.first_name;
-            if (user.photo_url) {
-                userAvatarEl.src = user.photo_url;
-                userAvatarEl.style.display = 'block'; userInitialsEl.style.display = 'none';
-            } else {
-                const initial = user.first_name.charAt(0).toUpperCase();
-                userInitialsEl.innerText = initial; userInitialsEl.style.display = 'flex'; userAvatarEl.style.display = 'none';
-            }
+            if (user.photo_url) { userAvatarEl.src = user.photo_url; userAvatarEl.style.display = 'block'; userInitialsEl.style.display = 'none'; } 
+            else { userInitialsEl.innerText = user.first_name.charAt(0).toUpperCase(); userInitialsEl.style.display = 'flex'; userAvatarEl.style.display = 'none'; }
         }
 
         // --- SHEET LOGIC ---
         let startY = 0; let currentY = 0; let isDragging = false;
         function openMenu() { bottomSheet.style.transform = 'translateY(0)'; overlay.classList.add('active'); }
         function closeMenu() { bottomSheet.style.transform = 'translateY(110%)'; overlay.classList.remove('active'); }
-
         bottomSheet.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; isDragging = true; bottomSheet.style.transition = 'none'; }, { passive: true });
         bottomSheet.addEventListener('touchmove', (e) => { if(!isDragging) return; currentY = e.touches[0].clientY; const diff = currentY - startY; if(diff > 0) bottomSheet.style.transform = `translateY(${diff}px)`; }, { passive: true });
         bottomSheet.addEventListener('touchend', (e) => { if(!isDragging) return; isDragging = false; const diff = currentY - startY; bottomSheet.style.transition = 'transform 0.3s ease-out'; if(diff > 100) closeMenu(); else openMenu(); startY = 0; currentY = 0; });
-
         menuBtn.addEventListener('click', openMenu);
         overlay.addEventListener('click', closeMenu);
 
     </script>
 </body>
-                    </html>
-                    
+    </html>
+    
